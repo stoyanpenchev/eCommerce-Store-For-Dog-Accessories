@@ -1,0 +1,15 @@
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\bin\Debug\net6.0\PawAndCollar.Data.Models.deps.json
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\bin\Debug\net6.0\PawAndCollar.Data.Models.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\bin\Debug\net6.0\PawAndCollar.Data.Models.pdb
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.AssemblyInfo.cs
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\refint\PawAndCollar.Data.Models.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.pdb
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\ref\PawAndCollar.Data.Models.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\bin\Debug\net6.0\PawAndCollar.Common.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\bin\Debug\net6.0\PawAndCollar.Common.pdb
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Data.Models\obj\Debug\net6.0\PawAndCollar.Data.Models.csproj.CopyComplete

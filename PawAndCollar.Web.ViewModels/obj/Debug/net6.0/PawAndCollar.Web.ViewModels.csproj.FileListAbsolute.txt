@@ -1,0 +1,17 @@
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\bin\Debug\net6.0\PawAndCollar.Web.ViewModels.deps.json
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\bin\Debug\net6.0\PawAndCollar.Web.ViewModels.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\bin\Debug\net6.0\PawAndCollar.Web.ViewModels.pdb
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.AssemblyInfo.cs
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\refint\PawAndCollar.Web.ViewModels.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.pdb
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\ref\PawAndCollar.Web.ViewModels.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\bin\Debug\net6.0\PawAndCollar.Common.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\bin\Debug\net6.0\PawAndCollar.Common.pdb
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\obj\Debug\net6.0\PawAndCollar.Web.ViewModels.csproj.CopyComplete
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\bin\Debug\net6.0\PawAndCollar.Data.Models.dll
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.Web.ViewModels\bin\Debug\net6.0\PawAndCollar.Data.Models.pdb

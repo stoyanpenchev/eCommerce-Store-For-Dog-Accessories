@@ -1,0 +1,34 @@
+﻿@using PawAndCollar.Web.ViewModels.Product;
+@model ICollection<ProductHomeViewModel>
+@{
+	ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+	<h1 class="index-page-greeting" style="color: #725B55;">Welcome to the happiest pet brand in the world.</h1>
+</div>
+<div class="position-relative text-center">
+	<img src="/Копие на Неозаглавен (2).png" alt="Shop Now" class="img-fluid" style="width: 1300px; height: 650px;">
+	<a href="@Url.Action("Shop", "Product")" class="btn btn-primary btn-lg position-absolute top-50 start-50 translate-middle" style="background-color: #725B55; border-color: #725B55; color: #FDF7EE;">
+		Shop Now
+	</a>
+</div>
+
+<div class="product-card-container">
+	@if (Model.Count == 0)
+	{
+		<h2 class="text-center">No products found.</h2>
+	}
+	else
+	{
+		<div class="row">
+			@foreach (var product in Model)
+			{
+			<div class="col-md-3">
+				@Html.Partial("_ProductPartial", product)
+			</div>
+			}
+		</div>
+	}
+
+</div>
