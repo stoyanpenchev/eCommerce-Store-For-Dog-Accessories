@@ -1,0 +1,36 @@
+﻿@using PawAndCollar.Web.ViewModels.Product;
+@model SearchProductByNameViewModel
+
+<h2>Search our store</h2>
+
+<form asp-action="Search" method="post">
+	<div class="input-group mb-3">
+		<input type="text" name="searchedItem" id="search-input" class="form-control" placeholder="Search by name" aria-label="Search by name" aria-describedby="button-search">
+		<div class="input-group-append">
+			<button class="btn btn-primary" type="submit" id="button-search"><i class="fas fa-search"></i></button>
+		</div>
+	</div>
+</form>
+
+@if (Model.SearchResults.Any())
+{
+	<div class="row">
+		@foreach (var product in Model.SearchResults)
+		{
+			<div class="col-md-4">
+				<div class="card mb-4">
+					<img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+					<div class="card-body">
+						<h5 class="card-title">@product.Name</h5>
+						<p class="card-text">By @product.CreatorName</p>
+						<p class="card-text">Price: $@product.Price</p>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+}
+else
+{
+	<p>No results found.</p>
+}
