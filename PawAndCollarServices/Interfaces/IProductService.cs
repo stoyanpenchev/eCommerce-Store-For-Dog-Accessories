@@ -8,5 +8,9 @@ namespace PawAndCollarServices.Interfaces
         Task<ICollection<AllCategoriesViewModel>> GetAllCategoriesAsync();
 
         Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync();
+
+        Task<ICollection<ProductHomeViewModel>> GetAllProducts();
+
+        Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem);
     }
 }

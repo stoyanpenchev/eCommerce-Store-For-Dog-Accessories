@@ -24,8 +24,4 @@
     <ProjectReference Include="..\PawAndCollarServices\PawAndCollarServices.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Product\" />
-  </ItemGroup>
-
 </Project>
