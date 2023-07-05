@@ -6,7 +6,8 @@ namespace PawAndCollar.Web
     using PawAndCollar.Data;
     using PawAndCollar.Data.Models.Models;
     using PawAndCollar.Web.Infrastructure.Extensions;
-    using PawAndCollarServices;
+	using PawAndCollar.Web.Infrastructure.ModelBinders;
+	using PawAndCollarServices;
     using PawAndCollarServices.Interfaces;
 
     public class Program
@@ -37,7 +38,12 @@ namespace PawAndCollar.Web
             builder .Services.AddScoped<IEnumService, EnumService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-            builder.Services.AddControllersWithViews();
+            builder.Services
+                .AddControllersWithViews()
+                .AddMvcOptions(options =>
+                {
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                });
 
 
             WebApplication app = builder.Build();
