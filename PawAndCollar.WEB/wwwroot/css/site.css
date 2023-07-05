@@ -48,4 +48,6 @@ product-card-container {
 .search-icon {
     color: #FDF7EE;
 }
-
+.field-validation-error {
+    color: red;
+}

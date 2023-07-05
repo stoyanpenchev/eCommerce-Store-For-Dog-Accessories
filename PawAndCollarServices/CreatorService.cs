@@ -15,32 +15,7 @@ namespace PawAndCollarServices
 		{
 			this.dbContext = dbContext;
 		}
-		public async Task AddProductAsync(AddProductViewModel model, string id)
-		{
-			var creator = this.dbContext.Creators.FirstOrDefault(c => c.UserId == Guid.Parse(id));
-			if (creator != null)
-			{
-				Product product = new Product
-				{
-					Name = model.Name,
-					Description = model.Description,
-					Price = model.Price,
-					Quantity = model.Quantity,
-					ImageUrl = model.ImageUrl,
-					CategoryId = model.CategoryId,
-					CreatorId = creator.Id,
-					Size = (SizeTypes)model.Size,
-					Color = model.Color,
-					Material = model.Material
-				};
-				await this.dbContext.Products.AddAsync(product);
-				await this.dbContext.SaveChangesAsync();
-			}
-
-
-
-		}
-
+		
         public async Task<bool> AgentExistByPhoneNumberAsync(string phoneNumber)
         {
             return await this.dbContext.Creators.AnyAsync(c => c.PhoneNumber == phoneNumber);
@@ -62,5 +37,17 @@ namespace PawAndCollarServices
 			await this.dbContext.Creators.AddAsync(creator);
 			await this.dbContext.SaveChangesAsync();
         }
-    }
+
+		public async Task<string?> GetCreatorIdByUserIdAsync(string userId)
+		{
+			Creator? creator = await this.dbContext.Creators
+				.FirstOrDefaultAsync(c => c.UserId.ToString() == userId);
+			if (creator == null)
+			{
+				return null;
+			}
+			return creator.Id.ToString();
+
+		}
+	}
 }

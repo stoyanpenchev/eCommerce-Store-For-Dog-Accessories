@@ -12,8 +12,8 @@
             public const int ImageUrlMinLength = 20;
             public const int ColorMaxLength = 15;
             public const int ColorMinLength = 3;
-            public const double PriceMinValue = 0.01;
-            public const double PriceMaxValue = 999.99;
+            public const double PriceMinValue = 0;
+            public const double PriceMaxValue = 1000;
             public const int QuantityMinValue = 1;
             public const int QuantityMaxValue = int.MaxValue;
             public const int MaterialMaxLength = 25;

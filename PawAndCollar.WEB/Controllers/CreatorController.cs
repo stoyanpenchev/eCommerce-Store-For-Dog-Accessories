@@ -14,13 +14,15 @@ namespace PawAndCollar.Web.Controllers
 	public class CreatorController : Controller
 	{
 		private readonly IEnumService enumService;
-		private readonly IProductService productService;
+		private readonly ICategoryService categoryService;
 		private readonly ICreatorService creatorService;
-		public CreatorController(IEnumService enumService, IProductService productService, ICreatorService creatorService)
+		private readonly IProductService productService;
+		public CreatorController(IEnumService enumService, ICategoryService categoryService, ICreatorService creatorService, IProductService productService)
 		{
 			this.enumService = enumService;
-			this.productService = productService;
 			this.creatorService = creatorService;
+			this.categoryService = categoryService;
+			this.productService = productService;
 		}
 
 		[HttpGet]
@@ -39,13 +41,13 @@ namespace PawAndCollar.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Become(BecomeCreatorFormModel model)
 		{
-            string? userId = this.User.GetId();
-            bool isCreator = await this.creatorService.AgentExistByUserIdAsync(userId);
-            if (isCreator)
-            {
-                this.TempData[ErrorMessage] = "You are already a creator";
-                return this.RedirectToAction("Index", "Home");
-            }
+			string? userId = this.User.GetId();
+			bool isCreator = await this.creatorService.AgentExistByUserIdAsync(userId);
+			if (isCreator)
+			{
+				this.TempData[ErrorMessage] = "You are already a creator";
+				return this.RedirectToAction("Index", "Home");
+			}
 
 			bool isPhoneNumberTaken = await this.creatorService.AgentExistByPhoneNumberAsync(model.PhoneNumber);
 			if (isPhoneNumberTaken)
@@ -58,8 +60,8 @@ namespace PawAndCollar.Web.Controllers
 			}
 			try
 			{
-                await this.creatorService.Create(userId, model);
-            }
+				await this.creatorService.Create(userId, model);
+			}
 			catch (Exception)
 			{
 				this.TempData[ErrorMessage] = "Unexpected error occured while registering you as an creator! Please try again later or contact administrotor!";
@@ -67,13 +69,19 @@ namespace PawAndCollar.Web.Controllers
 			}
 			this.TempData[SuccessMessage] = "You are now a creator";
 			return this.RedirectToAction("Index", "Home");
-        }
+		}
 
 		[HttpGet]
 		public async Task<IActionResult> Add()
 		{
+			bool isCreator = await this.creatorService.AgentExistByUserIdAsync(this.User.GetId()!);
+			if (!isCreator)
+			{
+				this.TempData[ErrorMessage] = "You are not a creator!";
+				return this.RedirectToAction("Become", "Creator");
+			}
 			AddProductViewModel model = new AddProductViewModel();
-			model.Categories = await this.productService.GetAllCategoriesAsync();
+			model.Categories = await this.categoryService.GetAllCategoriesAsync();
 			model.SizeList = this.enumService.GetEnumSelectList<SizeTypes>();
 			return this.View(model);
 		}
@@ -81,13 +89,36 @@ namespace PawAndCollar.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Add(AddProductViewModel model)
 		{
+			bool isCreator = await this.creatorService.AgentExistByUserIdAsync(this.User.GetId()!);
+			if (!isCreator)
+			{
+				this.TempData[ErrorMessage] = "You are not a creator!";
+				return this.RedirectToAction("Become", "Creator");
+			}
+			bool categoryExists = await this.categoryService.ExistByIdAsync(model.CategoryId);
+			if (!categoryExists)
+			{
+				this.ModelState.AddModelError(nameof(model.CategoryId), "Category does not exist");
+			}
 			if (!ModelState.IsValid)
 			{
-				return View(model);
+				model.Categories = await this.categoryService.GetAllCategoriesAsync();
+				model.SizeList = this.enumService.GetEnumSelectList<SizeTypes>();
+				return this.View(model);
 			}
-			string ownerId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-			await this.creatorService.AddProductAsync(model, ownerId);
-			return this.RedirectToAction("Index", "Home");
+			try
+			{
+				string? creatorId = await this.creatorService.GetCreatorIdByUserIdAsync(this.User.GetId()!);
+				await this.productService.AddProductAsync(model, creatorId!);
+			}
+			catch (Exception)
+			{
+				this.ModelState.AddModelError(string.Empty, "Unexpected error occured while trying to add your new Product! Please try again later or contact administrator!");
+				model.Categories = await this.categoryService.GetAllCategoriesAsync();
+				model.SizeList = this.enumService.GetEnumSelectList<SizeTypes>();
+				return this.View(model);
+			}
+			return this.RedirectToAction("All", "House");
 		}
 	}
 }

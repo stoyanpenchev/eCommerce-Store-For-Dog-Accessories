@@ -14,6 +14,7 @@ namespace PawAndCollar.Web.Controllers
             this.productService = productService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -21,6 +22,7 @@ namespace PawAndCollar.Web.Controllers
             return View(products);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Search()
         {
@@ -28,6 +30,7 @@ namespace PawAndCollar.Web.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Search(SearchProductByNameViewModel model)
         {
