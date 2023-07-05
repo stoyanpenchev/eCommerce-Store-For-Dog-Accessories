@@ -118,7 +118,7 @@ namespace PawAndCollar.Web.Controllers
 				model.SizeList = this.enumService.GetEnumSelectList<SizeTypes>();
 				return this.View(model);
 			}
-			return this.RedirectToAction("All", "House");
+			return this.RedirectToAction("Index", "Home");
 		}
 	}
 }

@@ -25,9 +25,6 @@ namespace PawAndCollar.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(PawAndCollarDbContext)) ?? Assembly.GetExecutingAssembly());
-            builder.Entity<Product>()
-             .Property(p => p.Price)
-             .HasColumnType("decimal(18,2)");
 
             base.OnModelCreating(builder);
         }

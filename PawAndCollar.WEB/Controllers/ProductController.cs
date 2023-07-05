@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PawAndCollar.Services.Data.Models.Product;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollarServices.Interfaces;
 
@@ -9,17 +10,23 @@ namespace PawAndCollar.Web.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService productService;
-        public ProductController(IProductService productService)
+        private readonly ICategoryService categoryService;
+        public ProductController(IProductService productService, ICategoryService categoryService)
         {
             this.productService = productService;
+            this.categoryService = categoryService;
         }
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllProductsQueryModel queryModel)
         {
-            var products = await this.productService.GetAllProducts();
-            return View(products);
+            AllProductsFilteredAndPagedServiceModel products = await this.productService.GetAllProductsAsync(queryModel);
+            queryModel.Products = products.Products;
+            queryModel.TotalProducts = products.TotalProductsCount;
+            queryModel.Categories = await categoryService.AllCategoryNamesAsync();
+
+            return View(queryModel);
         }
 
         [AllowAnonymous]

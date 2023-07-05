@@ -14,6 +14,6 @@ namespace PawAndCollar.Web.ViewModels.Product
         [Required]
         public string CreatorName { get; set; } = null!;
         [Required]
-        public string Price { get; set; } = null!;
+        public decimal Price { get; set; }
     }
 }

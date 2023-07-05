@@ -16,6 +16,7 @@
           "PawAndCollar.Common": "1.0.0",
           "PawAndCollar.Data": "1.0.0",
           "PawAndCollar.Data.Models": "1.0.0",
+          "PawAndCollar.Services.Data.Models": "1.0.0",
           "PawAndCollar.Web.Infrastructure": "1.0.0",
           "PawAndCollar.Web.ViewModels": "1.0.0",
           "PawAndCollarServices": "1.0.0"
@@ -1500,6 +1501,14 @@
           "PawAndCollar.Data.Models.dll": {}
         }
       },
+      "PawAndCollar.Services.Data.Models/1.0.0": {
+        "dependencies": {
+          "PawAndCollar.Web.ViewModels": "1.0.0"
+        },
+        "runtime": {
+          "PawAndCollar.Services.Data.Models.dll": {}
+        }
+      },
       "PawAndCollar.Web.Infrastructure/1.0.0": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
@@ -1525,6 +1534,7 @@
           "PawAndCollar.Common": "1.0.0",
           "PawAndCollar.Data": "1.0.0",
           "PawAndCollar.Data.Models": "1.0.0",
+          "PawAndCollar.Services.Data.Models": "1.0.0",
           "PawAndCollar.Web.ViewModels": "1.0.0"
         },
         "runtime": {
@@ -2684,6 +2694,11 @@
       "sha512": ""
     },
     "PawAndCollar.Data.Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PawAndCollar.Services.Data.Models/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

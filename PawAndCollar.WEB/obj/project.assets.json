@@ -2903,6 +2903,19 @@
           "bin/placeholder/PawAndCollar.Data.Models.dll": {}
         }
       },
+      "PawAndCollar.Services.Data.Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "PawAndCollar.Web.ViewModels": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PawAndCollar.Services.Data.Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PawAndCollar.Services.Data.Models.dll": {}
+        }
+      },
       "PawAndCollar.Web.Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -2940,6 +2953,7 @@
           "PawAndCollar.Common": "1.0.0",
           "PawAndCollar.Data": "1.0.0",
           "PawAndCollar.Data.Models": "1.0.0",
+          "PawAndCollar.Services.Data.Models": "1.0.0",
           "PawAndCollar.Web.ViewModels": "1.0.0"
         },
         "compile": {
@@ -8410,6 +8424,11 @@
       "path": "../PawAndCollar.Data.Models/PawAndCollar.Data.Models.csproj",
       "msbuildProject": "../PawAndCollar.Data.Models/PawAndCollar.Data.Models.csproj"
     },
+    "PawAndCollar.Services.Data.Models/1.0.0": {
+      "type": "project",
+      "path": "../PawAndCollar.Services.Data.Models/PawAndCollar.Services.Data.Models.csproj",
+      "msbuildProject": "../PawAndCollar.Services.Data.Models/PawAndCollar.Services.Data.Models.csproj"
+    },
     "PawAndCollar.Web.Infrastructure/1.0.0": {
       "type": "project",
       "path": "../PawAndCollar.Web.Infrastructure/PawAndCollar.Web.Infrastructure.csproj",
@@ -8436,6 +8455,7 @@
       "PawAndCollar.Common >= 1.0.0",
       "PawAndCollar.Data >= 1.0.0",
       "PawAndCollar.Data.Models >= 1.0.0",
+      "PawAndCollar.Services.Data.Models >= 1.0.0",
       "PawAndCollar.Web.Infrastructure >= 1.0.0",
       "PawAndCollar.Web.ViewModels >= 1.0.0",
       "PawAndCollarServices >= 1.0.0"
@@ -8481,6 +8501,9 @@
             },
             "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.Data\\PawAndCollar.Data.csproj": {
               "projectPath": "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.Data\\PawAndCollar.Data.csproj"
+            },
+            "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.Services.Data.Models\\PawAndCollar.Services.Data.Models.csproj": {
+              "projectPath": "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.Services.Data.Models\\PawAndCollar.Services.Data.Models.csproj"
             },
             "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.Web.Infrastructure\\PawAndCollar.Web.Infrastructure.csproj": {
               "projectPath": "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.Web.Infrastructure\\PawAndCollar.Web.Infrastructure.csproj"

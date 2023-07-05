@@ -36,7 +36,9 @@ namespace PawAndCollar.Data.Models
         [StringLength(ImageUrlMaxLength)]
         public string ImageUrl { get; set; } = null!;
 
-        [Required]
+		public DateTime CreatedOn { get; set; }
+
+		[Required]
         [ForeignKey(nameof(Category))]
         public int CategoryId { get; set; }
 

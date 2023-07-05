@@ -2,9 +2,11 @@
 using PawAndCollar.Data;
 using PawAndCollar.Data.Models;
 using PawAndCollar.Data.Models.Enums;
+using PawAndCollar.Services.Data.Models.Product;
 using PawAndCollar.Web.ViewModels.Category;
 using PawAndCollar.Web.ViewModels.Creator;
 using PawAndCollar.Web.ViewModels.Product;
+using PawAndCollar.Web.ViewModels.Product.Enums;
 using PawAndCollarServices.Interfaces;
 
 namespace PawAndCollarServices
@@ -48,18 +50,41 @@ namespace PawAndCollarServices
 			return categories;
 		}
 
-		public async Task<ICollection<ProductHomeViewModel>> GetAllProducts()
+		public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsAsync(AllProductsQueryModel queryModel)
 		{
-			var products = await this.dbContext.Products
+			IQueryable<Product> productsQuery = this.dbContext.Products.AsQueryable();
+			if (!string.IsNullOrWhiteSpace(queryModel.Category))
+			{
+				productsQuery = productsQuery.Where(p => p.Category.Name == queryModel.Category);
+			}
+			productsQuery = queryModel.ProductSorting switch
+			{
+				ProductSorting.PriceAscending => productsQuery.OrderBy(p => p.Price),
+				ProductSorting.PriceDescending => productsQuery.OrderByDescending(p => p.Price),
+				ProductSorting.Oldest => productsQuery.OrderByDescending(p => p.CreatedOn),
+				ProductSorting.Newest => productsQuery.OrderBy(p => p.CreatedOn),
+				ProductSorting.BestSelling => productsQuery.OrderByDescending(p => p.OrderedItems.Count),
+				_ => productsQuery.OrderBy(p => p.Name)
+			};
+
+			IEnumerable<ProductHomeViewModel> products = await productsQuery
+				.Skip((queryModel.CurrentPage - 1) * queryModel.ProductsPerPage)
+				.Take(queryModel.ProductsPerPage)
 				.Select(p => new ProductHomeViewModel()
 				{
 					Id = p.Id,
 					ImageUrl = p.ImageUrl,
 					Name = p.Name,
 					CreatorName = p.Creator.User.UserName,
-					Price = p.Price.ToString()
+					Price = p.Price
 				}).ToListAsync();
-			return products;
+
+			int totalProducts = await productsQuery.CountAsync();
+			return new AllProductsFilteredAndPagedServiceModel()
+			{
+				TotalProductsCount = totalProducts,
+				Products = products
+			};
 		}
 
 		public async Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync()
@@ -71,22 +96,23 @@ namespace PawAndCollarServices
 					ImageUrl = p.ImageUrl,
 					Name = p.Name,
 					CreatorName = p.Creator.User.UserName,
-					Price = p.Price.ToString()
+					Price = p.Price
 				}).ToListAsync();
 			return models;
 		}
 
 		public async Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem)
 		{
+			searchedItem = $"%{searchedItem.ToLower()}%";
 			var products = await this.dbContext.Products
-				.Where(p => p.Name.Contains(searchedItem))
+				.Where(p => EF.Functions.Like(p.Name, searchedItem))
 				.Select(p => new ProductHomeViewModel()
 				{
 					Id = p.Id,
 					ImageUrl = p.ImageUrl,
 					Name = p.Name,
 					CreatorName = p.Creator.User.UserName,
-					Price = p.Price.ToString()
+					Price = p.Price
 				}).ToListAsync();
 			return products;
 		}
