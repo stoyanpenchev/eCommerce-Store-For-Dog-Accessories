@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Services.Data.Models.Product;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollarServices.Interfaces;
@@ -11,10 +12,14 @@ namespace PawAndCollar.Web.Controllers
     {
         private readonly IProductService productService;
         private readonly ICategoryService categoryService;
-        public ProductController(IProductService productService, ICategoryService categoryService)
+        private readonly IEnumService enumService;
+        private readonly ISizeService sizeService;
+        public ProductController(IProductService productService, ICategoryService categoryService, IEnumService enumService, ISizeService sizeService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
+            this.enumService = enumService;
+            this.sizeService = sizeService;
         }
 
         [AllowAnonymous]
@@ -24,6 +29,7 @@ namespace PawAndCollar.Web.Controllers
             AllProductsFilteredAndPagedServiceModel products = await this.productService.GetAllProductsAsync(queryModel);
             queryModel.Products = products.Products;
             queryModel.TotalProducts = products.TotalProductsCount;
+            queryModel.Sizes = await this.sizeService.GetAllSizesAsync();
             queryModel.Categories = await categoryService.AllCategoryNamesAsync();
 
             return View(queryModel);

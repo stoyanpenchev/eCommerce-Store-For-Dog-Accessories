@@ -57,12 +57,19 @@ namespace PawAndCollarServices
 			{
 				productsQuery = productsQuery.Where(p => p.Category.Name == queryModel.Category);
 			}
+			int sizeValue = 0;
+			if(!string.IsNullOrWhiteSpace(queryModel.Size))
+			{
+                SizeTypes size = Enum.Parse<SizeTypes>(queryModel.Size);
+                sizeValue = (int)size;
+                productsQuery = productsQuery.Where(p => (int)p.Size == sizeValue);
+            }
 			productsQuery = queryModel.ProductSorting switch
 			{
 				ProductSorting.PriceAscending => productsQuery.OrderBy(p => p.Price),
 				ProductSorting.PriceDescending => productsQuery.OrderByDescending(p => p.Price),
-				ProductSorting.Oldest => productsQuery.OrderByDescending(p => p.CreatedOn),
-				ProductSorting.Newest => productsQuery.OrderBy(p => p.CreatedOn),
+				ProductSorting.Oldest => productsQuery.OrderBy(p => p.CreatedOn),
+				ProductSorting.Newest => productsQuery.OrderByDescending(p => p.CreatedOn),
 				ProductSorting.BestSelling => productsQuery.OrderByDescending(p => p.OrderedItems.Count),
 				_ => productsQuery.OrderBy(p => p.Name)
 			};
