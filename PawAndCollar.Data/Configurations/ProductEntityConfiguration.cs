@@ -8,6 +8,8 @@ namespace PawAndCollar.Data.Configurations
 	{
 		public void Configure(EntityTypeBuilder<Product> builder)
 		{
+			builder.Property(p => p.IsActive)
+			       .HasDefaultValue(true);
 
 			builder.Property(p => p.Price)
 			       .HasColumnType("decimal(18,2)");

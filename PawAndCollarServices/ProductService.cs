@@ -75,6 +75,7 @@ namespace PawAndCollarServices
 			};
 
 			IEnumerable<ProductHomeViewModel> products = await productsQuery
+				.Where(p => p.IsActive == true)
 				.Skip((queryModel.CurrentPage - 1) * queryModel.ProductsPerPage)
 				.Take(queryModel.ProductsPerPage)
 				.Select(p => new ProductHomeViewModel()
@@ -83,6 +84,7 @@ namespace PawAndCollarServices
 					ImageUrl = p.ImageUrl,
 					Name = p.Name,
 					CreatorName = p.Creator.User.UserName,
+					Size = p.Size.ToString(),
 					Price = p.Price
 				}).ToListAsync();
 
@@ -94,16 +96,32 @@ namespace PawAndCollarServices
 			};
 		}
 
-		public async Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync()
+    //    public async Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId)
+    //    {
+    //        var products = await this.dbContext.Products
+    //            .Where(p => p.CreatorId == Guid.Parse(creatorId))
+    //            .Select(p => new ProductHomeViewModel()
+				//{
+    //                Id = p.Id,
+    //                ImageUrl = p.ImageUrl,
+    //                Name = p.Name,
+    //                CreatorName = p.Creator.User.UserName,
+    //                Price = p.Price
+    //            }).ToListAsync();
+    //    }
+
+        public async Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync()
 		{
 			List<ProductHomeViewModel> models = await this.dbContext.Products
+				.Where(p => p.IsActive == true)
 				.Select(p => new ProductHomeViewModel()
 				{
 					Id = p.Id,
 					ImageUrl = p.ImageUrl,
 					Name = p.Name,
 					CreatorName = p.Creator.User.UserName,
-					Price = p.Price
+					Price = p.Price,
+					Size = p.Size.ToString()
 				}).ToListAsync();
 			return models;
 		}
@@ -112,7 +130,7 @@ namespace PawAndCollarServices
 		{
 			searchedItem = $"%{searchedItem.ToLower()}%";
 			var products = await this.dbContext.Products
-				.Where(p => EF.Functions.Like(p.Name, searchedItem))
+				.Where(p => EF.Functions.Like(p.Name, searchedItem) && p.IsActive == true)
 				.Select(p => new ProductHomeViewModel()
 				{
 					Id = p.Id,

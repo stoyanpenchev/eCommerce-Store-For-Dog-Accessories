@@ -51,7 +51,8 @@ namespace PawAndCollar.Data.Models
         [Required]
         public Creator Creator { get; set; } = null!;
 
-		public Guid? ApplicationUserId { get; set; }
+        public bool IsActive { get; set; }
+        public Guid? ApplicationUserId { get; set; }
 
 		public virtual ApplicationUser? User { get; set; }
 

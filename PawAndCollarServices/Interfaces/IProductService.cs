@@ -13,5 +13,7 @@ namespace PawAndCollarServices.Interfaces
         Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsAsync(AllProductsQueryModel queryModel);
 
         Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem);
+
+        //Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId);
     }
 }
