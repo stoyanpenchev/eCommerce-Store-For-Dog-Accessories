@@ -96,21 +96,23 @@ namespace PawAndCollarServices
 			};
 		}
 
-    //    public async Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId)
-    //    {
-    //        var products = await this.dbContext.Products
-    //            .Where(p => p.CreatorId == Guid.Parse(creatorId))
-    //            .Select(p => new ProductHomeViewModel()
-				//{
-    //                Id = p.Id,
-    //                ImageUrl = p.ImageUrl,
-    //                Name = p.Name,
-    //                CreatorName = p.Creator.User.UserName,
-    //                Price = p.Price
-    //            }).ToListAsync();
-    //    }
+		public async Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId)
+		{
+			List<ProductHomeViewModel> products = await this.dbContext.Products
+				.Where(p => p.CreatorId == Guid.Parse(creatorId) && p.IsActive)
+				.Select(p => new ProductHomeViewModel()
+				{
+					Id = p.Id,
+					ImageUrl = p.ImageUrl,
+					Name = p.Name,
+					CreatorName = p.Creator.User.UserName,
+					Price = p.Price
+				}).ToListAsync();
 
-        public async Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync()
+			return products;
+		}
+
+		public async Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync()
 		{
 			List<ProductHomeViewModel> models = await this.dbContext.Products
 				.Where(p => p.IsActive == true)

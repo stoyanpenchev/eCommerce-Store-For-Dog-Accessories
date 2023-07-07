@@ -14,6 +14,6 @@ namespace PawAndCollarServices.Interfaces
 
         Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem);
 
-        //Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId);
+        Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Services.Data.Models.Product;
+using PawAndCollar.Web.Infrastructure.Extensions;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollarServices.Interfaces;
 
@@ -14,12 +15,14 @@ namespace PawAndCollar.Web.Controllers
         private readonly ICategoryService categoryService;
         private readonly IEnumService enumService;
         private readonly ISizeService sizeService;
-        public ProductController(IProductService productService, ICategoryService categoryService, IEnumService enumService, ISizeService sizeService)
+        private readonly ICreatorService creatorService;
+        public ProductController(IProductService productService, ICategoryService categoryService, IEnumService enumService, ISizeService sizeService, ICreatorService creatorService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
             this.enumService = enumService;
             this.sizeService = sizeService;
+            this.creatorService = creatorService;
         }
 
         [AllowAnonymous]
@@ -55,6 +58,24 @@ namespace PawAndCollar.Web.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet] 
+        public async Task<IActionResult> Mine()
+        {
+            ICollection<ProductHomeViewModel> products = new List<ProductHomeViewModel>();
+            string userId = this.User.GetId()!;
+            bool isCreator = await this.creatorService.AgentExistByUserIdAsync(userId);
+            if(isCreator)
+            {
+                string creatorId = await this.creatorService.GetCreatorIdByUserIdAsync(userId);
+				products = await this.productService.GetAllProductsByCreatorIdAsync(creatorId);
+			}
+            else
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+            return this.View(products);
         }
     }
 }
