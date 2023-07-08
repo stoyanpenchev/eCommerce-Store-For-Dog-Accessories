@@ -39,6 +39,16 @@ namespace PawAndCollarServices
 			await this.dbContext.SaveChangesAsync();
 		}
 
+		public async Task DeleteProductByIdAsync(int id)
+		{
+			Product product = await this.dbContext.Products
+				.Where(p => p.IsActive)
+				.FirstAsync(p => p.Id == id);
+			product.IsActive = false;
+			product.Quantity = 0;
+			await this.dbContext.SaveChangesAsync();
+		}
+
 		public async Task EditProductAsync(AddProductViewModel model, string creatorId)
 		{
 			Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == model.Id);
@@ -55,9 +65,11 @@ namespace PawAndCollarServices
 			await this.dbContext.SaveChangesAsync();
 		}
 
-		public async Task<bool> ExistsByIdAsync(string id)
+		public async Task<bool> ExistsByIdAsync(int id)
 		{
-			 bool result = await this.dbContext.Products.AnyAsync(p => p.Id.ToString() == id);
+			 bool result = await this.dbContext.Products
+				.Where(p => p.IsActive)
+				.AnyAsync(p => p.Id == id);
 			return result;
 		}
 
@@ -129,16 +141,18 @@ namespace PawAndCollarServices
 					ImageUrl = p.ImageUrl,
 					Name = p.Name,
 					CreatorName = p.Creator.User.UserName,
-					Price = p.Price
+					Price = p.Price,
+					Size = p.Size.ToString(),
+					Quantity = p.Quantity
 				}).ToListAsync();
 
 			return products;
 		}
 
-		public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(string productId)
+		public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId)
 		{
 			ProductDeatailsViewModel? product = await this.dbContext.Products
-				.Where(p => p.Id.ToString() == productId && p.IsActive)
+				.Where(p => p.Id == productId && p.IsActive)
 				.Select(p => new ProductDeatailsViewModel()
 				{
 					Id = p.Id,
@@ -147,6 +161,7 @@ namespace PawAndCollarServices
 					Price = p.Price,
 					ImageUrl = p.ImageUrl,
 					Size = p.Size.ToString(),
+					Quantity = p.Quantity,
 					Creator = new CreatorDeatailViewModel()
 					{
 						Email = p.Creator.User.Email,
@@ -198,6 +213,22 @@ namespace PawAndCollarServices
 			{
 				return null;
 			}
+			return product;
+		}
+
+		public async Task<ProductPreDeleteViewModel> GetProductForDeleteByIdAsync(int id)
+		{
+			ProductPreDeleteViewModel product = await this.dbContext.Products
+				.Where(p => p.Id == id && p.IsActive)
+				.Select(p => new ProductPreDeleteViewModel()
+				{
+					Id = p.Id,
+					Name = p.Name,
+					ImageUrl = p.ImageUrl,
+					Price = p.Price,
+					Size = p.Size.ToString(),
+					Quantity = p.Quantity
+				}).FirstAsync();
 			return product;
 		}
 

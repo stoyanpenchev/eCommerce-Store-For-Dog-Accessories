@@ -2,23 +2,22 @@
 
 namespace PawAndCollar.Web.ViewModels.Product
 {
-    public class ProductHomeViewModel
-    {
-        public int Id { get; set; }
+	public class ProductPreDeleteViewModel
+	{
 
-        [Required]
-        public string ImageUrl { get; set; } = null!;
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; } = null!;
 
         [Required]
-        public string CreatorName { get; set; } = null!;
+        public string ImageUrl { get; set; } = null!;
+
         [Required]
+        public string Size { get; set; } = null!;
+
         public decimal Price { get; set; }
 
         public int Quantity { get; set; }
 
-        [Required]
-        public string Size { get; set; } = null!;
     }
 }

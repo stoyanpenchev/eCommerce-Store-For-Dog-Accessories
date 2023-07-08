@@ -103,15 +103,14 @@ namespace PawAndCollar.Web.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> Details(string id)
+		public async Task<IActionResult> Details(int id)
 		{
-			bool houseExists = await this.productService.ExistsByIdAsync(id);
-			if (!houseExists)
+			bool productExists = await this.productService.ExistsByIdAsync(id);
+			if (!productExists)
 			{
 				this.TempData["ErrorMessage"] = "Product does not exist";
 				return this.RedirectToAction("Index", "Home");
 			}
-
 			try
 			{
 				ProductDeatailsViewModel? product = await this.productService.GetDetailsByIdAsync(id);
@@ -177,12 +176,19 @@ namespace PawAndCollar.Web.Controllers
 				model.SizeList = this.enumService.GetEnumSelectList<SizeTypes>();
 				return this.View(model);
 			}
-			return this.RedirectToAction("Index", "Home");
+			this.TempData[SuccessMessage] = "Product was added successfully!";
+			return this.RedirectToAction("Product", "Mine");
 		}
 
 		[HttpGet]
 		public async Task<IActionResult> Edit(int id)
 		{
+			bool productExists = await this.productService.ExistsByIdAsync(id);
+			if (!productExists)
+			{
+				this.TempData["ErrorMessage"] = "Product does not exist";
+				return this.RedirectToAction("Index", "Home");
+			}
 			bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(this.User.GetId()!);
 			if (!isCreator)
 			{
@@ -219,6 +225,12 @@ namespace PawAndCollar.Web.Controllers
 				model.SizeList = this.enumService.GetEnumSelectList<SizeTypes>();
 				return this.View(model);
 			}
+			bool productExists = await this.productService.ExistsByIdAsync(id);
+			if (!productExists)
+			{
+				this.TempData["ErrorMessage"] = "Product does not exist";
+				return this.RedirectToAction("Index", "Home");
+			}
 			bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(this.User.GetId()!);
 			if (!isCreator)
 			{
@@ -248,7 +260,77 @@ namespace PawAndCollar.Web.Controllers
 				model.SizeList = this.enumService.GetEnumSelectList<SizeTypes>();
 				return this.View(model);
 			}
+			this.TempData[SuccessMessage] = "Product was edited successfully!";
 			return this.RedirectToAction("Details", "Product", new { id = id });
+		}
+
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(int id)
+		{
+			bool productExists = await this.productService.ExistsByIdAsync(id);
+			if (!productExists)
+			{
+				this.TempData["ErrorMessage"] = "Product does not exist";
+				return this.RedirectToAction("Index", "Home");
+			}
+			bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(this.User.GetId()!);
+			if (!isCreator)
+			{
+				this.TempData[ErrorMessage] = "You are not a creator!";
+				return this.RedirectToAction("Become", "Creator");
+			}
+			string? creatorId = await this.creatorService.GetCreatorIdByUserIdAsync(this.User.GetId()!);
+
+			bool isCreatorOfProduct = await this.productService.IsCreatorWithIdOwnerOfProducWithIdAsync(id, creatorId!);
+			if (!isCreatorOfProduct)
+			{
+				this.TempData[ErrorMessage] = "You are not the creator of this product!";
+				return this.RedirectToAction("Mine", "Product");
+			}
+			try
+			{
+				ProductPreDeleteViewModel model = await this.productService.GetProductForDeleteByIdAsync(id);
+				return this.View(model);
+			}
+			catch (Exception)
+			{
+				return this.GeneralError();
+			}
+		}
+		[HttpPost]
+		public async Task<IActionResult> Delete(ProductPreDeleteViewModel model, int id)
+		{
+			bool productExists = await this.productService.ExistsByIdAsync(id);
+			if (!productExists)
+			{
+				this.TempData["ErrorMessage"] = "Product does not exist";
+				return this.RedirectToAction("Index", "Home");
+			}
+			bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(this.User.GetId()!);
+			if (!isCreator)
+			{
+				this.TempData[ErrorMessage] = "You are not a creator!";
+				return this.RedirectToAction("Become", "Creator");
+			}
+			string? creatorId = await this.creatorService.GetCreatorIdByUserIdAsync(this.User.GetId()!);
+
+			bool isCreatorOfProduct = await this.productService.IsCreatorWithIdOwnerOfProducWithIdAsync(id, creatorId!);
+			if (!isCreatorOfProduct)
+			{
+				this.TempData[ErrorMessage] = "You are not the creator of this product!";
+				return this.RedirectToAction("Mine", "Product");
+			}
+			try
+			{
+				await this.productService.DeleteProductByIdAsync(id);
+				this.TempData[SuccessMessage] = "Product was deleted successfully!";
+				return this.RedirectToAction("Mine", "Product");
+			}
+			catch (Exception)
+			{
+				return this.GeneralError();
+			}
 		}
 
 		private IActionResult GeneralError()

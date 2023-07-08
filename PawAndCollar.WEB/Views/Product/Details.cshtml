@@ -3,7 +3,8 @@
 @{
 	ViewBag.Title = "Product Details";
 }
-
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
 <style>
 	.availability-dot {
 		width: 10px;
@@ -36,7 +37,7 @@
 			<h4>Price: @Model.Price</h4>
 			<h4>Size: @Model.Size</h4>
 			<div class="d-flex align-items-center">
-				<div class="availability-dot mr-2 @((Model != null) ? "available" : "unavailable")"></div>
+				<div class="availability-dot mr-2 @((Model.Quantity == 0) ? "unavailable" : "available")"></div>
 				<span class="ml-2" style="padding-left: 7px; padding-top: 11px;" @((Model != null) ? "" : "class=\"d-none\"")>Item is in stock</span>
 
 			</div>

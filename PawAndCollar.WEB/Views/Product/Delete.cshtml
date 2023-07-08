@@ -1,0 +1,67 @@
+﻿@model ProductPreDeleteViewModel
+
+@{
+	ViewBag.Title = "Delete Product";
+}
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+<style>
+	.availability-dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		margin-top: 10px;
+	}
+
+	.available {
+		background-color: green;
+	}
+
+	.unavailable {
+		background-color: red;
+	}
+
+	.pulse-animation {
+		animation: pulsate 1s ease-out infinite;
+	}
+</style>
+
+<div class="container">
+	<h2>@Model.Name</h2>
+	<div class="row">
+		<div class="col-md-6">
+			<img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid">
+		</div>
+		<div class="col-md-6">
+			<h4>Price: @Model.Price</h4>
+			<h4>Size: @Model.Size</h4>
+			<h4>Quantity: @Model.Quantity</h4>
+			<div class="d-flex align-items-center">
+				<div class="availability-dot mr-2 @((Model != null) ? "available" : "unavailable")"></div>
+				<span class="ml-2" style="padding-left: 7px; padding-top: 11px;" @((Model != null) ? "" : "class=\"d-none\"")>Item is in stock</span>
+			</div>
+			<div class="form-group mt-2">
+				<form asp-action="Delete" asp-controller="Product" method="post">
+					<button type="submit" name="id" value="@Model.Id" class="btn btn-danger col-md-6">Delete Product</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+@section scripts {
+	<script>
+		$(document).ready(function () {
+			$('.availability-dot').addClass('pulse-animation');
+		});
+	</script>
+	<script>
+		$(document).ready(function () {
+			$('.toggle-text').click(function (e) {
+				e.preventDefault();
+				$(this).closest('div').find('.details-text, .care-text').slideToggle();
+			});
+		});
+	</script>
+}

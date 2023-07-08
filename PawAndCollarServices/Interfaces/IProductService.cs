@@ -16,12 +16,15 @@ namespace PawAndCollarServices.Interfaces
 
         Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId);
 
-        Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(string productId);
+        Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId);
 
         Task<AddProductViewModel?> GetProductByIdAsync(int productId);
 		Task EditProductAsync(AddProductViewModel model, string creatorId);
 
+        Task DeleteProductByIdAsync(int id);
+
         Task<bool> IsCreatorWithIdOwnerOfProducWithIdAsync(int productId, string creatorId);
-		Task<bool> ExistsByIdAsync(string id);
+		Task<bool> ExistsByIdAsync(int id);
+		Task<ProductPreDeleteViewModel> GetProductForDeleteByIdAsync(int id);
 	}
 }

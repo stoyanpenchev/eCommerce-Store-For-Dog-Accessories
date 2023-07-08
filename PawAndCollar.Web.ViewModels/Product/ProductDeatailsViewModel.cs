@@ -20,6 +20,7 @@ namespace PawAndCollar.Web.ViewModels.Product
         [Required]
         public string Size { get; set; } = null!;
 
+        public int Quantity { get; set; }
 
         [Required]
         public CreatorDeatailViewModel Creator { get; set; } = null!;
