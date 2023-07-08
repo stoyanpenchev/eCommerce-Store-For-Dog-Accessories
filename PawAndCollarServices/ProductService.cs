@@ -38,6 +38,29 @@ namespace PawAndCollarServices
 			await this.dbContext.Products.AddAsync(product);
 			await this.dbContext.SaveChangesAsync();
 		}
+
+		public async Task EditProductAsync(AddProductViewModel model, string creatorId)
+		{
+			Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == model.Id);
+			product.Name = model.Name;
+			product.Description = model.Description;
+			product.Price = model.Price;
+			product.Quantity = model.Quantity;
+			product.ImageUrl = model.ImageUrl;
+			product.CategoryId = model.CategoryId;
+			product.CreatorId = Guid.Parse(creatorId);
+			product.Size = (SizeTypes)model.Size;
+			product.Color = model.Color;
+			product.Material = model.Material;
+			await this.dbContext.SaveChangesAsync();
+		}
+
+		public async Task<bool> ExistsByIdAsync(string id)
+		{
+			 bool result = await this.dbContext.Products.AnyAsync(p => p.Id.ToString() == id);
+			return result;
+		}
+
 		public async Task<ICollection<AllCategoriesViewModel>> GetAllCategoriesAsync()
 		{
 			List<AllCategoriesViewModel> categories = await this.dbContext.Categories
@@ -152,6 +175,38 @@ namespace PawAndCollarServices
 					Size = p.Size.ToString()
 				}).ToListAsync();
 			return models;
+		}
+
+		public async Task<AddProductViewModel?> GetProductByIdAsync(int productId)
+		{
+			AddProductViewModel? product = await this.dbContext.Products
+				.Where(p => p.Id == productId)
+				.Select(p => new AddProductViewModel()
+				{
+					Id = p.Id,
+					Name = p.Name,
+					Description = p.Description,
+					Price = p.Price,
+					Quantity = p.Quantity,
+					ImageUrl = p.ImageUrl,
+					CategoryId = p.CategoryId,
+					Size = (int)p.Size,
+					Color = p.Color,
+					Material = p.Material
+				}).FirstOrDefaultAsync();
+			if(product == null)
+			{
+				return null;
+			}
+			return product;
+		}
+
+		public async Task<bool> IsCreatorWithIdOwnerOfProducWithIdAsync(int productId, string creatorId)
+		{
+			Product product = await this.dbContext.Products
+				.Where(p => p.Id == productId)
+				.FirstAsync();
+			return product.CreatorId == Guid.Parse(creatorId);
 		}
 
 		public async Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem)

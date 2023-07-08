@@ -16,12 +16,12 @@ namespace PawAndCollarServices
 			this.dbContext = dbContext;
 		}
 		
-        public async Task<bool> AgentExistByPhoneNumberAsync(string phoneNumber)
+        public async Task<bool> CreatorExistByPhoneNumberAsync(string phoneNumber)
         {
             return await this.dbContext.Creators.AnyAsync(c => c.PhoneNumber == phoneNumber);
         }
 
-        public async Task<bool> AgentExistByUserIdAsync(string userId)
+        public async Task<bool> CreatorExistByUserIdAsync(string userId)
 		{
 			bool result = await this.dbContext.Creators.AnyAsync(c => c.UserId == Guid.Parse(userId));
 			return result;

@@ -5,9 +5,9 @@ namespace PawAndCollarServices.Interfaces
     public interface ICreatorService
     {
         
-        Task<bool> AgentExistByUserIdAsync(string userId);
+        Task<bool> CreatorExistByUserIdAsync(string userId);
 
-        Task<bool> AgentExistByPhoneNumberAsync(string phoneNumber);
+        Task<bool> CreatorExistByPhoneNumberAsync(string phoneNumber);
 
         Task Create(string userId, BecomeCreatorFormModel model);
 

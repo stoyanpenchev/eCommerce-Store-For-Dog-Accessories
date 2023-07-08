@@ -14,7 +14,7 @@
             public const int ColorMinLength = 3;
             public const double PriceMinValue = 0;
             public const double PriceMaxValue = 1000;
-            public const int QuantityMinValue = 1;
+            public const int QuantityMinValue = 0;
             public const int QuantityMaxValue = int.MaxValue;
             public const int MaterialMaxLength = 25;
             public const int MaterialMinLength = 5;
