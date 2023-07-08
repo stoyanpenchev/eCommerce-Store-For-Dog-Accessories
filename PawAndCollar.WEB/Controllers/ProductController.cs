@@ -77,5 +77,18 @@ namespace PawAndCollar.Web.Controllers
             }
             return this.View(products);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(string id)
+        {
+            ProductDeatailsViewModel? product = await this.productService.GetDetailsByIdAsync(id);
+            if(product == null)
+            {
+                this.TempData["ErrorMessage"] = "Product does not exist";
+				return this.RedirectToAction("Index", "Home");
+			}
+            return View(product);
+        }
     }
 }

@@ -112,6 +112,32 @@ namespace PawAndCollarServices
 			return products;
 		}
 
+		public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(string productId)
+		{
+			ProductDeatailsViewModel? product = await this.dbContext.Products
+				.Where(p => p.Id.ToString() == productId && p.IsActive)
+				.Select(p => new ProductDeatailsViewModel()
+				{
+					Id = p.Id,
+					Name = p.Name,
+					Description = p.Description,
+					Price = p.Price,
+					ImageUrl = p.ImageUrl,
+					Size = p.Size.ToString(),
+					Creator = new CreatorDeatailViewModel()
+					{
+						Email = p.Creator.User.Email,
+						PhoneNumber = p.Creator.PhoneNumber,
+					}
+				}).FirstOrDefaultAsync();
+
+			if(product == null)
+			{
+				return null;
+			}	
+			return product;
+		}
+
 		public async Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync()
 		{
 			List<ProductHomeViewModel> models = await this.dbContext.Products
