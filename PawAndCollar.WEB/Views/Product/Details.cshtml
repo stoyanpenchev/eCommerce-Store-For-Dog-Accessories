@@ -36,12 +36,13 @@
 			<p>@Model.Description</p>
 			<h4>Price: @Model.Price</h4>
 			<h4>Size: @Model.Size</h4>
+			<h4>Quantity: @Model.Quantity</h4>
 			<div class="d-flex align-items-center">
 				<div class="availability-dot mr-2 @((Model.Quantity == 0) ? "unavailable" : "available")"></div>
 				<span class="ml-2" style="padding-left: 7px; padding-top: 11px;" @((Model != null) ? "" : "class=\"d-none\"")>Item is in stock</span>
 
 			</div>
-			<h4>Creator Details:</h4>
+			<h4 style="padding-top: 10px;">Creator Details:</h4>
 			<p>Email: @Model.Creator.Email</p>
 			<p>Phone: @Model.Creator.PhoneNumber</p>
 			<button class="btn btn-primary col-md-6">Add to Cart</button>

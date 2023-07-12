@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawAndCollar.Data;
 
@@ -11,9 +12,10 @@ using PawAndCollar.Data;
 namespace PawAndCollar.Data.Migrations
 {
     [DbContext(typeof(PawAndCollarDbContext))]
-    partial class PawAndCollarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230712134832_CartAddedToDatabase")]
+    partial class CartAddedToDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,10 +228,6 @@ namespace PawAndCollar.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("CartId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -246,9 +244,6 @@ namespace PawAndCollar.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("MyProperty")
-                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -293,6 +288,7 @@ namespace PawAndCollar.Data.Migrations
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Cart", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("TotalPrice")
@@ -302,6 +298,8 @@ namespace PawAndCollar.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -535,9 +533,9 @@ namespace PawAndCollar.Data.Migrations
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Cart", b =>
                 {
                     b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "User")
-                        .WithOne("ActiveCart")
-                        .HasForeignKey("PawAndCollar.Data.Models.Models.Cart", "Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -557,7 +555,7 @@ namespace PawAndCollar.Data.Migrations
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Order", b =>
                 {
                     b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "Customer")
-                        .WithMany("Orders")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -591,7 +589,7 @@ namespace PawAndCollar.Data.Migrations
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Review", b =>
                 {
                     b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "Customer")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -639,14 +637,7 @@ namespace PawAndCollar.Data.Migrations
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("ActiveCart")
-                        .IsRequired();
-
                     b.Navigation("BuyedProducts");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Cart", b =>

@@ -35,9 +35,10 @@ namespace PawAndCollar.Web
 
             builder.Services.AddScoped<ICreatorService, CreatorService>();
             builder.Services.AddScoped<IProductService, ProductService>();
-            builder .Services.AddScoped<IEnumService, EnumService>();
+            builder.Services.AddScoped<IEnumService, EnumService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ISizeService, SizeService>();
+            builder.Services.AddScoped<ICartService, CartService>();
 
             builder.Services
                 .AddControllersWithViews()

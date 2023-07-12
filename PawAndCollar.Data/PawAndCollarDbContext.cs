@@ -21,6 +21,8 @@ namespace PawAndCollar.Data
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<Creator> Creators { get; set; } = null!;
         public DbSet<OrderItem> OrderedItems { get; set; } = null!;
+        public DbSet<Cart> Carts { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -44,6 +44,10 @@
             public const int MinQuantity = 1;
             public const int MaxQuantity = 100000;
         }
-
+        public static class Cart
+        {
+			public const double MinTotalPrice = 0;
+			public const double MaxTotalPrice = 9999.99;
+		}
     }
 }
