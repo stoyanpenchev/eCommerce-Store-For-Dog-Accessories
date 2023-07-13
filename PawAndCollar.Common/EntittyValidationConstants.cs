@@ -34,7 +34,7 @@
         public static class Order
         {
             public const int ShippingAddressMaxLength = 250;
-            public const int ShippingAddressMinLength = 25;
+            public const int ShippingAddressMinLength = 0;
             public const int MinTotalAmount = 1;
             public const int MaxTotalAmount = 10000;
         }

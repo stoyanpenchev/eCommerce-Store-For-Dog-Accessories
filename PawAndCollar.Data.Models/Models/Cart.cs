@@ -15,7 +15,6 @@ namespace PawAndCollar.Data.Models.Models
         public Guid Id { get; set; }
 
         [Required]
-        [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
 
         [Required]

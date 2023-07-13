@@ -293,6 +293,7 @@ namespace PawAndCollar.Data.Migrations
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Cart", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("TotalPrice")
@@ -302,6 +303,9 @@ namespace PawAndCollar.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Carts");
                 });
@@ -368,7 +372,7 @@ namespace PawAndCollar.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("CartId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantity")
@@ -536,7 +540,7 @@ namespace PawAndCollar.Data.Migrations
                 {
                     b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "User")
                         .WithOne("ActiveCart")
-                        .HasForeignKey("PawAndCollar.Data.Models.Models.Cart", "Id")
+                        .HasForeignKey("PawAndCollar.Data.Models.Models.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -567,21 +571,24 @@ namespace PawAndCollar.Data.Migrations
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.OrderItem", b =>
                 {
-                    b.HasOne("PawAndCollar.Data.Models.Models.Cart", null)
+                    b.HasOne("PawAndCollar.Data.Models.Models.Cart", "Cart")
                         .WithMany("OrderedItems")
-                        .HasForeignKey("CartId");
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PawAndCollar.Data.Models.Models.Order", "Order")
                         .WithMany("OrderedItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("PawAndCollar.Data.Models.Product", "Product")
                         .WithMany("OrderedItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Cart");
 
                     b.Navigation("Order");
 

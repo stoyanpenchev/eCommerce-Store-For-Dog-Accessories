@@ -9,10 +9,10 @@ namespace PawAndCollar.Data.Configurations
 		public void Configure(EntityTypeBuilder<Cart> builder)
 		{
 			builder
-				.HasOne(c => c.User)
-				.WithOne(u => u.ActiveCart)
-				.HasForeignKey<Cart>(c => c.Id)
-				.OnDelete(DeleteBehavior.Restrict);
+					.HasOne(c => c.User)
+					.WithOne(u => u.ActiveCart)
+					.HasForeignKey<Cart>(c => c.UserId)
+					.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

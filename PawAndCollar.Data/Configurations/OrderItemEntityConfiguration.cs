@@ -13,13 +13,8 @@ namespace PawAndCollar.Data.Configurations
                 .HasOne(o => o.Order)
                 .WithMany(oi => oi.OrderedItems)
                 .HasForeignKey(o => o.OrderId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            builder
-                .HasOne(o => o.Product)
-                .WithMany()
-                .HasForeignKey(o => o.ProductId)
-                .OnDelete(DeleteBehavior.Restrict); 
             
             builder
             .HasOne(oi => oi.Product)

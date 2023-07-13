@@ -22,7 +22,14 @@ namespace PawAndCollar.Data.Models.Models
         [Required]
         public Product Product { get; set; } = null!;
 
-        [Range(MinQuantity, MaxQuantity)]
+		[Required]
+		[ForeignKey(nameof(Cart))]
+		public Guid CartId { get; set; }
+
+        [Required]
+        public Cart Cart { get; set; } = null!;
+
+		[Range(MinQuantity, MaxQuantity)]
         public int Quantity { get; set; }
 
     }

@@ -1,0 +1,78 @@
+﻿@model ViewCartViewModel
+
+<h2>My Cart</h2>
+
+@if (Model.CartItems.Count == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>
+                        <img src="@item.ImageUrl" alt="@item.Name" width="50" height="50" />
+                    </td>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <div>
+                            <button class="btn btn-primary" onclick="increaseQuantity(@item.Id)">+</button>
+                            <span>@item.Quantity</span>
+                            <button class="btn btn-primary" onclick="decreaseQuantity(@item.Id)">-</button>
+                            <button class="btn btn-danger" onclick="removeItem(@item.Id)">Remove</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.increase-quantity').on('click', function () {
+                var productId = $(this).data('product-id');
+                var quantityElement = $(this).siblings('.quantity');
+                var quantity = parseInt(quantityElement.text());
+                quantity += 1;
+                quantityElement.text(quantity);
+                // Send AJAX request to increase quantity of the product with the given productId
+                // You can use frameworks like jQuery or Axios to make the AJAX request
+            });
+
+            $('.decrease-quantity').on('click', function () {
+                var productId = $(this).data('product-id');
+                var quantityElement = $(this).siblings('.quantity');
+                var quantity = parseInt(quantityElement.text());
+                if (quantity > 1) {
+                    quantity -= 1;
+                    quantityElement.text(quantity);
+                    // Send AJAX request to decrease quantity of the product with the given productId
+                    // You can use frameworks like jQuery or Axios to make the AJAX request
+                }
+            });
+
+            $('.remove-item').on('click', function () {
+                var productId = $(this).data('product-id');
+                // Send AJAX request to remove the item with the given productId from the cart
+                // You can use frameworks like jQuery or Axios to make the AJAX request
+                $(this).closest('tr').remove();
+            });
+        });
+    </script>
+}

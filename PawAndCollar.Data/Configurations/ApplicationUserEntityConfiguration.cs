@@ -10,8 +10,8 @@ namespace PawAndCollar.Data.Configurations
 		{
 			builder
 			.HasOne(u => u.ActiveCart)
-			.WithOne(c => c.User)
-			.HasForeignKey<Cart>(c => c.UserId)
+			.WithOne()
+			.HasForeignKey<ApplicationUser>(u => u.CartId)
 			.OnDelete(DeleteBehavior.Restrict);
 		}
 	}
