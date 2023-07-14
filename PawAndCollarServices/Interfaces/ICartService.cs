@@ -10,5 +10,6 @@ namespace PawAndCollarServices.Interfaces
 
 		Task DecreaseQuantityAsync(string userId, int productId);
 		Task RemoveItemFromCart(string userId, int productId);
+		Task<string> GetCartItemsCountAsync(string userId);
 	}
 }

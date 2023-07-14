@@ -1,7 +1,8 @@
 ﻿namespace PawAndCollar.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-    using PawAndCollar.Web.ViewModels.Home;
+	using PawAndCollar.Web.Infrastructure.Extensions;
+	using PawAndCollar.Web.ViewModels.Home;
     using PawAndCollar.Web.ViewModels.Product;
     using PawAndCollarServices.Interfaces;
     using System.Diagnostics;
@@ -10,7 +11,7 @@
         private readonly IProductService productService;
         public HomeController(IProductService productService)
         {
-            this.productService = productService;
+            this.productService = productService; 
         }
 
         public async Task<IActionResult> Index()

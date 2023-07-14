@@ -113,8 +113,22 @@ namespace PawAndCollar.Web.Controllers
 			}
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> GetCartItemCount()
+		{
+			string userId = this.User.GetId()!;
+			try
+			{
+				string cartItemCount = await this.cartService.GetCartItemsCountAsync(userId);
+				return Content(cartItemCount);
+			}
+			catch (Exception)
+			{
+				return this.GeneralError();
+			}
+		}
 
-        private IActionResult GeneralError()
+		private IActionResult GeneralError()
 		{
 			this.TempData[ErrorMessage] = "Unexpected error occured! Please try again later or contact administrator!";
 			return this.RedirectToAction("Index", "Home");
