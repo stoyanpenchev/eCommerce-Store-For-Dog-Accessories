@@ -40,6 +40,7 @@ namespace PawAndCollar.Web
             builder.Services.AddScoped<ISizeService, SizeService>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
 
             builder.Services
                 .AddControllersWithViews()

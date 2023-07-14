@@ -4,75 +4,54 @@
 
 @if (Model.CartItems.Count == 0)
 {
-    <p>Your cart is empty.</p>
+	<p>Your cart is empty.</p>
 }
 else
 {
-    <table>
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CartItems)
-            {
-                <tr>
-                    <td>
-                        <img src="@item.ImageUrl" alt="@item.Name" width="50" height="50" />
-                    </td>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
-                    <td>@item.Price</td>
-                    <td>
-                        <div>
-                            <button class="btn btn-primary" onclick="increaseQuantity(@item.Id)">+</button>
-                            <span>@item.Quantity</span>
-                            <button class="btn btn-primary" onclick="decreaseQuantity(@item.Id)">-</button>
-                            <button class="btn btn-danger" onclick="removeItem(@item.Id)">Remove</button>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Product</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Price</th>
+				<th>Total</th>
+				<th>Quantity</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.CartItems)
+			{
+				<tr>
+					<td>
+						<img src="@item.ImageUrl" alt="@item.Name" width="60" height="60" />
+					</td>
+					<td>@item.Name</td>
+					<td>@item.Description</td>
+					<td>@item.Price</td>
+					<td>@item.TotalPrice</td>
+					<td>
+						<div class="quantity-container">
+							<form method="post" asp-action="DecreaseQuantity" asp-controller="Cart">
+								<input type="hidden" name="productId" value="@item.Id" />
+								<button class="btn btn-primary" onclick="decreaseQuantity(@item.Id)">-</button>
+							</form>
+							<span class="quantity">@item.Quantity</span>
+							<form method="post" asp-action="IncreaseQuantity" asp-controller="Cart">
+								<input type="hidden" name="productId" value="@item.Id" />
+								@*<input type="number" name="quantity" value="1" min="1" />*@
+								<button class="btn btn-success" type="submit" onclick="increaseQuantity(@item.Id)">+</button>
+							</form>
+							<form method="post" asp-action="RemoveFromCart" asp-controller="Cart">
+								<input type="hidden" name="productId" value="@item.Id" />
+								<button class="btn btn-danger" type="submit" onclick="removeItem(@item.Id)">Remove</button>
+							</form>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 }
 
-@section scripts {
-    <script>
-        $(document).ready(function () {
-            $('.increase-quantity').on('click', function () {
-                var productId = $(this).data('product-id');
-                var quantityElement = $(this).siblings('.quantity');
-                var quantity = parseInt(quantityElement.text());
-                quantity += 1;
-                quantityElement.text(quantity);
-                // Send AJAX request to increase quantity of the product with the given productId
-                // You can use frameworks like jQuery or Axios to make the AJAX request
-            });
 
-            $('.decrease-quantity').on('click', function () {
-                var productId = $(this).data('product-id');
-                var quantityElement = $(this).siblings('.quantity');
-                var quantity = parseInt(quantityElement.text());
-                if (quantity > 1) {
-                    quantity -= 1;
-                    quantityElement.text(quantity);
-                    // Send AJAX request to decrease quantity of the product with the given productId
-                    // You can use frameworks like jQuery or Axios to make the AJAX request
-                }
-            });
-
-            $('.remove-item').on('click', function () {
-                var productId = $(this).data('product-id');
-                // Send AJAX request to remove the item with the given productId from the cart
-                // You can use frameworks like jQuery or Axios to make the AJAX request
-                $(this).closest('tr').remove();
-            });
-        });
-    </script>
-}

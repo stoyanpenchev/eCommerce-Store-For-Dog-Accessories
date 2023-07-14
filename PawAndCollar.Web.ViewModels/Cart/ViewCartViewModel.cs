@@ -1,4 +1,6 @@
-﻿namespace PawAndCollar.Web.ViewModels.Cart
+﻿using PawAndCollar.Data.Models.Models;
+
+namespace PawAndCollar.Web.ViewModels.Cart
 {
 	public class ViewCartViewModel
 	{

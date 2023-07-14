@@ -68,7 +68,53 @@ namespace PawAndCollar.Web.Controllers
 			}
 		}
 
-		private IActionResult GeneralError()
+		[HttpPost]
+		public async Task<IActionResult> IncreaseQuantity(int productId)
+		{
+			string userId = this.User.GetId()!;
+			try
+			{
+                await this.cartService.IncreaseQuantityAsync(userId, productId);
+                return RedirectToAction(nameof(ViewCart));
+            }
+            catch (Exception)
+			{
+                return this.GeneralError();
+            }
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> DecreaseQuantity(int productId)
+		{
+			string userId = this.User.GetId()!;
+			try
+			{
+				await this.cartService.DecreaseQuantityAsync(userId, productId);
+				return RedirectToAction(nameof(ViewCart));
+			}
+			catch (Exception)
+			{
+				return this.GeneralError();
+			}
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> RemoveFromCart(int productId)
+		{
+			string userId = this.User.GetId()!;
+			try
+			{
+				await this.cartService.RemoveItemFromCart(userId, productId);
+				return RedirectToAction(nameof(ViewCart));
+			}
+			catch (Exception)
+			{
+				return this.GeneralError();
+			}
+		}
+
+
+        private IActionResult GeneralError()
 		{
 			this.TempData[ErrorMessage] = "Unexpected error occured! Please try again later or contact administrator!";
 			return this.RedirectToAction("Index", "Home");

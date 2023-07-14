@@ -6,6 +6,9 @@ namespace PawAndCollarServices.Interfaces
 	{
 		Task<ViewCartViewModel> GetCartItemsAsync(string userId);
 		Task AddToCartAsync(string userId, int productId);
+        Task IncreaseQuantityAsync(string userId, int productId);
 
+		Task DecreaseQuantityAsync(string userId, int productId);
+		Task RemoveItemFromCart(string userId, int productId);
 	}
 }

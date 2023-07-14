@@ -1,6 +1,6 @@
 ﻿namespace PawAndCollarServices.Interfaces
 {
-	public interface IApplicationUserService
+	public interface IOrderService
 	{
 	}
 }
