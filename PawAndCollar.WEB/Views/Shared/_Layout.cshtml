@@ -32,15 +32,19 @@
 						<li class="nav-item">
 							<a class="nav-link" asp-area="" asp-controller="Product" asp-action="All">All Products</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Order" asp-action="">Manage Order</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="ViewCart">Cart
-								(@await Component.InvokeAsync("ShoppingCart"))
+						@if (User.Identity.IsAuthenticated)
+						{
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Order" asp-action="">Manage Order</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Cart" asp-action="ViewCart">
+									Cart
+									(@await Component.InvokeAsync("ShoppingCart"))
 
-							</a>
-						</li>
+								</a>
+							</li>
+						}
 						<li class="nav-item">
 							<a class="nav-link" asp-area="" asp-controller="Product" asp-action="Search">
 								<i class="fa-solid fa-magnifying-glass"></i>

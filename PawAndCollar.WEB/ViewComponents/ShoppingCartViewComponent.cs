@@ -15,8 +15,10 @@ namespace PawAndCollar.Web
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            string cartItemCount = await cartService.GetCartItemsCountAsync(userId);
+			//string userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var user = this.HttpContext.User;
+            string userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+			string cartItemCount = await cartService.GetCartItemsCountAsync(userId);
             return Content(cartItemCount);
         }
     }

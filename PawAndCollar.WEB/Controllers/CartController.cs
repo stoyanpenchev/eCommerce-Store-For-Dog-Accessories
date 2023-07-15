@@ -117,6 +117,11 @@ namespace PawAndCollar.Web.Controllers
 		public async Task<IActionResult> GetCartItemCount()
 		{
 			string userId = this.User.GetId()!;
+			if(userId == null)
+			{
+				this.TempData[ErrorMessage] = "User is not logged in!";
+				return this.RedirectToAction("Index", "Home");
+			}
 			try
 			{
 				string cartItemCount = await this.cartService.GetCartItemsCountAsync(userId);
