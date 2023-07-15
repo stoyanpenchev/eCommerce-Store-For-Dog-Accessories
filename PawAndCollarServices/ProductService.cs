@@ -120,7 +120,7 @@ namespace PawAndCollarServices
 					Name = p.Name,
 					CreatorName = p.Creator.User.UserName,
 					Size = p.Size.ToString(),
-					Price = p.Price
+					Price = p.Price,
 				}).ToListAsync();
 
 			int totalProducts = await productsQuery.CountAsync();
