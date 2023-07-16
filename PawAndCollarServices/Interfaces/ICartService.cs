@@ -1,4 +1,5 @@
 ﻿using PawAndCollar.Web.ViewModels.Cart;
+using PawAndCollar.Web.ViewModels.Order;
 
 namespace PawAndCollarServices.Interfaces
 {

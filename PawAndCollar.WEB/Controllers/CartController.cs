@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PawAndCollar.Data.Models.Models;
 using PawAndCollar.Web.Infrastructure.Extensions;
 using PawAndCollar.Web.ViewModels.Cart;
+using PawAndCollar.Web.ViewModels.Order;
 using PawAndCollarServices.Interfaces;
 
 namespace PawAndCollar.Web.Controllers

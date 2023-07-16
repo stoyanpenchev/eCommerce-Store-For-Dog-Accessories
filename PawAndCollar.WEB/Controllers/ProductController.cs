@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Services.Data.Models.Product;
 using PawAndCollar.Web.Infrastructure.Extensions;
-using PawAndCollar.Web.ViewModels.Creator;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollarServices.Interfaces;
 
 namespace PawAndCollar.Web.Controllers
 {
-	using static PawAndCollar.Common.NotificationMessagesConstants;
+    using static PawAndCollar.Common.NotificationMessagesConstants;
 
-	[Authorize]
+    [Authorize]
 	public class ProductController : Controller
 	{
 		private readonly IProductService productService;

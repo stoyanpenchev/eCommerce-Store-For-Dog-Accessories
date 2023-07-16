@@ -11,6 +11,7 @@ namespace PawAndCollar.Data.Models.Models
         {
             this.Id = Guid.NewGuid();
             this.OrderedItems = new List<OrderItem>();
+            this.OrderNumber = Guid.NewGuid();
         }
 
         [Key]
@@ -24,13 +25,18 @@ namespace PawAndCollar.Data.Models.Models
         public ApplicationUser Customer { get; set; } = null!;
 
         [Required]
+        [StringLength(CustomerNameMaxLength)]
+        public string CustomerName { get; set; } = null!;
+        [Required]
         public DateTime OrderDate { get; set; }
 
         [Required]
-        [Range(MinTotalAmount, MaxTotalAmount)]
-        public decimal TotalAmaunt { get; set; }
+        public Guid OrderNumber { get; set; }
 
         [Required]
+        public decimal TotalAmaunt { get; set; }
+
+        public string? Phone { get; set; }
         public OrderStatus Status { get; set; }
 
         [Required]

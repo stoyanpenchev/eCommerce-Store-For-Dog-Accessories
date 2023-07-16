@@ -35,8 +35,10 @@
         {
             public const int ShippingAddressMaxLength = 250;
             public const int ShippingAddressMinLength = 0;
-            public const int MinTotalAmount = 1;
-            public const int MaxTotalAmount = 10000;
+            public const int CustomerNameMaxLength = 50;
+            public const int CustomerNameMinLength = 5;
+            public const int PhoneNumberMaxLength = 15;
+            public const int PhoneNumberMinLength = 7;
         }
 
         public static class OrderItem

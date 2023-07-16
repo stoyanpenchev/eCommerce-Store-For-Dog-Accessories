@@ -1,0 +1,73 @@
+﻿@model OrderSummaryViewModel
+
+<h2>Order Summary</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Shipping Details</h4>
+        <hr />
+        <div>
+            <label for="customerName">Name:</label>
+            <input id="customerName" name="CustomerName" type="text" class="form-control" value="@Model.CustomerName" required />
+        </div>
+        <div>
+            <label for="phone">Phone:</label>
+            <input id="phone" name="Phone" type="text" class="form-control" value="@Model.Phone" required />
+        </div>
+        <div>
+            <label for="shippingAddress">Address:</label>
+            <input id="shippingAddress" name="ShippingAddress" type="text" class="form-control" value="@Model.ShippingAddress" required />
+        </div>
+        <div>
+            <label for="paymentMethod">Payment Method:</label>
+            <select asp-for="PaymentMethod" class="form-control">
+                @{
+                    foreach (var paymentType in Model.PaymentMethods)
+                    {
+                        string selected = Model.PaymentMethod == int.Parse(paymentType.Value) ? "selected" : "";
+                        <option value="@paymentType.Value" selected="@selected">@paymentType.Text</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h4>Order Summary</h4>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Overall Product Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderedItems)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Price</td>
+                        <td>@(item.Price * item.Quantity)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <strong>Total Price: @Model.TotalAmaunt</strong>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <strong>Estimated Arrival Date: 7/22/2023 - 7/29/2023</strong>
+    </div>
+    <div class="col-md-6 text-end">
+        <form method="post" asp-controller="Order" asp-action="Summary">
+            <button class="btn btn-primary btn-lg" type="submit">Place Order</button>
+        </form>
+    </div>
+</div>

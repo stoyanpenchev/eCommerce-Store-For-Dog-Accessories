@@ -12,6 +12,7 @@ namespace PawAndCollar.Web.ViewModels.Product
         {
 			this.CurrentPage = DefaultPage;
 			this.Products = new List<ProductHomeViewModel>();
+			this.ProductsPerPage = EntitiesPerPage;
 			this.Categories = new HashSet<string>();
 			this.Sizes = new HashSet<string>();
         }

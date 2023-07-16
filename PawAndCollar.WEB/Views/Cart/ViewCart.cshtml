@@ -53,5 +53,13 @@ else
 		</tbody>
 	</table>
 }
+@if (Model.CartItems.Any())
+{
+	<div>
+		<form method="get" asp-action="Summary" asp-controller="Order">
+			<button class="btn btn-success" type="submit">Order Summary</button>
+		</form>
+	</div>
+}
 
 

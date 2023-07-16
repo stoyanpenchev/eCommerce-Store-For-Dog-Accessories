@@ -1,6 +1,5 @@
 ﻿using PawAndCollar.Services.Data.Models.Product;
 using PawAndCollar.Web.ViewModels.Category;
-using PawAndCollar.Web.ViewModels.Creator;
 using PawAndCollar.Web.ViewModels.Product;
 
 namespace PawAndCollarServices.Interfaces

@@ -11,7 +11,7 @@ using PawAndCollarServices.Interfaces;
 
 namespace PawAndCollarServices
 {
-	public class ProductService : IProductService
+    public class ProductService : IProductService
 	{
 		private readonly PawAndCollarDbContext dbContext;
 		public ProductService(PawAndCollarDbContext dbContext)
@@ -106,7 +106,8 @@ namespace PawAndCollarServices
 				ProductSorting.Oldest => productsQuery.OrderBy(p => p.CreatedOn),
 				ProductSorting.Newest => productsQuery.OrderByDescending(p => p.CreatedOn),
 				ProductSorting.BestSelling => productsQuery.OrderByDescending(p => p.OrderedItems.Count),
-				_ => productsQuery.OrderBy(p => p.Name)
+				_ => productsQuery.OrderBy(p => p.CreatorId != null)
+					.ThenByDescending(p => p.CreatedOn)
 			};
 
 			IEnumerable<ProductHomeViewModel> products = await productsQuery
