@@ -15,27 +15,25 @@ namespace PawAndCollar.Web.ViewModels.Order
                 new SelectListItem { Text = "Cash", Value = "1" },
                 new SelectListItem { Text = "CreditCard", Value = "2" },
                 new SelectListItem { Text = "PayPal", Value = "3" },
-                new SelectListItem { Text = "BankTransfer", Value = "4" }
+                new SelectListItem { Text = "BankTransfer", Value = "4" },
+                new SelectListItem { Text = "None", Value = "5" },
             };
         }
-        [Required(ErrorMessage = "Customer Name is required.")]
+        [Required]
         [StringLength(CustomerNameMaxLength, MinimumLength = CustomerNameMinLength)]
         public string CustomerName { get; set; } = null!;
 
-        [Required(ErrorMessage = "Phone is required.")]
-        [Phone(ErrorMessage = "Invalid phone number.")]
-        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
-        public string Phone { get; set; } = null!;
-
         [Required]
-        public string OrderDate { get; set; } = null!;
+        [StringLength(PhoneNumberMaxLength, MinimumLength = PhoneNumberMinLength)]
+        [Phone]
+        public string Phone { get; set; } = null!;
 
         public decimal TotalAmaunt { get => (this.OrderedItems.Sum(oi => oi.TotalPrice)); }
 
         [Required]
         public Guid OrderNumber { get; set; }
 
-        [Required(ErrorMessage = "Shipping Address is required.")]
+        [Required]
         [StringLength(ShippingAddressMaxLength, MinimumLength = ShippingAddressMinLength)]
         public string ShippingAddress { get; set; } = null!;
         public int PaymentMethod { get; set; }
@@ -43,5 +41,6 @@ namespace PawAndCollar.Web.ViewModels.Order
         public IEnumerable<SelectListItem> PaymentMethods { get; set; }
 
         public ICollection<OrderSummaryProductViewModel> OrderedItems { get; set; }
-	}
+
+    }
 }

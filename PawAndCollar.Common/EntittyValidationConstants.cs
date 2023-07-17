@@ -12,8 +12,8 @@
             public const int ImageUrlMinLength = 20;
             public const int ColorMaxLength = 15;
             public const int ColorMinLength = 3;
-            public const double PriceMinValue = 0;
-            public const double PriceMaxValue = 1000;
+            public const string PriceMinValue = "0";
+            public const string PriceMaxValue = "1000";
             public const int QuantityMinValue = 0;
             public const int QuantityMaxValue = int.MaxValue;
             public const int MaterialMaxLength = 25;
@@ -48,8 +48,8 @@
         }
         public static class Cart
         {
-			public const double MinTotalPrice = 0;
-			public const double MaxTotalPrice = 9999.99;
+			public const string MinTotalPrice = "0";
+			public const string MaxTotalPrice = "9999.99";
 		}
     }
 }

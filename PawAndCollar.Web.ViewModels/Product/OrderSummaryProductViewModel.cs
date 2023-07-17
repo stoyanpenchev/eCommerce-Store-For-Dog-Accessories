@@ -13,7 +13,7 @@ namespace PawAndCollar.Web.ViewModels.Product
         [Range(QuantityMinValue, QuantityMaxValue)]
         public int Quantity { get; set; }
 
-        [Range(PriceMinValue, PriceMaxValue)]
+        [Range(typeof(decimal), PriceMinValue, PriceMaxValue)]
         public decimal Price { get; set; }
         public decimal TotalPrice { get => (this.Quantity * this.Price); }
     }

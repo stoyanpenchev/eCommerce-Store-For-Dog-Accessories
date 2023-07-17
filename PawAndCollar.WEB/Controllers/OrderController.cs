@@ -44,6 +44,10 @@ namespace PawAndCollar.Web.Controllers
         {
             string userId = this.User.GetId()!;
             summaryViewModel.OrderNumber = await this.orderService.GetOrderNumberAsync(userId);
+            var errors = ModelState
+              .Where(x => x.Value.Errors.Count > 0)
+              .Select(x => new { x.Key, x.Value.Errors })
+              .ToArray();
             if (!this.ModelState.IsValid)
             {
                 summaryViewModel.PaymentMethods = this.enumService.GetEnumSelectList<PaymentTypes>();

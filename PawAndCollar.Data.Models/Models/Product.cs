@@ -25,7 +25,6 @@ namespace PawAndCollar.Data.Models
         [StringLength(DescriptionMaxLength)]
         public string Description { get; set; } = null!;
 
-        [Range(PriceMinValue, PriceMaxValue)]
         public decimal Price { get; set; }
 
         [Required]

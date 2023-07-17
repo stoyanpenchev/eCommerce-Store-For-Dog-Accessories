@@ -20,7 +20,6 @@ namespace PawAndCollar.Data.Models.Models
         [Required]
         public ApplicationUser User { get; set; }
 
-        [Range(MinTotalPrice, MaxTotalPrice)]
         public decimal TotalPrice { get; set; }
         public ICollection<OrderItem> OrderedItems { get; set; }
     }

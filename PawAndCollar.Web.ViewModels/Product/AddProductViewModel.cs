@@ -35,7 +35,7 @@ namespace PawAndCollar.Web.ViewModels.Product
         [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength, ErrorMessage = "The Description field must be between {2} and {1} characters long.")]
         public string Description { get; set; } = null!;
 
-        [Range(PriceMinValue, PriceMaxValue, ErrorMessage = "The Price field must be between {1} and {2}.")]
+        [Range(typeof(decimal), PriceMinValue, PriceMaxValue, ErrorMessage = "The Price field must be between {1} and {2}.")]
         public decimal Price { get; set; }
 
         [Required(ErrorMessage = "The Quantity field is required.")]
