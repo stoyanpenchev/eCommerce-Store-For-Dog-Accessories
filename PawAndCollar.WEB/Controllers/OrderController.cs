@@ -44,10 +44,7 @@ namespace PawAndCollar.Web.Controllers
         {
             string userId = this.User.GetId()!;
             summaryViewModel.OrderNumber = await this.orderService.GetOrderNumberAsync(userId);
-            var errors = ModelState
-              .Where(x => x.Value.Errors.Count > 0)
-              .Select(x => new { x.Key, x.Value.Errors })
-              .ToArray();
+ 
             if (!this.ModelState.IsValid)
             {
                 summaryViewModel.PaymentMethods = this.enumService.GetEnumSelectList<PaymentTypes>();
@@ -59,6 +56,12 @@ namespace PawAndCollar.Web.Controllers
                 await this.orderService.AddOrderSummaryAsync(summaryViewModel, userId);
                 this.TempData[SuccessMessage] = "Order created successfully!";
                 return this.RedirectToAction("Index", "Home");
+            }
+            catch (InvalidOperationException)
+            {
+                summaryViewModel.PaymentMethods = this.enumService.GetEnumSelectList<PaymentTypes>();
+                summaryViewModel.OrderedItems = await this.orderService.GetOrderSummaryProductAsync(userId);
+                return this.View(summaryViewModel);
             }
             catch (Exception)
             {

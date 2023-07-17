@@ -40,7 +40,7 @@ namespace PawAndCollarServices
 
             Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
-            if (product == null)
+            if (product == null || !product.IsActive)
             {
                 throw new ArgumentException("Product not found!");
             }
@@ -59,21 +59,32 @@ namespace PawAndCollarServices
                 };
                 await this.dbContext.Orders.AddAsync(order);
             }
+            
+            OrderItem orderItem = order.OrderedItems.SingleOrDefault(oi => oi.ProductId == productId);
 
-            OrderItem orderItem = new OrderItem
+            if (orderItem == null)
             {
-                Product = product,
-                Quantity = 1,
-                Order = order,
-                Cart = user.ActiveCart
-            };
-
-            order.TotalAmount += order.OrderedItems.Sum(oi => oi.Product.Price * oi.Quantity);
-
-            user?.ActiveCart?.OrderedItems.Add(orderItem);
-            await this.dbContext.OrderedItems.AddAsync(orderItem);
+                orderItem = new OrderItem
+                {
+                    Product = product,
+                    Quantity = 1,
+                    Order = order,
+                    Cart = user.ActiveCart
+                };
+                user?.ActiveCart?.OrderedItems.Add(orderItem);
+                await this.dbContext.OrderedItems.AddAsync(orderItem);
+            }
+            else
+            {
+                orderItem.Quantity += 1;
+                orderItem.Cart = user.ActiveCart;
+            }
+            
+            order.TotalAmount = order.OrderedItems.Sum(oi => oi.Product.Price * oi.Quantity);
+            user.ActiveCart.TotalPrice = order.TotalAmount;
             await this.dbContext.SaveChangesAsync();
         }
+
 
         public async Task DecreaseQuantityAsync(string userId, int productId)
         {
@@ -95,6 +106,7 @@ namespace PawAndCollarServices
                         order.TotalAmount -= orderItem.Product.Price;
                     }
                     orderItem.Quantity -= 1;
+                    cart.TotalPrice -= orderItem.Product.Price;
                     if (orderItem.Quantity == 0)
                     {
                         cart.OrderedItems.Remove(orderItem);
@@ -105,6 +117,7 @@ namespace PawAndCollarServices
                 if (cart.OrderedItems.Count() == 0)
                 {
                     orderItem.Order.Status = OrderStatus.Cancelled;
+                    cart.TotalPrice = 0;
                     await this.dbContext.SaveChangesAsync();
                 }
             }
@@ -172,10 +185,11 @@ namespace PawAndCollarServices
                 OrderItem? orderItem = cart.OrderedItems.FirstOrDefault(oi => oi.ProductId == productId);
                 if (orderItem != null && orderItem.Product.Quantity >= 1 && orderItem.Product.IsActive)
                 {
-                    if(order != null)
+                    if (order != null)
                     {
                         order.TotalAmount += orderItem.Product.Price;
                     }
+                    cart.TotalPrice += orderItem.Product.Price;
                     orderItem.Quantity += 1;
                     await this.dbContext.SaveChangesAsync();
                 }
@@ -192,8 +206,11 @@ namespace PawAndCollarServices
             if (cart != null)
             {
                 OrderItem? orderItem = cart.OrderedItems.FirstOrDefault(oi => oi.ProductId == productId);
+                Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
+                decimal priceToTakeOut = orderItem.Quantity * product.Price;
                 if (orderItem != null)
                 {
+                    cart.TotalPrice -= priceToTakeOut;
                     cart.OrderedItems.Remove(orderItem);
                     await this.dbContext.SaveChangesAsync();
                 }
