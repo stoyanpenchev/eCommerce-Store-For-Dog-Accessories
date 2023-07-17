@@ -23,6 +23,8 @@ namespace PawAndCollar.Data
         public DbSet<OrderItem> OrderedItems { get; set; } = null!;
         public DbSet<Cart> Carts { get; set; } = null!;
 
+        public DbSet<UsersBuyedProducts> UsersBuyedProducts { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

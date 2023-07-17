@@ -54,7 +54,7 @@ namespace PawAndCollarServices
                     Status = OrderStatus.Pending,
                     ShippingAddress = "",
                     CustomerName = user.UserName,
-                    PaymentMethod = PaymentTypes.None,
+                    PaymentMethod = PaymentTypes.Cash,
                     OrderNumber = Guid.NewGuid()
                 };
                 await this.dbContext.Orders.AddAsync(order);
@@ -67,7 +67,9 @@ namespace PawAndCollarServices
                 Order = order,
                 Cart = user.ActiveCart
             };
-            order.TotalAmaunt = order.OrderedItems.Sum(oi => oi.Quantity * oi.Product.Price);
+
+            order.TotalAmount += order.OrderedItems.Sum(oi => oi.Product.Price * oi.Quantity);
+
             user?.ActiveCart?.OrderedItems.Add(orderItem);
             await this.dbContext.OrderedItems.AddAsync(orderItem);
             await this.dbContext.SaveChangesAsync();
@@ -81,9 +83,17 @@ namespace PawAndCollarServices
                 .FirstOrDefaultAsync(c => c.UserId == Guid.Parse(userId));
             if (cart != null)
             {
+                Order? order = await this.dbContext.Orders
+                    .Include(o => o.OrderedItems)
+                    .ThenInclude(oi => oi.Product)
+                    .FirstOrDefaultAsync(o => o.CustomerId == Guid.Parse(userId) && o.Status == OrderStatus.Pending);
                 OrderItem? orderItem = cart.OrderedItems.FirstOrDefault(oi => oi.ProductId == productId);
                 if (orderItem != null && orderItem.Quantity >= 1)
                 {
+                    if (order != null)
+                    {
+                        order.TotalAmount -= orderItem.Product.Price;
+                    }
                     orderItem.Quantity -= 1;
                     if (orderItem.Quantity == 0)
                     {
@@ -154,9 +164,18 @@ namespace PawAndCollarServices
                 .FirstOrDefaultAsync(c => c.UserId == Guid.Parse(userId));
             if (cart != null)
             {
+                Order? order = await this.dbContext.Orders
+                    .Include(o => o.OrderedItems)
+                    .ThenInclude(oi => oi.Product)
+                    .FirstOrDefaultAsync(o => o.CustomerId == Guid.Parse(userId) && o.Status == OrderStatus.Pending);
+
                 OrderItem? orderItem = cart.OrderedItems.FirstOrDefault(oi => oi.ProductId == productId);
                 if (orderItem != null && orderItem.Product.Quantity >= 1 && orderItem.Product.IsActive)
                 {
+                    if(order != null)
+                    {
+                        order.TotalAmount += orderItem.Product.Price;
+                    }
                     orderItem.Quantity += 1;
                     await this.dbContext.SaveChangesAsync();
                 }

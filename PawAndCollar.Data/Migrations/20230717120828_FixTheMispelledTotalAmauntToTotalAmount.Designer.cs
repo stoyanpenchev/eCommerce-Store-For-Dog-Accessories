@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawAndCollar.Data;
 
@@ -11,9 +12,10 @@ using PawAndCollar.Data;
 namespace PawAndCollar.Data.Migrations
 {
     [DbContext(typeof(PawAndCollarDbContext))]
-    partial class PawAndCollarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717120828_FixTheMispelledTotalAmauntToTotalAmount")]
+    partial class FixTheMispelledTotalAmauntToTotalAmount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,6 +249,9 @@ namespace PawAndCollar.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int>("MyProperty")
+                        .HasColumnType("int");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -270,9 +275,6 @@ namespace PawAndCollar.Data.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("UserBuyedProductsId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -286,10 +288,6 @@ namespace PawAndCollar.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserBuyedProductsId")
-                        .IsUnique()
-                        .HasFilter("[UserBuyedProductsId] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -428,28 +426,6 @@ namespace PawAndCollar.Data.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("PawAndCollar.Data.Models.Models.UsersBuyedProducts", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("UsersBuyedProducts");
-                });
-
             modelBuilder.Entity("PawAndCollar.Data.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -573,15 +549,6 @@ namespace PawAndCollar.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PawAndCollar.Data.Models.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("PawAndCollar.Data.Models.Models.UsersBuyedProducts", "UsersBuyedProducts")
-                        .WithOne("User")
-                        .HasForeignKey("PawAndCollar.Data.Models.Models.ApplicationUser", "UserBuyedProductsId");
-
-                    b.Navigation("UsersBuyedProducts");
-                });
-
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Cart", b =>
                 {
                     b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "User")
@@ -660,17 +627,6 @@ namespace PawAndCollar.Data.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("PawAndCollar.Data.Models.Models.UsersBuyedProducts", b =>
-                {
-                    b.HasOne("PawAndCollar.Data.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("PawAndCollar.Data.Models.Product", b =>
                 {
                     b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "User")
@@ -726,12 +682,6 @@ namespace PawAndCollar.Data.Migrations
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Order", b =>
                 {
                     b.Navigation("OrderedItems");
-                });
-
-            modelBuilder.Entity("PawAndCollar.Data.Models.Models.UsersBuyedProducts", b =>
-                {
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Product", b =>

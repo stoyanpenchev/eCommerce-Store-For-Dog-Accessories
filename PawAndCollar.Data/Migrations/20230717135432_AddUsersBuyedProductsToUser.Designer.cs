@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawAndCollar.Data;
 
@@ -11,9 +12,10 @@ using PawAndCollar.Data;
 namespace PawAndCollar.Data.Migrations
 {
     [DbContext(typeof(PawAndCollarDbContext))]
-    partial class PawAndCollarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717135432_AddUsersBuyedProductsToUser")]
+    partial class AddUsersBuyedProductsToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -435,9 +437,6 @@ namespace PawAndCollar.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")

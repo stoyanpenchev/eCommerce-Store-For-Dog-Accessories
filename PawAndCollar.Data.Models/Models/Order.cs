@@ -34,7 +34,7 @@ namespace PawAndCollar.Data.Models.Models
         public Guid OrderNumber { get; set; }
 
         [Required]
-        public decimal TotalAmaunt { get; set; }
+        public decimal TotalAmount { get; set; }
 
         public string? Phone { get; set; }
         public OrderStatus Status { get; set; }

@@ -11,7 +11,6 @@ namespace PawAndCollar.Data.Models.Enums
         Cash = 1,
         CreditCard = 2,
         PayPal = 3,
-        BankTransfer = 4,
-        None = 5
+        BankTransfer = 4
     }
 }
