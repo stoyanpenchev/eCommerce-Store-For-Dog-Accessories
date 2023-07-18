@@ -41,7 +41,6 @@ namespace PawAndCollarServices
                     ShippingAddress = model.ShippingAddress,
                     CustomerName = model.CustomerName,
                     Phone = model.Phone,
-                    //TotalAmount = model.OrderedItems.Sum(oi => oi.TotalPrice)
                 };
 
                 await this.dbContext.Orders.AddAsync(existingOrder);
@@ -60,33 +59,40 @@ namespace PawAndCollarServices
                 .Include(c => c.OrderedItems)
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(c => c.UserId.ToString() == userId);
+            if (cart == null)
+            {
+                throw new InvalidOperationException("Cart is empty or not found");
+            }
             if (cart.OrderedItems.Any(oi => !oi.Product.IsActive))
             {
                 throw new InvalidOperationException("One or more products are not available");
             }
-            if (cart != null)
+
+            ICollection<Product> products = cart.OrderedItems.Select(oi => oi.Product).ToList();
+            user.BuyedProducts.AddRange(products);
+
+            foreach (var orderedItem in cart.OrderedItems)
             {
-                ICollection<Product> products = cart.OrderedItems.Select(oi => oi.Product).ToList();
-                user.BuyedProducts.AddRange(products);
-            }
-            await this.dbContext.SaveChangesAsync();
-            if (cart != null)
-            {
-                foreach (var product in cart.OrderedItems.Select(oi => oi.Product))
+                var product = orderedItem.Product;
+                var quantityToPurchase = orderedItem.Quantity;
+
+                product.Quantity -= quantityToPurchase;
+                if(product.Quantity == 0)
                 {
-                    var orderedItem = cart.OrderedItems.FirstOrDefault(oi => oi.ProductId == product.Id);
-                    await this.dbContext.UsersBuyedProducts.AddAsync(new UsersBuyedProducts
-                    {
-                        ProductId = product.Id,
-                        UserId = Guid.Parse(userId),
-                        Quantity = orderedItem.Quantity
-                    });
-                    product.Quantity -= orderedItem.Quantity;
+                    product.IsActive = false;
                 }
-                cart.TotalPrice = 0;
-                cart.OrderedItems.Clear();
-                await this.dbContext.SaveChangesAsync();
+                await this.dbContext.UsersBuyedProducts.AddAsync(new UsersBuyedProducts
+                {
+                    ProductId = product.Id,
+                    UserId = Guid.Parse(userId),
+                    Quantity = orderedItem.Quantity
+                });
+                
             }
+            cart.TotalPrice = 0;
+            cart.OrderedItems.Clear();
+
+            await this.dbContext.SaveChangesAsync();
         }
 
 

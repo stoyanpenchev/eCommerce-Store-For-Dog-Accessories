@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PawAndCollar.Data.Models;
 using PawAndCollar.Data.Models.Models;
 using PawAndCollar.Web.Infrastructure.Extensions;
 using PawAndCollar.Web.ViewModels.Cart;
@@ -48,6 +49,16 @@ namespace PawAndCollar.Web.Controllers
 				return this.RedirectToAction("Index", "Home");
 			}
 
+			var product = await this.productService.GetProductByIdAsync(productId);
+			var cartItems = await this.cartService.GetCartItemsAsync(userId);
+			bool isQuantityEnough = cartItems.CartItems.Any(p => p.Quantity >= product!.Quantity);
+			if (isQuantityEnough)
+			{
+                this.TempData["ErrorMessage"] = string.Format("Your Product with name {0} has less quantity in stock than you want!", product!.Name);
+
+                return this.RedirectToAction("ViewCart", "Cart");
+            }
+			
 			string? creatorId = await this.creatorService.GetCreatorIdByUserIdAsync(this.User.GetId()!);
 			if (creatorId != null)
 			{
@@ -73,7 +84,22 @@ namespace PawAndCollar.Web.Controllers
 		public async Task<IActionResult> IncreaseQuantity(int productId)
 		{
 			string userId = this.User.GetId()!;
-			try
+            bool productExists = await this.productService.ExistsByIdAsync(productId);
+            if (!productExists)
+            {
+                this.TempData["ErrorMessage"] = "Product does not exist";
+                return this.RedirectToAction("Index", "Home");
+            }
+            var product = await this.productService.GetProductByIdAsync(productId);
+            var cartItems = await this.cartService.GetCartItemsAsync(userId);
+            bool isQuantityEnough = cartItems.CartItems.Any(p => p.Quantity >= product!.Quantity);
+            if (isQuantityEnough)
+            {
+                this.TempData["ErrorMessage"] = string.Format("Your Product with name {0} has less quantity in stock than you want!", product!.Name);
+
+                return this.RedirectToAction("ViewCart", "Cart");
+            }
+            try
 			{
                 await this.cartService.IncreaseQuantityAsync(userId, productId);
                 return RedirectToAction(nameof(ViewCart));

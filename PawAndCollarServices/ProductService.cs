@@ -35,7 +35,12 @@ namespace PawAndCollarServices
 				Color = model.Color,
 				Material = model.Material
 			};
-			await this.dbContext.Products.AddAsync(product);
+            if (product.Quantity <= 0)
+            {
+                product.IsActive = false;
+            }
+            product.IsActive = true;
+            await this.dbContext.Products.AddAsync(product);
 			await this.dbContext.SaveChangesAsync();
 		}
 
@@ -62,6 +67,11 @@ namespace PawAndCollarServices
 			product.Size = (SizeTypes)model.Size;
 			product.Color = model.Color;
 			product.Material = model.Material;
+			if(product.Quantity <= 0)
+			{
+                product.IsActive = false;
+            }
+			product.IsActive = true;
 			await this.dbContext.SaveChangesAsync();
 		}
 
@@ -135,7 +145,7 @@ namespace PawAndCollarServices
 		public async Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId)
 		{
 			List<ProductHomeViewModel> products = await this.dbContext.Products
-				.Where(p => p.CreatorId == Guid.Parse(creatorId) && p.IsActive)
+				.Where(p => p.CreatorId == Guid.Parse(creatorId))
 				.Select(p => new ProductHomeViewModel()
 				{
 					Id = p.Id,
@@ -150,7 +160,18 @@ namespace PawAndCollarServices
 			return products;
 		}
 
-		public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId)
+        public async Task<ICollection<ProductsForTestOrderQuantityViewModel>> GetAllProductsForQuantityTestAsync()
+        {
+            ICollection<ProductsForTestOrderQuantityViewModel> products = await this.dbContext.Products
+                .Select(p => new ProductsForTestOrderQuantityViewModel()
+				{
+                    Id = p.Id,
+                    Quantity = p.Quantity
+                }).ToListAsync();
+			return products;
+        }
+
+        public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId)
 		{
 			ProductDeatailsViewModel? product = await this.dbContext.Products
 				.Where(p => p.Id == productId && p.IsActive)
@@ -196,7 +217,7 @@ namespace PawAndCollarServices
 		public async Task<AddProductViewModel?> GetProductByIdAsync(int productId)
 		{
 			AddProductViewModel? product = await this.dbContext.Products
-				.Where(p => p.Id == productId)
+				.Where(p => p.Id == productId && p.IsActive)
 				.Select(p => new AddProductViewModel()
 				{
 					Id = p.Id,
@@ -241,7 +262,8 @@ namespace PawAndCollarServices
 			return product.CreatorId == Guid.Parse(creatorId);
 		}
 
-		public async Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem)
+
+        public async Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem)
 		{
 			searchedItem = $"%{searchedItem.ToLower()}%";
 			var products = await this.dbContext.Products

@@ -40,6 +40,7 @@ namespace PawAndCollarServices
 
             Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
+
             if (product == null || !product.IsActive)
             {
                 throw new ArgumentException("Product not found!");
@@ -59,7 +60,7 @@ namespace PawAndCollarServices
                 };
                 await this.dbContext.Orders.AddAsync(order);
             }
-            
+
             OrderItem orderItem = order.OrderedItems.SingleOrDefault(oi => oi.ProductId == productId);
 
             if (orderItem == null)
@@ -79,7 +80,7 @@ namespace PawAndCollarServices
                 orderItem.Quantity += 1;
                 orderItem.Cart = user.ActiveCart;
             }
-            
+
             order.TotalAmount = order.OrderedItems.Sum(oi => oi.Product.Price * oi.Quantity);
             user.ActiveCart.TotalPrice = order.TotalAmount;
             await this.dbContext.SaveChangesAsync();

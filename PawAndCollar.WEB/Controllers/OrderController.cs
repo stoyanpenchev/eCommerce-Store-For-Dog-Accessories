@@ -5,6 +5,8 @@ using PawAndCollar.Web.Infrastructure.Extensions;
 using PawAndCollar.Web.ViewModels.Order;
 using PawAndCollarServices.Interfaces;
 using PawAndCollar.Data.Models.Enums;
+using PawAndCollar.Web.ViewModels.Product;
+
 namespace PawAndCollar.Web.Controllers
 {
     using static PawAndCollar.Common.NotificationMessagesConstants;
@@ -14,11 +16,12 @@ namespace PawAndCollar.Web.Controllers
     {
         private readonly IOrderService orderService;
         private readonly IEnumService enumService;
-        public OrderController(IOrderService orderService, IEnumService enumService)
+        private readonly IProductService productService;
+        public OrderController(IOrderService orderService, IEnumService enumService, IProductService productService)
         {
             this.orderService = orderService;
             this.enumService = enumService;
-
+            this.productService = productService;
         }
 
         [HttpGet]
@@ -44,7 +47,22 @@ namespace PawAndCollar.Web.Controllers
         {
             string userId = this.User.GetId()!;
             summaryViewModel.OrderNumber = await this.orderService.GetOrderNumberAsync(userId);
- 
+
+            if (summaryViewModel.PaymentMethod == 0)
+            {
+                this.ModelState.AddModelError(nameof(summaryViewModel.PaymentMethod), "Please select a payment method!");
+            }
+
+            ICollection<ProductsForTestOrderQuantityViewModel> products = await this.productService.GetAllProductsForQuantityTestAsync();
+            foreach (var item in summaryViewModel.OrderedItems)
+            {
+                if(products.Any(p => p.Id == item.Id && p.Quantity < item.Quantity))
+                {
+                    this.TempData[ErrorMessage] = string.Format("Your Product with name {0} has less quantity in stock than you want!", item!.Name);
+                    return this.RedirectToAction("ViewCart", "Cart");
+                }
+            }
+
             if (!this.ModelState.IsValid)
             {
                 summaryViewModel.PaymentMethods = this.enumService.GetEnumSelectList<PaymentTypes>();
