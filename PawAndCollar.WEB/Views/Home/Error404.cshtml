@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Error";
+}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    .error-container {
+        margin-top: 50px;
+    }
+
+    .error-image {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 8px;
+    }
+
+    .error-message {
+        font-size: 18px;
+        color: #6c757d;
+        margin-top: 20px;
+    }
+
+    .home-link {
+        font-size: 18px;
+        color: #007bff;
+    }
+
+        .home-link:hover {
+            text-decoration: none;
+            color: #0056b3;
+        }
+</style>
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <br>
+        <div class="row">
+            <div class="col-12 text-center mt-5">
+                <img src="https://previews.123rf.com/images/lightwise/lightwise1508/lightwise150800076/44185374-404-error-page-not-found-concept-and-a-broken-or-dead-link-symbol-as-a-dog-emerging-from-a-hole.jpg" alt="Alternative image" class="img-thumbnail" style="width: 400px; height: 400px; display: block; margin: 0 auto;">
+                <div class="text-center mt-3">
+                    <h4>Oops, better check that URL. Page was not found.</h4>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">Go back to Home Page</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

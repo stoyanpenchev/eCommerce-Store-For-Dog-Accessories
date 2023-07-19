@@ -17,11 +17,13 @@ namespace PawAndCollar.Web.Controllers
         private readonly IOrderService orderService;
         private readonly IEnumService enumService;
         private readonly IProductService productService;
-        public OrderController(IOrderService orderService, IEnumService enumService, IProductService productService)
+        private readonly IApplicationUserService applicationUserService;
+        public OrderController(IOrderService orderService, IEnumService enumService, IProductService productService, IApplicationUserService applicationUserService)
         {
             this.orderService = orderService;
             this.enumService = enumService;
             this.productService = productService;
+            this.applicationUserService = applicationUserService;
         }
 
         [HttpGet]

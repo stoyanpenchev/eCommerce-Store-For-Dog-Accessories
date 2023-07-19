@@ -174,7 +174,7 @@ namespace PawAndCollarServices
         public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId)
 		{
 			ProductDeatailsViewModel? product = await this.dbContext.Products
-				.Where(p => p.Id == productId && p.IsActive)
+				.Where(p => p.Id == productId) // && p.IsActive == true
 				.Select(p => new ProductDeatailsViewModel()
 				{
 					Id = p.Id,

@@ -33,14 +33,8 @@ namespace PawAndCollar.Web
             })
                 .AddEntityFrameworkStores<PawAndCollarDbContext>();
 
-            builder.Services.AddScoped<ICreatorService, CreatorService>();
-            builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IEnumService, EnumService>();
-            builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<ISizeService, SizeService>();
-            builder.Services.AddScoped<ICartService, CartService>();
-            builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
-            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddApplicationServices(typeof(IProductService));
+            
 
             builder.Services
                 .AddControllersWithViews()
@@ -60,8 +54,8 @@ namespace PawAndCollar.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
-                
+                app.UseExceptionHandler("/Home/Error/500");
+                app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");                
                 app.UseHsts();
             }
 
