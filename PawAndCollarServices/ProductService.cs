@@ -11,7 +11,7 @@ using PawAndCollarServices.Interfaces;
 
 namespace PawAndCollarServices
 {
-    public class ProductService : IProductService
+	public class ProductService : IProductService
 	{
 		private readonly PawAndCollarDbContext dbContext;
 		public ProductService(PawAndCollarDbContext dbContext)
@@ -35,12 +35,12 @@ namespace PawAndCollarServices
 				Color = model.Color,
 				Material = model.Material
 			};
-            if (product.Quantity <= 0)
-            {
-                product.IsActive = false;
-            }
-            product.IsActive = true;
-            await this.dbContext.Products.AddAsync(product);
+			if (product.Quantity <= 0)
+			{
+				product.IsActive = false;
+			}
+			product.IsActive = true;
+			await this.dbContext.Products.AddAsync(product);
 			await this.dbContext.SaveChangesAsync();
 		}
 
@@ -56,30 +56,33 @@ namespace PawAndCollarServices
 
 		public async Task EditProductAsync(AddProductViewModel model, string creatorId)
 		{
-			Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == model.Id);
-			product.Name = model.Name;
-			product.Description = model.Description;
-			product.Price = model.Price;
-			product.Quantity = model.Quantity;
-			product.ImageUrl = model.ImageUrl;
-			product.CategoryId = model.CategoryId;
-			product.CreatorId = Guid.Parse(creatorId);
-			product.Size = (SizeTypes)model.Size;
-			product.Color = model.Color;
-			product.Material = model.Material;
-			if(product.Quantity <= 0)
+			Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == model.Id && p.IsActive);
+			if (product != null)
 			{
-                product.IsActive = false;
-            }
-			product.IsActive = true;
-			await this.dbContext.SaveChangesAsync();
+				product.Name = model.Name;
+				product.Description = model.Description;
+				product.Price = model.Price;
+				product.Quantity = model.Quantity;
+				product.ImageUrl = model.ImageUrl;
+				product.CategoryId = model.CategoryId;
+				product.CreatorId = Guid.Parse(creatorId);
+				product.Size = (SizeTypes)model.Size;
+				product.Color = model.Color;
+				product.Material = model.Material;
+				if (product.Quantity <= 0)
+				{
+					product.IsActive = false;
+				}
+				product.IsActive = true;
+				await this.dbContext.SaveChangesAsync();
+			}
 		}
 
 		public async Task<bool> ExistsByIdAsync(int id)
 		{
-			 bool result = await this.dbContext.Products
-				.Where(p => p.IsActive)
-				.AnyAsync(p => p.Id == id);
+			bool result = await this.dbContext.Products
+			   .Where(p => p.IsActive)
+			   .AnyAsync(p => p.Id == id);
 			return result;
 		}
 
@@ -103,12 +106,12 @@ namespace PawAndCollarServices
 				productsQuery = productsQuery.Where(p => p.Category.Name == queryModel.Category);
 			}
 			int sizeValue = 0;
-			if(!string.IsNullOrWhiteSpace(queryModel.Size))
+			if (!string.IsNullOrWhiteSpace(queryModel.Size))
 			{
-                SizeTypes size = Enum.Parse<SizeTypes>(queryModel.Size);
-                sizeValue = (int)size;
-                productsQuery = productsQuery.Where(p => (int)p.Size == sizeValue);
-            }
+				SizeTypes size = Enum.Parse<SizeTypes>(queryModel.Size);
+				sizeValue = (int)size;
+				productsQuery = productsQuery.Where(p => (int)p.Size == sizeValue);
+			}
 			productsQuery = queryModel.ProductSorting switch
 			{
 				ProductSorting.PriceAscending => productsQuery.OrderBy(p => p.Price),
@@ -160,18 +163,18 @@ namespace PawAndCollarServices
 			return products;
 		}
 
-        public async Task<ICollection<ProductsForTestOrderQuantityViewModel>> GetAllProductsForQuantityTestAsync()
-        {
-            ICollection<ProductsForTestOrderQuantityViewModel> products = await this.dbContext.Products
-                .Select(p => new ProductsForTestOrderQuantityViewModel()
+		public async Task<ICollection<ProductsForTestOrderQuantityViewModel>> GetAllProductsForQuantityTestAsync()
+		{
+			ICollection<ProductsForTestOrderQuantityViewModel> products = await this.dbContext.Products
+				.Select(p => new ProductsForTestOrderQuantityViewModel()
 				{
-                    Id = p.Id,
-                    Quantity = p.Quantity
-                }).ToListAsync();
+					Id = p.Id,
+					Quantity = p.Quantity
+				}).ToListAsync();
 			return products;
-        }
+		}
 
-        public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId)
+		public async Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId)
 		{
 			ProductDeatailsViewModel? product = await this.dbContext.Products
 				.Where(p => p.Id == productId) // && p.IsActive == true
@@ -191,10 +194,10 @@ namespace PawAndCollarServices
 					}
 				}).FirstOrDefaultAsync();
 
-			if(product == null)
+			if (product == null)
 			{
 				return null;
-			}	
+			}
 			return product;
 		}
 
@@ -231,7 +234,7 @@ namespace PawAndCollarServices
 					Color = p.Color,
 					Material = p.Material
 				}).FirstOrDefaultAsync();
-			if(product == null)
+			if (product == null)
 			{
 				return null;
 			}
@@ -263,7 +266,7 @@ namespace PawAndCollarServices
 		}
 
 
-        public async Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem)
+		public async Task<ICollection<ProductHomeViewModel>> SearchProductsByNameAsync(string searchedItem)
 		{
 			searchedItem = $"%{searchedItem.ToLower()}%";
 			var products = await this.dbContext.Products

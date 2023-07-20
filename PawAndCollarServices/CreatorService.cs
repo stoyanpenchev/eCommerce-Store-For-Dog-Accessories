@@ -23,7 +23,7 @@ namespace PawAndCollarServices
 
         public async Task<bool> CreatorExistByUserIdAsync(string userId)
 		{
-			bool result = await this.dbContext.Creators.AnyAsync(c => c.UserId == Guid.Parse(userId));
+			bool result = await this.dbContext.Creators.AnyAsync(c => c.UserId.ToString() == userId);
 			return result;
 		}
 

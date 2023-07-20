@@ -1,6 +1,7 @@
 namespace PawAndCollar.Web
 {
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
 
     using PawAndCollar.Data;
@@ -41,6 +42,7 @@ namespace PawAndCollar.Web
                 .AddMvcOptions(options =>
                 {
                     options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
                 });
 
 
@@ -54,7 +56,7 @@ namespace PawAndCollar.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error/500");
+                app.UseExceptionHandler("/Home/Error/500") ;
                 app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");                
                 app.UseHsts();
             }

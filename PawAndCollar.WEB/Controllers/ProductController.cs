@@ -105,12 +105,12 @@ namespace PawAndCollar.Web.Controllers
 		public async Task<IActionResult> Details(int id)
 		{
 			// I want the Creator to be able to see the details and edit the proguct even if it in unActive.
-			//bool productExists = await this.productService.ExistsByIdAsync(id);
-			//if (!productExists)
-			//{
-			//	this.TempData["ErrorMessage"] = "Product does not exist";
-			//	return this.RedirectToAction("Index", "Home");
-			//}
+			bool productExists = await this.productService.ExistsByIdAsync(id);
+			if (!productExists)
+			{
+				this.TempData["ErrorMessage"] = "Product does not exist";
+				return this.RedirectToAction("Index", "Home");
+			}
 			try
 			{
 				ProductDeatailsViewModel? product = await this.productService.GetDetailsByIdAsync(id);
