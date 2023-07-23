@@ -48,7 +48,7 @@ namespace PawAndCollar.Web.Controllers
 				this.TempData["ErrorMessage"] = "Product does not exist";
 				return this.RedirectToAction("Index", "Home");
 			}
-
+			  
 			var product = await this.productService.GetProductByIdAsync(productId);
 			var cartItems = await this.cartService.GetCartItemsAsync(userId);
 			bool isQuantityEnough = cartItems.CartItems.Any(p => p.Quantity >= product!.Quantity);

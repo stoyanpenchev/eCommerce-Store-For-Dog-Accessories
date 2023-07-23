@@ -51,5 +51,11 @@
 			public const string MinTotalPrice = "0";
 			public const string MaxTotalPrice = "9999.99";
 		}
+
+        public static class User
+        {
+            public const int PasswordMinLength = 6;
+            public const int PasswordMaxLength = 100;
+        }
     }
 }
