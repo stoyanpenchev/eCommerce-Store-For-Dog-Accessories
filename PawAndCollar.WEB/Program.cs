@@ -4,12 +4,14 @@ namespace PawAndCollar.Web
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.EntityFrameworkCore;
 
-	using PawAndCollar.Data;
-	using PawAndCollar.Data.Models.Models;
-	using PawAndCollar.Web.Infrastructure.Extensions;
-	using PawAndCollar.Web.Infrastructure.ModelBinders;
+	using Data;
+	using Data.Models.Models;
+	using Infrastructure.Extensions;
+	using Infrastructure.ModelBinders;
 	using PawAndCollarServices;
 	using PawAndCollarServices.Interfaces;
+
+	using static Common.GeneralApplicationConstants;
 
 	public class Program
 	{
@@ -32,6 +34,7 @@ namespace PawAndCollar.Web
 				options.Password.RequireUppercase = builder.Configuration.GetValue<bool>("Identity:Password:RequireUppercase");
 				options.Password.RequiredLength = builder.Configuration.GetValue<int>("Identity:Password:RequiredLength");
 			})
+				.AddRoles<IdentityRole<Guid>>()
 				.AddEntityFrameworkStores<PawAndCollarDbContext>();
 
 			builder.Services.AddApplicationServices(typeof(IProductService));
@@ -72,6 +75,8 @@ namespace PawAndCollar.Web
 
 			app.UseAuthentication();
 			app.UseAuthorization();
+
+			app.SeedAdministrator(DevelopmentAdminEmail);
 
 			app.MapDefaultControllerRoute();
 			app.MapRazorPages();
