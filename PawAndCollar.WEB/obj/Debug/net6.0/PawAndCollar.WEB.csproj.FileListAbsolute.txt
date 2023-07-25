@@ -95,3 +95,4 @@ C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.WEB\bin\Debug
 C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.WEB\bin\Debug\net6.0\PawAndCollarServices.pdb
 C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.WEB\bin\Debug\net6.0\PawAndCollar.Services.Data.Models.dll
 C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.WEB\bin\Debug\net6.0\PawAndCollar.Services.Data.Models.pdb
+C:\Users\User\source\repos\PawAndCollar-DogOnlineShop\PawAndCollar.WEB\bin\Debug\net6.0\Griesoft.AspNetCore.ReCaptcha.dll

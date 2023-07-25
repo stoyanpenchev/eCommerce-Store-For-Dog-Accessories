@@ -37,6 +37,8 @@ namespace PawAndCollar.Web
 				.AddRoles<IdentityRole<Guid>>()
 				.AddEntityFrameworkStores<PawAndCollarDbContext>();
 
+			builder.Services.AddRecaptchaService();
+
 			builder.Services.AddApplicationServices(typeof(IProductService));
 
             builder.Services.ConfigureApplicationCookie(cfg =>
@@ -76,7 +78,10 @@ namespace PawAndCollar.Web
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.SeedAdministrator(DevelopmentAdminEmail);
+			if (app.Environment.IsDevelopment())
+			{
+				app.SeedAdministrator(DevelopmentAdminEmail);
+			}
 
 			app.MapDefaultControllerRoute();
 			app.MapRazorPages();
