@@ -6,10 +6,13 @@ using static PawAndCollar.Common.EntittyValidationConstants;
 
 namespace PawAndCollarServices
 {
-    using Microsoft.EntityFrameworkCore;
+	using Microsoft.Data.SqlClient;
+	using Microsoft.EntityFrameworkCore;
     using PawAndCollar.Data.Models;
     using PawAndCollar.Data.Models.Enums;
     using PawAndCollar.Data.Models.Models;
+    using PawAndCollar.Services.Data.Models.Order;
+    using PawAndCollar.Web.ViewModels.Order.Enums;
 
     public class OrderService : IOrderService
     {
@@ -95,8 +98,88 @@ namespace PawAndCollarServices
             await this.dbContext.SaveChangesAsync();
         }
 
+        public async Task<AllOrdersFilteredAndPagedServiceModel> GetAllOrdersAsync(AllOrdersQueryModel queryModel)
+        {
+            IQueryable<Order> ordersQuery = this.dbContext.Orders
+                .Where(o => o.Status != OrderStatus.Cancelled)
+                .AsQueryable();
+            int status = 0;
+            if (!string.IsNullOrEmpty(queryModel.Status))
+            {
+                status = (int)Enum.Parse(typeof(OrderStatus), queryModel.Status);
+                ordersQuery = ordersQuery.Where(o => o.Status == (OrderStatus)status);
+            }
 
-        public async Task<Guid> GetOrderNumberAsync(string userId)
+            ordersQuery = queryModel.OrderSorting switch
+            {
+                OrderSorting.TotalPriceDescending => ordersQuery.OrderByDescending(o => o.TotalAmount),
+                OrderSorting.TotalPriceAscending => ordersQuery.OrderBy(o => o.TotalAmount),
+                OrderSorting.Oldest => ordersQuery.OrderBy(o => o.OrderDate),
+                OrderSorting.Newest => ordersQuery.OrderByDescending(o => o.OrderDate),
+                _ => ordersQuery.OrderByDescending(o => o.OrderDate)
+            };
+
+            IEnumerable<OrderViewModel> orders = await ordersQuery
+                .Where(o => o.Status != OrderStatus.Cancelled)
+                .Skip((queryModel.CurrentPage - 1) * queryModel.OrdersPerPage)
+                .Take(queryModel.OrdersPerPage)
+                .Select(o => new OrderViewModel
+                {
+                    Id = o.Id.ToString(),
+                    CustomerName = o.CustomerName,
+                    OrderDate = o.OrderDate.ToString("yyyy-MM-dd HH:mm"),
+                    PhoneNumber = o.Phone,
+                    Email = o.Customer.Email,
+                    Status = (int)o.Status,
+                    TotalPrice = o.TotalAmount
+                }).ToListAsync();
+
+            int totalOrders = await ordersQuery.CountAsync();
+            return new AllOrdersFilteredAndPagedServiceModel
+            {
+                Orders = orders,
+                TotalOrdersCount = totalOrders
+            };
+        }
+
+        public async Task<ICollection<string>> GetAllOrderStatusesAsync()
+        {
+            ICollection<string> orderStats = await this.dbContext.Orders
+                .Where(o => o.Status != OrderStatus.Cancelled)
+                .Select(o => o.Status.ToString())
+                .Distinct()
+                .ToListAsync();
+            return orderStats;
+        }
+
+		public async Task<OrderViewModel> GetOrderDetailsAsync(string orderId)
+		{
+			OrderViewModel? model = await this.dbContext.Orders
+                .Include(o => o.OrderedItems)
+				.Where(o => o.Id.ToString() == orderId)
+				.Select(o => new OrderDetailsViewModel
+				{
+					CustomerName = o.CustomerName,
+					OrderDate = o.OrderDate.ToString("yyyy-MM-dd HH:mm"),
+					OrderNumber = o.OrderNumber.ToString(),
+					PaymentMethod = (int)o.PaymentMethod,
+                    Email = o.Customer.Email,
+					PhoneNumber = o.Phone,
+					ShippingAddress = o.ShippingAddress,
+					Status = (int)o.Status,
+					TotalPrice = o.TotalAmount,
+                    OrderedItems = o.OrderedItems.Select(oi => new OrderSummaryProductViewModel
+                    {
+                        Name = oi.Product.Name,
+                        Price = oi.Product.Price,
+                        Quantity = oi.Quantity
+                    }).ToList()
+				}).FirstOrDefaultAsync();
+
+            return model;
+		}
+
+		public async Task<Guid> GetOrderNumberAsync(string userId)
         {
             Order? order = await this.dbContext.Orders
                 .FirstOrDefaultAsync(o => o.Customer.Id == Guid.Parse(userId));

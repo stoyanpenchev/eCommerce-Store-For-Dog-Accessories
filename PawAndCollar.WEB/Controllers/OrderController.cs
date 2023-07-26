@@ -6,6 +6,7 @@ using PawAndCollar.Web.ViewModels.Order;
 using PawAndCollarServices.Interfaces;
 using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Web.ViewModels.Product;
+using PawAndCollar.Services.Data.Models.Order;
 
 namespace PawAndCollar.Web.Controllers
 {
@@ -58,7 +59,7 @@ namespace PawAndCollar.Web.Controllers
             ICollection<ProductsForTestOrderQuantityViewModel> products = await this.productService.GetAllProductsForQuantityTestAsync();
             foreach (var item in summaryViewModel.OrderedItems)
             {
-                if(products.Any(p => p.Id == item.Id && p.Quantity < item.Quantity))
+                if (products.Any(p => p.Id == item.Id && p.Quantity < item.Quantity))
                 {
                     this.TempData[ErrorMessage] = string.Format("Your Product with name {0} has less quantity in stock than you want!", item!.Name);
                     return this.RedirectToAction("ViewCart", "Cart");
@@ -90,6 +91,48 @@ namespace PawAndCollar.Web.Controllers
                 summaryViewModel.OrderedItems = await this.orderService.GetOrderSummaryProductAsync(userId);
                 return this.View(summaryViewModel);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageOrders([FromQuery] AllOrdersQueryModel queryModel)
+        {
+            string userId = this.User.GetId()!;
+            if(!this.User.IsAdministrator())
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page!";
+                return this.RedirectToAction("Index", "Home");
+            }
+            try
+            {
+                AllOrdersFilteredAndPagedServiceModel orders = await this.orderService.GetAllOrdersAsync(queryModel);
+                queryModel.Orders = orders.Orders;
+                queryModel.TotalOrders = orders.TotalOrdersCount;
+                queryModel.Statuses = await this.orderService.GetAllOrderStatusesAsync();
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+            return View(queryModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string orderId)
+        {
+            if(!this.User.IsAdministrator())
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page!";
+				return this.RedirectToAction("Index", "Home");
+			}
+            try
+            {
+				OrderViewModel orderDetailsViewModel = await this.orderService.GetOrderDetailsAsync(orderId);
+				return this.View(orderDetailsViewModel);
+			}
+			catch (Exception)
+            {
+				return this.GeneralError();
+			}
         }
 
         private IActionResult GeneralError()

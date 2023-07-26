@@ -6,7 +6,10 @@
         public const int DefaultPage = 1;
         public const int EntitiesPerPage = 8;
 
-		public const string AdminRoleName = "Administrator";
+        public const int DefaultPageOrder = 1;
+        public const int EntitiesPerPageOrder = 2;
+
+        public const string AdminRoleName = "Administrator";
         public const string DevelopmentAdminEmail = "Admin@abv.bg";
 	}
 }

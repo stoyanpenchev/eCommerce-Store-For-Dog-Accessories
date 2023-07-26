@@ -42,9 +42,12 @@
 						</li>
 						@if (this.User.Identity?.IsAuthenticated ?? false)
 						{
-							<li class="nav-item">
-								<a class="nav-link" asp-area="" asp-controller="Order" asp-action="">Manage Order</a>
-							</li>
+							if (this.User.IsAdministrator())
+							{
+								<li class="nav-item">
+									<a class="nav-link" asp-area="" asp-controller="Order" asp-action="ManageOrders">Manage Orders</a>
+								</li>
+							}
 							@if (isUserCreator)
 							{
 								<li class="nav-item">
