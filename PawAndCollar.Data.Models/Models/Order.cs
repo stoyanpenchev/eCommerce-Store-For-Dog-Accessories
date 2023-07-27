@@ -12,6 +12,7 @@ namespace PawAndCollar.Data.Models.Models
             this.Id = Guid.NewGuid();
             this.OrderedItems = new List<OrderItem>();
             this.OrderNumber = Guid.NewGuid();
+            this.UserBuyedProducts = new List<UsersBuyedProducts>();
         }
 
         [Key]
@@ -45,6 +46,8 @@ namespace PawAndCollar.Data.Models.Models
 
         [Required]
         public PaymentTypes PaymentMethod { get; set; }
+
+        public ICollection<UsersBuyedProducts> UserBuyedProducts { get; set; }
 
         public ICollection<OrderItem> OrderedItems { get; set; }
     }

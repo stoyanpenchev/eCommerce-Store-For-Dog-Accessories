@@ -7,6 +7,7 @@ using PawAndCollarServices.Interfaces;
 using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollar.Services.Data.Models.Order;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PawAndCollar.Web.Controllers
 {
@@ -117,7 +118,7 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(string orderId)
+        public async Task<IActionResult> Details(string id)
         {
             if(!this.User.IsAdministrator())
             {
@@ -126,7 +127,8 @@ namespace PawAndCollar.Web.Controllers
 			}
             try
             {
-				OrderViewModel orderDetailsViewModel = await this.orderService.GetOrderDetailsAsync(orderId);
+                OrderDetailsViewModel orderDetailsViewModel = await this.orderService.GetOrderDetailsAsync(id);
+                orderDetailsViewModel.StatusOptions = GetStatusOptions();
 				return this.View(orderDetailsViewModel);
 			}
 			catch (Exception)
@@ -135,10 +137,47 @@ namespace PawAndCollar.Web.Controllers
 			}
         }
 
+        [HttpPost]
+		public async Task<IActionResult> UpdateStatus(OrderDetailsViewModel viewModel)
+        {
+			OrderDetailsViewModel model = await this.orderService.GetOrderDetailsAsync(viewModel.Id);
+            model.Status = viewModel.Status;
+            
+
+			if (!this.User.IsAdministrator())
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page!";
+            }			
+			
+            try
+            {
+                await this.orderService.UpdateOrderStatusAsync(model);
+                this.TempData[SuccessMessage] = "Order status updated successfully!";
+                return this.RedirectToAction("Details", new { id = model.Id });
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+        }
+
+
+        private List<SelectListItem> GetStatusOptions()
+        {
+            List<SelectListItem> statusOptions = new List<SelectListItem>
+            {
+				new SelectListItem { Value = "Processing", Text = "Processing" },
+		        new SelectListItem { Value = "Shipped", Text = "Shipped" },
+		        new SelectListItem { Value = "Delivered", Text = "Delivered" },
+                new SelectListItem { Value = "Cancelled", Text = "Cancelled" }
+			};
+            return statusOptions;
+		}
         private IActionResult GeneralError()
         {
             this.TempData[ErrorMessage] = "Unexpected error occured! Please try again later or contact administrator!";
             return this.RedirectToAction("Index", "Home");
         }
+
     }
 }

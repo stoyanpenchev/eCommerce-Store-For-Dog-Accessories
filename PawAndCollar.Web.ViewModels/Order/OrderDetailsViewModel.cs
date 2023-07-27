@@ -10,18 +10,21 @@ namespace PawAndCollar.Web.ViewModels.Order
         public OrderDetailsViewModel()
         {
             this.OrderedItems = new List<OrderSummaryProductViewModel>();
+            this.PaymentMethods = new List<SelectListItem>();
+            this.StatusOptions = new List<SelectListItem>();
         }
 
-		public string OrderNumber { get; set; } = null!;
+		public string OrderNumber { get; set; }
 
 
         [Display(Name = "Payment Method")]
-        public int PaymentMethod { get; set; }
+        public string PaymentMethod { get; set; }
 
         public IEnumerable<SelectListItem> PaymentMethods { get; set; }
 
+        public IEnumerable<SelectListItem> StatusOptions { get; set; }
 
-		public string ShippingAddress { get; set; } = null!;
+        public string ShippingAddress { get; set; }
 
         public ICollection<OrderSummaryProductViewModel> OrderedItems { get; set; }
     }

@@ -21,6 +21,9 @@ namespace PawAndCollar.Data.Models.Models
         [Required]
         public Product Product { get; set; } = null!;
 
+        [ForeignKey(nameof(Order))]
+        public Guid OrderId { get; set; }
+        public Order Order { get; set; }
         public int Quantity { get; set; }
     }
 }

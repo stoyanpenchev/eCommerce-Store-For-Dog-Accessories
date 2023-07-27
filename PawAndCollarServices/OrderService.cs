@@ -88,10 +88,18 @@ namespace PawAndCollarServices
                 {
                     ProductId = product.Id,
                     UserId = Guid.Parse(userId),
-                    Quantity = orderedItem.Quantity
+                    Quantity = orderedItem.Quantity,
+                    OrderId = existingOrder.Id
                 });
+                //existingOrder.UserBuyedProducts.Add(new UsersBuyedProducts
+                //{
+                //    ProductId = product.Id,
+                //    UserId = Guid.Parse(userId),
+                //    Quantity = orderedItem.Quantity
+                //});
                 
             }
+            
             cart.TotalPrice = 0;
             cart.OrderedItems.Clear();
 
@@ -130,7 +138,7 @@ namespace PawAndCollarServices
                     OrderDate = o.OrderDate.ToString("yyyy-MM-dd HH:mm"),
                     PhoneNumber = o.Phone,
                     Email = o.Customer.Email,
-                    Status = (int)o.Status,
+                    Status = o.Status.ToString(),
                     TotalPrice = o.TotalAmount
                 }).ToListAsync();
 
@@ -152,24 +160,29 @@ namespace PawAndCollarServices
             return orderStats;
         }
 
-		public async Task<OrderViewModel> GetOrderDetailsAsync(string orderId)
+		public async Task<OrderDetailsViewModel> GetOrderDetailsAsync(string id)
 		{
-			OrderViewModel? model = await this.dbContext.Orders
+            OrderDetailsViewModel? model = await this.dbContext.Orders
                 .Include(o => o.OrderedItems)
-				.Where(o => o.Id.ToString() == orderId)
+                .ThenInclude(oi => oi.Order)
+				.Where(o => o.Id.ToString() == id)
 				.Select(o => new OrderDetailsViewModel
-				{
+                {
+                    Id = o.Id.ToString(),
 					CustomerName = o.CustomerName,
 					OrderDate = o.OrderDate.ToString("yyyy-MM-dd HH:mm"),
 					OrderNumber = o.OrderNumber.ToString(),
-					PaymentMethod = (int)o.PaymentMethod,
+					PaymentMethod = o.PaymentMethod.ToString(),
                     Email = o.Customer.Email,
 					PhoneNumber = o.Phone,
 					ShippingAddress = o.ShippingAddress,
-					Status = (int)o.Status,
+					Status = o.Status.ToString(),
 					TotalPrice = o.TotalAmount,
-                    OrderedItems = o.OrderedItems.Select(oi => new OrderSummaryProductViewModel
+                    OrderedItems = o.UserBuyedProducts
+                    .Where(oi => oi.OrderId == o.Id)
+                    .Select(oi => new OrderSummaryProductViewModel
                     {
+                        Id = oi.Product.Id,
                         Name = oi.Product.Name,
                         Price = oi.Product.Price,
                         Quantity = oi.Quantity
@@ -218,6 +231,24 @@ namespace PawAndCollarServices
             {
                 return null;
             }
+        }
+
+        public async Task UpdateOrderStatusAsync(OrderDetailsViewModel viewModel)
+        {
+            Order? order = await this.dbContext.Orders
+                .FirstOrDefaultAsync(o => o.Id.ToString() == viewModel.Id);
+            if (order != null)
+            {
+                order.Status = viewModel.Status switch
+                {
+                    "Processing" => order.Status = OrderStatus.Processing,
+                    "Shipped" => order.Status = OrderStatus.Shipped,
+                    "Delivered" => order.Status = OrderStatus.Delivered,
+                    "Cancelled" => order.Status = OrderStatus.Cancelled,
+                    _ => order.Status = OrderStatus.Processing
+                };
+            }
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }
