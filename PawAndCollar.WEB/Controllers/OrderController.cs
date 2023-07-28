@@ -4,7 +4,6 @@ using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Web.Infrastructure.Extensions;
 using PawAndCollar.Web.ViewModels.Order;
 using PawAndCollarServices.Interfaces;
-using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollar.Services.Data.Models.Order;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -95,15 +94,15 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpGet]
-		[Authorize(Roles = "Administrator, Creator")]
-		public async Task<IActionResult> ManageOrders([FromQuery] AllOrdersQueryModel queryModel)
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ManageOrders([FromQuery] AllOrdersQueryModel queryModel)
         {
             string userId = this.User.GetId()!;
-            //if(!this.User.IsAdministrator())
-            //{
-            //    this.TempData[ErrorMessage] = "You are not authorized to view this page!";
-            //    return this.RedirectToAction("Index", "Home");
-            //}
+            if(!this.User.IsAdministrator())
+            {
+                this.TempData[ErrorMessage] = "You are not authorized to view this page!";
+                return this.RedirectToAction("Index", "Home");
+            }
             try
             {
                 AllOrdersFilteredAndPagedServiceModel orders = await this.orderService.GetAllOrdersAsync(queryModel);

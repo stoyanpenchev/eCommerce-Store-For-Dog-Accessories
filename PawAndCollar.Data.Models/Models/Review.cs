@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PawAndCollar.Data.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PawAndCollar.Data.Models.Models
@@ -17,6 +18,8 @@ namespace PawAndCollar.Data.Models.Models
         public Guid CustomerId { get; set; }
         [Required]
         public ApplicationUser Customer { get; set; } = null!;
+
+        public RatingTypes RatingType { get; set; }
 
         [Required]
         public DateTime DatePosted { get; set; }

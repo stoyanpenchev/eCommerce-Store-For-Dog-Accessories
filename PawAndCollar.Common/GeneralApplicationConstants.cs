@@ -12,6 +12,10 @@
         public const string AdminRoleName = "Administrator";
         public const string DevelopmentAdminEmail = "Admin@abv.bg";
 
-        public const string UserRoleName = "User";
+        public const string DevelopmentCreatorEmail = "creator@abv.bg";
+		public const string DevelopmentUserEmail = "doglover@abv.bg";
+
+
+		public const string UserRoleName = "User";
 	}
 }
