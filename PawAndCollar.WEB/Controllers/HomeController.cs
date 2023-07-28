@@ -1,11 +1,7 @@
 ﻿namespace PawAndCollar.Web.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
-	using PawAndCollar.Web.Infrastructure.Extensions;
-	using PawAndCollar.Web.ViewModels.Home;
-    using PawAndCollar.Web.ViewModels.Product;
     using PawAndCollarServices.Interfaces;
-    using System.Diagnostics;
     public class HomeController : Controller
     {
         private readonly IProductService productService;

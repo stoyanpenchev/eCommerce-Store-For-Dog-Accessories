@@ -34,6 +34,8 @@ namespace PawAndCollarServices
                 UserId = Guid.Parse(userId),
                 PhoneNumber = model.PhoneNumber
             };
+			ApplicationUser user = await this.dbContext.Users.FirstOrDefaultAsync(u => u.Id == Guid.Parse(userId));
+			user.PhoneNumber = creator.PhoneNumber;
 			await this.dbContext.Creators.AddAsync(creator);
 			await this.dbContext.SaveChangesAsync();
         }

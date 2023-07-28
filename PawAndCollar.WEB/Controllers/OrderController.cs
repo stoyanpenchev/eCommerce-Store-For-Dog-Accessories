@@ -95,14 +95,15 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ManageOrders([FromQuery] AllOrdersQueryModel queryModel)
+		[Authorize(Roles = "Administrator, Creator")]
+		public async Task<IActionResult> ManageOrders([FromQuery] AllOrdersQueryModel queryModel)
         {
             string userId = this.User.GetId()!;
-            if(!this.User.IsAdministrator())
-            {
-                this.TempData[ErrorMessage] = "You are not authorized to view this page!";
-                return this.RedirectToAction("Index", "Home");
-            }
+            //if(!this.User.IsAdministrator())
+            //{
+            //    this.TempData[ErrorMessage] = "You are not authorized to view this page!";
+            //    return this.RedirectToAction("Index", "Home");
+            //}
             try
             {
                 AllOrdersFilteredAndPagedServiceModel orders = await this.orderService.GetAllOrdersAsync(queryModel);
@@ -138,6 +139,7 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpPost]
+		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> UpdateStatus(OrderDetailsViewModel viewModel)
         {
 			OrderDetailsViewModel model = await this.orderService.GetOrderDetailsAsync(viewModel.Id);
