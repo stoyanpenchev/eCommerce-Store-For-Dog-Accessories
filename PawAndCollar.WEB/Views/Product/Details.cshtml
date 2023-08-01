@@ -53,14 +53,13 @@
 			<h4 style="padding-top: 10px;">Creator Details:</h4>
 			<p>Email: @Model.Creator.Email</p>
 			<p>Phone: @Model.Creator.PhoneNumber</p>
-			@if (!isCreator)
-			{
-				<form method="post" asp-action="AddToCart" asp-controller="Cart">
-					<input type="hidden" name="productId" value="@Model.Id" />
-					@*<input type="number" name="quantity" value="1" min="1" />*@
-					<button type="submit" class="btn btn-primary">Add to Cart</button>
-				</form>
-			}
+
+			<form method="post" asp-action="AddToCart" asp-controller="Cart">
+				<input type="hidden" name="productId" value="@Model.Id" />
+				@*<input type="number" name="quantity" value="1" min="1" />*@
+				<button type="submit" class="btn btn-primary">Add to Cart</button>
+			</form>
+
 			<div class="row mt-4">
 				<div class="col-md-6">
 					<h4>

@@ -29,6 +29,10 @@ namespace PawAndCollarServices
 				.Where(r => r.Id == reviewId)
 				.FirstOrDefaultAsync();
 
+			if(review == null)
+			{
+				return null;
+			}
 			bool isItBought = await this.orderService.UserPurchasedProductAsync(userId, review.ProductId);
 
 			ReviewViewModel reviewModel = new ReviewViewModel()

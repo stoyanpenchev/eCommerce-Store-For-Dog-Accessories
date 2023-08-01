@@ -9,6 +9,7 @@ using PawAndCollarServices.Interfaces;
 namespace PawAndCollar.Web.Controllers
 {
 	using static PawAndCollar.Common.NotificationMessagesConstants;
+	using System.Text.Encodings.Web;
 
 	[Authorize]
     public class CommentController : Controller
@@ -27,6 +28,11 @@ namespace PawAndCollar.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int reviewId)
         {
+			if(reviewId == null)
+			{
+				this.TempData[ErrorMessage] = "Review does not exist";
+				return this.RedirectToAction("Index", "Home");
+			}
             string? userId = this.User.GetId();
 
             if(userId == null)

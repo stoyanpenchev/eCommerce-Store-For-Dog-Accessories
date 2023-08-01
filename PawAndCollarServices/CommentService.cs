@@ -4,6 +4,7 @@ using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Data.Models.Models;
 using PawAndCollar.Web.ViewModels.Comment;
 using PawAndCollarServices.Interfaces;
+using System.Net;
 
 namespace PawAndCollarServices
 {
@@ -17,10 +18,11 @@ namespace PawAndCollarServices
 
 		public async Task CreateCommentAync(CommentCreateViewModel comment, string userId)
 		{
+			string senitizedContent = WebUtility.HtmlEncode(comment.Content);
 			Comment newComment = new Comment()
             {
 				Id = comment.Id,
-				Content = comment.Content,
+				Content = senitizedContent,
 				DatePosted = DateTime.UtcNow,
 				ReviewId = comment.ReviewId,
 				RatingType = (RatingTypes)comment.RatingType,
