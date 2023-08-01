@@ -8,4 +8,6 @@
     <p>Price: $@Model.Price</p>
     <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id"
        class="btn btn-success">Details</a>
+    <a asp-controller="Review" asp-action="ReviewIndex" asp-route-id="@Model.Id"
+       class="btn btn-info">Reviews</a>
 </div>

@@ -313,6 +313,40 @@ namespace PawAndCollar.Data.Migrations
                     b.ToTable("Carts");
                 });
 
+            modelBuilder.Entity("PawAndCollar.Data.Models.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RatingType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ReviewId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Creator", b =>
                 {
                     b.Property<Guid>("Id")
@@ -409,23 +443,16 @@ namespace PawAndCollar.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DatePosted")
-                        .HasColumnType("datetime2");
+                    b.Property<double>("AverageScore")
+                        .HasColumnType("float");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RatingType")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("Reviews");
                 });
@@ -515,6 +542,9 @@ namespace PawAndCollar.Data.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ReviewId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Size")
                         .HasColumnType("int");
 
@@ -600,6 +630,25 @@ namespace PawAndCollar.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("PawAndCollar.Data.Models.Models.Comment", b =>
+                {
+                    b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "Customer")
+                        .WithMany("Comments")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PawAndCollar.Data.Models.Models.Review", "Review")
+                        .WithMany("Comments")
+                        .HasForeignKey("ReviewId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Review");
+                });
+
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Creator", b =>
                 {
                     b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "User")
@@ -650,19 +699,11 @@ namespace PawAndCollar.Data.Migrations
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Review", b =>
                 {
-                    b.HasOne("PawAndCollar.Data.Models.Models.ApplicationUser", "Customer")
-                        .WithMany("Reviews")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("PawAndCollar.Data.Models.Product", "Product")
-                        .WithMany("Reviews")
-                        .HasForeignKey("ProductId")
+                        .WithOne("Review")
+                        .HasForeignKey("PawAndCollar.Data.Models.Models.Review", "ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Customer");
 
                     b.Navigation("Product");
                 });
@@ -722,9 +763,9 @@ namespace PawAndCollar.Data.Migrations
 
                     b.Navigation("BuyedProducts");
 
-                    b.Navigation("Orders");
+                    b.Navigation("Comments");
 
-                    b.Navigation("Reviews");
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Cart", b =>
@@ -744,6 +785,11 @@ namespace PawAndCollar.Data.Migrations
                     b.Navigation("UserBuyedProducts");
                 });
 
+            modelBuilder.Entity("PawAndCollar.Data.Models.Models.Review", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.UsersBuyedProducts", b =>
                 {
                     b.Navigation("User")
@@ -754,7 +800,7 @@ namespace PawAndCollar.Data.Migrations
                 {
                     b.Navigation("OrderedItems");
 
-                    b.Navigation("Reviews");
+                    b.Navigation("Review");
                 });
 #pragma warning restore 612, 618
         }

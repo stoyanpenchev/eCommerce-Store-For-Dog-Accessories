@@ -250,5 +250,11 @@ namespace PawAndCollarServices
             }
             await this.dbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> UserPurchasedProductAsync(string userId, int productId)
+        {
+            return await this.dbContext.UsersBuyedProducts
+                .AnyAsync(ubp => ubp.UserId == Guid.Parse(userId) && ubp.ProductId == productId);
+        }
     }
 }

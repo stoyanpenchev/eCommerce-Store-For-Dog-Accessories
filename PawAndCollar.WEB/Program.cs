@@ -39,17 +39,6 @@ namespace PawAndCollar.Web
 
 			builder.Services.AddRecaptchaService();
 
-			using (var scope = builder.Services.BuildServiceProvider().CreateScope())
-			{
-				var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-
-				if (!roleManager.RoleExistsAsync("YourNewRole").Result)
-				{
-					var role = new IdentityRole<Guid>("YourNewRole");
-					roleManager.CreateAsync(role).Wait();
-				}
-			}
-
 
 			builder.Services.AddApplicationServices(typeof(IProductService));
 

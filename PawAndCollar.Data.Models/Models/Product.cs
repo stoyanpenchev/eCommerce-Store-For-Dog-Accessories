@@ -10,7 +10,6 @@ namespace PawAndCollar.Data.Models
     {
         public Product()
         {
-            this.Reviews = new List<Review>();
             this.OrderedItems = new List<OrderItem>();
         }
 
@@ -55,7 +54,11 @@ namespace PawAndCollar.Data.Models
 
 		public virtual ApplicationUser? User { get; set; }
 
-		[Required]
+        [ForeignKey(nameof(Review))]
+        public int? ReviewId { get; set; }
+        public Review? Review { get; set; }
+
+        [Required]
         [EnumDataType(typeof(SizeTypes))]
         public SizeTypes Size { get; set; }
 
@@ -67,7 +70,6 @@ namespace PawAndCollar.Data.Models
         [StringLength(MaterialMaxLength)]
         public string Material { get; set; } = null!;
 
-        public ICollection<Review> Reviews { get; set; }
 
         public ICollection<OrderItem> OrderedItems { get; set; }
     }

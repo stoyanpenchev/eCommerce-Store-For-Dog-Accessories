@@ -22,7 +22,7 @@ namespace PawAndCollar.Data
         public DbSet<Creator> Creators { get; set; } = null!;
         public DbSet<OrderItem> OrderedItems { get; set; } = null!;
         public DbSet<Cart> Carts { get; set; } = null!;
-
+        public DbSet<Comment> Comments { get; set; } = null!;
         public DbSet<UsersBuyedProducts> UsersBuyedProducts { get; set; } = null!;
 
 

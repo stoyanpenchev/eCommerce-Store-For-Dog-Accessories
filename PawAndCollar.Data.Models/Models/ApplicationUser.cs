@@ -9,7 +9,7 @@
         public ApplicationUser()
         {
             this.BuyedProducts = new List<Product>();
-            this.Reviews = new List<Review>();
+            this.Comments = new List<Comment>();
             this.Orders = new List<Order>();
             this.Id = Guid.NewGuid();
         }
@@ -24,7 +24,7 @@
         public UsersBuyedProducts? UsersBuyedProducts { get; set; }
 
         public List<Product> BuyedProducts { get; set; } = null!;
-        public ICollection<Review> Reviews { get; set; } = null!;
+        public ICollection<Comment> Comments { get; set; } = null!;
         public ICollection<Order> Orders { get; set; }
 
     }

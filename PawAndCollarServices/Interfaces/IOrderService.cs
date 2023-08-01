@@ -9,6 +9,7 @@ namespace PawAndCollarServices.Interfaces
 		Task AddOrderSummaryAsync(OrderSummaryViewModel model, string userId);
         Task<AllOrdersFilteredAndPagedServiceModel> GetAllOrdersAsync(AllOrdersQueryModel queryModel);
 
+        Task<bool> UserPurchasedProductAsync(string userId, int productId);
         Task<Guid> GetOrderNumberAsync(string userId);
         Task<ICollection<OrderSummaryProductViewModel>> GetOrderSummaryProductAsync(string userId);
 

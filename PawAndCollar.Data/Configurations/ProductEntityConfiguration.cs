@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PawAndCollar.Data.Models;
+using PawAndCollar.Data.Models.Models;
 
 namespace PawAndCollar.Data.Configurations
 {
@@ -27,6 +28,11 @@ namespace PawAndCollar.Data.Configurations
 				.WithMany(c => c.Products)
 				.HasForeignKey(h => h.CategoryId)
 				.OnDelete(DeleteBehavior.Restrict);
+
+			builder.HasOne(p => p.Review)
+                   .WithOne(r => r.Product)
+                   .HasForeignKey<Review>(p => p.ProductId)
+                   .OnDelete(DeleteBehavior.Restrict);
 		}
 	}
 }

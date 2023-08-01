@@ -1,0 +1,23 @@
+﻿@model CommentCreateViewModel
+
+<h2>Create Comment</h2>
+
+<form asp-controller="Comment" asp-action="Create">
+
+    <input type="hidden" asp-for="ReviewId" value="@Model.ReviewId" />
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="AuthorName" value="@Model.AuthorName" />
+    <input type="hidden" asp-for="DatePosted" value="@Model.DatePosted" />
+    <div class="form-group">
+        <label asp-for="RatingType">Rating:</label>
+        <select asp-for="RatingType" asp-items="Model.RatingTypes" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Content">Content:</label>
+        <textarea asp-for="Content" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Comment</button>
+</form>

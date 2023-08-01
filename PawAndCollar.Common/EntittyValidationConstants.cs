@@ -57,5 +57,16 @@
             public const int PasswordMinLength = 6;
             public const int PasswordMaxLength = 100;
         }
+
+        public static class Review
+        {
+            public const string MinAverageScore = "0.00";
+            public const string MaxAverageScore = "5.00";
+        }
+        public static class Comment
+        {
+            public const int ContentMinLength = 20;
+            public const int ContentMaxLength = 1000;
+        }
     }
 }

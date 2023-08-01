@@ -4,8 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PawAndCollar.Data.Models.Models
 {
+    using static Common.EntittyValidationConstants.Review;
     public class Review
     {
+        public Review()
+        {
+            this.Comments = new List<Comment>();
+        }
         [Key]
         public int Id { get; set; }
 
@@ -14,14 +19,9 @@ namespace PawAndCollar.Data.Models.Models
         [Required]
         public Product Product { get; set; } = null!;
 
-        [Required, ForeignKey(nameof(Customer))]
-        public Guid CustomerId { get; set; }
-        [Required]
-        public ApplicationUser Customer { get; set; } = null!;
+        [Range(typeof(double) ,MinAverageScore, MaxAverageScore)]
+        public double AverageScore { get; set; }
 
-        public RatingTypes RatingType { get; set; }
-
-        [Required]
-        public DateTime DatePosted { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

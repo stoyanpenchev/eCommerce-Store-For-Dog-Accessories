@@ -13,11 +13,13 @@ namespace PawAndCollar.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Review> builder)
         {
-            builder
-                 .HasOne(r => r.Product)
-                 .WithMany(p => p.Reviews)
-                 .HasForeignKey(r => r.ProductId)
-                 .OnDelete(DeleteBehavior.Restrict);
+            builder.HasKey(r => r.Id);
+            builder.HasOne(r => r.Product)
+                .WithOne(p => p.Review)
+                .HasForeignKey<Review>(r => r.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     }
 }
