@@ -1,73 +1,128 @@
 ﻿@model ReviewViewModel
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />*@
 <link rel="stylesheet" href="~/css/review.css" />
 
 <h2 class="mt-4">@Model.Product.ProductName Reviews</h2>
 <h4 class="mt-4">With Price: @Model.Product.Price</h4>
 <img src="@Model.Product.ImageUrl" alt="@Model.Product.ProductName" class="img-fluid img-thumbnail" style="width: 120px; height: 120px;" />
 
+@if (User.Identity.IsAuthenticated && Model.IsCustomerPurchasedProduct || User.IsInRole("Administrator"))
+{
+    <form asp-controller="Comment" asp-action="Create" method="get">
+        <input type="hidden" name="reviewId" value="@Model.Id" />
+        <button type="submit" class="btn btn-primary">Create Comment</button>
+    </form>
+}
 @if (Model.Comments == null || Model.Comments.Count == 0)
 {
-	<p>No reviews available for this product.</p>
+    <p>No reviews available for this product.</p>
 }
+
 else
 {
-	<div class="rating-summary">
-		<span class="heading">User Rating</span>
-		@for (int i = 1; i <= 5; i++)
-		{
-			<span class="fa fa-star @(i <= Model.AverageRating ? "checked" : "")"></span>
-		}
-		<p>@Model.AverageRating.ToString("0.0") average based on @Model.Comments.Count reviews.</p>
-		<hr style="border:3px solid #f1f1f1">
+    <div class="rating-summary">
+        <span class="heading">User Rating</span>
+        @for (int i = 1; i <= 5; i++)
+        {
+            <span class="fa fa-star @(i <= Model.AverageRating ? "checked" : "")"></span>
+        }
+        <p>@Model.AverageRating.ToString("0.0") average based on @Model.Comments.Count reviews.</p>
+        <hr style="border:3px solid #f1f1f1">
 
-		<div class="row">
-			@for (int i = 5; i >= 1; i--)
-			{
-				<div class="side">
-					<div>@i @Html.Raw("star" + (i > 1 ? "s" : ""))</div>
-				</div>
-				<div class="middle">
-					<div class="bar-container">
-						<div class="bar-@i" style="width: @(Model.Comments.Count(c => c.RatingType == i) * 10)%"></div>
-					</div>
-				</div>
-				<div class="side right">
-					<div>@Model.Comments.Count(c => c.RatingType == i)</div>
-				</div>
-			}
-		</div>
-	</div>
-	@if (User.Identity.IsAuthenticated && Model.IsCustomerPurchasedProduct || User.IsInRole("Administrator"))
-	{
-		<form asp-controller="Comment" asp-action="Create" method="get">
-			<input type="hidden" name="reviewId" value="@Model.Id" />
-			<button type="submit" class="btn btn-primary">Create Comment</button>
-		</form>
-	}
-	<div class="review-list" style="min-height: 500px; overflow-y: auto;">
-		@foreach (var comment in Model.Comments)
-		{
-			<div class="review card mb-3">
-				<div class="card-body">
-					<h4 class="card-title">@comment.AuthorName</h4>
-					<p class="card-text">Date Posted: @comment.DatePosted</p>
-					<p class="card-text">
-						<span class="heading">Rating: </span>
-						@for (int i = 1; i <= comment.RatingType; i++)
-						{
-							<span class="fa fa-star checked"></span>
-						}
-						@for (int i = comment.RatingType + 1; i <= 5; i++)
-						{
-							<span class="fa fa-star"></span>
-						}
-					</p>
-					<p class="card-text">@comment.Content</p>
-				</div>
-			</div>
-		}
-	</div>
+        <div class="row">
+            @for (int i = 5; i >= 1; i--)
+            {
+                <div class="side">
+                    <div>@i @Html.Raw("star" + (i > 1 ? "s" : ""))</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-@i" style="width: @(Model.Comments.Count(c => c.RatingType == i) * 10)%"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div>@Model.Comments.Count(c => c.RatingType == i)</div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="review-list">
+        @foreach (var comment in Model.Comments)
+        {
+            <div class="review card mb-3">
+                <div class="card-body">
+                    <h4 class="card-title">@comment.AuthorName</h4>
+                    <p class="card-text">Date Posted: @comment.DatePosted</p>
+                    <p class="card-text">
+                        <span class="heading">Rating: </span>
+                        @for (int i = 1; i <= comment.RatingType; i++)
+                        {
+                            <span class="fa fa-star checked"></span>
+                        }
+                        @for (int i = comment.RatingType + 1; i <= 5; i++)
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    </p>
+
+                    @if (User.Identity.IsAuthenticated && (comment.AuthorName == User.Identity.Name || User.IsInRole("Administrator")))
+                    {
+                        <div id="editForm_@comment.Id" style="display: none;">
+                            <form asp-controller="Comment" asp-action="Edit" method="post">
+                                <input type="hidden" name="id" value="@comment.Id" />
+                                <input type="hidden" name="AuthorName" value="@comment.AuthorName" />
+                                <input type="hidden" name="DatePosted" value="@comment.DatePosted" />
+                                <div class="form-group">
+                                    <label for="content_@comment.Id">Content:</label>
+                                    <textarea class="form-control" id="content_@comment.Id" name="Content" rows="4">@comment.Content</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="rating-label">Rating:</label>
+                                    <div class="rating-input">
+                                        @for (int i_ = 1; i_ <= 5; i_++)
+                                        {
+                                            <input type="radio" name="RatingType" value="@i_" id="rating_@i_@comment.Id" @(i_ == comment.RatingType ? "checked" : "") />
+                                            <label for="rating_@i_@comment.Id" title="@i_ Stars"><span class="fa fa-star"></span></label>
+                                        }
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-link" onclick="toggleEditForm('@comment.Id')">Cancel</button>
+                            </form>
+                        </div>
+
+                        @if (ViewBag.ShowEditForm == true && ViewBag.CommentId == comment.Id)
+                        {
+                            <script>
+                                window.addEventListener('DOMContentLoaded', function () {
+                                    toggleEditForm('@comment.Id');
+                                });
+                            </script>
+                        }
+
+                        <p class="card-text">@comment.Content</p>
+                        <button type="button" class="btn btn-link edit-comment-btn" onclick="toggleEditForm('@comment.Id')">Edit</button>
+                    }
+                    else
+                    {
+                        <p class="card-text">@comment.Content</p>
+                    }
+                </div>
+            </div>
+        }
+    </div>
 }
+
+<script>
+    function toggleEditForm(commentId) {
+        var editForm = document.getElementById("editForm_" + commentId);
+        if (editForm.style.display === "none") {
+            editForm.style.display = "block";
+        } else {
+            editForm.style.display = "none";
+        }
+    }
+</script>

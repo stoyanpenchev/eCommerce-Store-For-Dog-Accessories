@@ -20,6 +20,42 @@ namespace PawAndCollarServices
 			this.orderService = orderService;
 		}
 
+		public async Task<ReviewViewModel> GetReviewByCommentIdAsync(int id)
+		{
+			Review? review = await this.dbContext.Reviews
+				.Include(r => r.Product)
+				.Include(r => r.Comments)
+				.ThenInclude(c => c.Customer)
+				.Where(r => r.Comments.Any(c => c.Id == id))
+				.FirstOrDefaultAsync();
+
+			if(review == null)
+			{
+				  return null;
+			}
+			ReviewViewModel reviewModel = new ReviewViewModel()
+			{
+				Id = review.Id,
+				AverageRating = review.AverageScore,
+				Product = new ProductReviewViewModel()
+				{
+					Id = review.Product.Id,
+					ProductName = review.Product.Name,
+					Price = review.Product.Price,
+					ImageUrl = review.Product.ImageUrl,
+				},
+				Comments = review.Comments.Select(c => new CommentViewModel()
+				{
+					Id = c.Id,
+					Content = c.Content,
+					AuthorName = c.Customer.UserName,
+					RatingType = (int)c.RatingType,
+					DatePosted = c.DatePosted.ToString()
+				}).ToList()
+			};
+			return reviewModel;
+		}
+
 		public async Task<ReviewViewModel> GetReviewByIdAsync(string userId, int reviewId)
 		{
 			Review? review = await this.dbContext.Reviews
@@ -72,23 +108,31 @@ namespace PawAndCollarServices
 				return null;
 			}
 
-			double averageRating = 0;
-			if (product.Review?.Comments?.Any() == true)
-			{
-				averageRating = product.Review.Comments.Average(c => (int)c.RatingType);
-			}
+            double averageRating = 0.0;
 
-			if (product.Review == null)
+            if (product.Review?.Comments?.Any() == true)
+            {
+                int totalRating = product.Review.Comments.Sum(c => (int)c.RatingType);
+                int numberOfComments = product.Review.Comments.Count();
+
+                averageRating = (double)totalRating / numberOfComments;
+                averageRating = Math.Round(averageRating, 1);
+            }
+
+            if (product.Review == null)
 			{
 				Review newReview = new Review()
 				{
 					Product = product,
 					AverageScore = averageRating,
 				};
-				await this.dbContext.Reviews.AddAsync(newReview);
+				await this.dbContext.Reviews.AddAsync(newReview); 
 				await this.dbContext.SaveChangesAsync();
 
-				product.ReviewId = newReview.Id;
+                int totalRating = product.Review.Comments.Sum(c => (int)c.RatingType);
+                int numberOfComments = product.Review.Comments.Count();
+
+                product.ReviewId = newReview.Id;
 				await this.dbContext.SaveChangesAsync();
 			}
 			Review? productReview = await this.dbContext.Reviews

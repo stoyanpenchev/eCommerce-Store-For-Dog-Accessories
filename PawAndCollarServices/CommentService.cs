@@ -39,5 +39,45 @@ namespace PawAndCollarServices
 				await dbContext.SaveChangesAsync();
 			}
 		}
+
+		public async Task EditCommentAsync(CommentViewModel comment)
+		{
+			Comment? dbComment = await this.dbContext.Comments.Where(x => x.Id == comment.Id).FirstOrDefaultAsync();
+            string senitizedContent = WebUtility.HtmlEncode(comment.Content);
+            if (dbComment != null)
+			{
+				dbComment.Content = senitizedContent;
+				dbComment.RatingType = (RatingTypes)comment.RatingType;
+				dbComment.DatePosted = DateTime.UtcNow;
+				await dbContext.SaveChangesAsync();
+			}
+		}
+
+		public async Task<CommentViewModel> GetCommentByIdAsync(int id)
+		{
+            CommentViewModel? comment = await this.dbContext.Comments
+				.Include(x => x.Customer)
+				.Where(x => x.Id == id)
+				.Select(x => new CommentViewModel
+                {
+					Id = x.Id,
+					Content = x.Content,
+					RatingType = (int)x.RatingType,
+					AuthorName = x.Customer.UserName,
+					DatePosted = x.DatePosted.ToString()
+				}).FirstOrDefaultAsync();
+
+			return comment;
+		}
+
+		public async Task<bool> IsCommentBelongToUser(string userId, int commentId)
+		{
+			return await this.dbContext.Comments.AnyAsync(x => x.Id == commentId && x.CustomerId == Guid.Parse(userId));
+		}
+
+		public async Task<bool> IsCommentExistByIdAsync(int commentId)
+		{
+			return await this.dbContext.Comments.AnyAsync(x => x.Id == commentId);
+		}
 	}
 }

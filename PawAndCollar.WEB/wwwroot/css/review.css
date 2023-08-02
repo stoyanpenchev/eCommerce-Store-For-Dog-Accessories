@@ -1,5 +1,5 @@
 ﻿.review-list {
-    *
+    margin-bottom: 60px;
 
 {
     box-sizing: border-box;
@@ -173,6 +173,7 @@ body {
   background-color: #f44336;
 }
 
+
 /* Responsive layout for star ratings and review summary */
 @media (max-width: 400px) {
   .side, .middle, .right {
@@ -183,4 +184,7 @@ body {
   .right {
     display: none;
   }
+
 }
+
+
