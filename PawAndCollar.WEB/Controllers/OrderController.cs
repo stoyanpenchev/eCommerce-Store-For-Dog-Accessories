@@ -46,6 +46,7 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Summary(OrderSummaryViewModel summaryViewModel)
         {
             string userId = this.User.GetId()!;
@@ -138,7 +139,8 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpPost]
-		[Authorize(Roles = "Administrator")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> UpdateStatus(OrderDetailsViewModel viewModel)
         {
 			OrderDetailsViewModel model = await this.orderService.GetOrderDetailsAsync(viewModel.Id);

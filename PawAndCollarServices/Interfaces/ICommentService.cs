@@ -11,5 +11,6 @@ namespace PawAndCollarServices.Interfaces
 		Task<bool> IsCommentExistByIdAsync(int commentId);
 
 		Task EditCommentAsync(CommentViewModel comment);
+		Task DeleteCommentAsync(CommentViewModel comment);
 	}
 }

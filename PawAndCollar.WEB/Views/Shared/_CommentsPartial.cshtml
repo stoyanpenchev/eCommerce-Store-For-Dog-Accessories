@@ -1,0 +1,69 @@
+﻿@model ICollection<CommentViewModel>
+
+<div class="review-list">
+    @foreach (var comment in Model)
+    {
+        <div class="review card mb-3">
+            <div class="card-body">
+                <h4 class="card-title">@comment.AuthorName</h4>
+                <p class="card-text">Date Posted: @comment.DatePosted</p>
+                <p class="card-text">
+                    <span class="heading">Rating: </span>
+                    @for (int i = 1; i <= comment.RatingType; i++)
+                    {
+                        <span class="fa fa-star checked"></span>
+                    }
+                    @for (int i = comment.RatingType + 1; i <= 5; i++)
+                    {
+                        <span class="fa fa-star"></span>
+                    }
+                </p>
+
+                @if (User.Identity.IsAuthenticated && (comment.AuthorName == User.Identity.Name || User.IsInRole("Administrator")))
+                {
+                    <div id="editForm_@comment.Id" style="display: none;">
+                        <form asp-controller="Comment" asp-action="Edit" method="post">
+                            <input type="hidden" name="id" value="@comment.Id" />
+                            <input type="hidden" name="AuthorName" value="@comment.AuthorName" />
+                            <input type="hidden" name="DatePosted" value="@comment.DatePosted" />
+                            <div class="form-group">
+                                <label for="content_@comment.Id">Content:</label>
+                                <textarea class="form-control" id="content_@comment.Id" name="Content" rows="4">@comment.Content</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="rating-label">Rating:</label>
+                                <div class="rating-input">
+                                    @for (int i_ = 1; i_ <= 5; i_++)
+                                    {
+                                        <input type="radio" name="RatingType" value="@i_" id="rating_@i_@comment.Id" @(i_ == comment.RatingType ? "checked" : "") />
+                                        <label for="rating_@i_@comment.Id" title="@i_ Stars"><span class="fa fa-star"></span></label>
+                                    }
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="button" class="btn btn-link" onclick="toggleEditForm('@comment.Id')">Cancel</button>
+                        </form>
+                    </div>
+
+                    @if (ViewBag.ShowEditForm == true && ViewBag.CommentId == comment.Id)
+                    {
+                        <script>
+                            window.addEventListener('DOMContentLoaded', function () {
+                                toggleEditForm('@comment.Id');
+                            });
+                        </script>
+                    }
+
+                    <p class="card-text">@comment.Content</p>
+                    <button type="button" class="btn btn-link edit-comment-btn" onclick="toggleEditForm('@comment.Id')">Edit</button>
+                    <button class="btn btn-link delete-comment-btn" data-comment-id="@comment.Id">Delete</button>
+
+                }
+                else
+                {
+                    <p class="card-text">@comment.Content</p>
+                }
+            </div>
+        </div>
+    }
+</div>

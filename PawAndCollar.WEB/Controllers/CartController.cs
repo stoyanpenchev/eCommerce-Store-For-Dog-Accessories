@@ -39,7 +39,8 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddToCart(int productId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddToCart(int productId)
 		{
 			string userId = this.User.GetId()!;
 			bool productExists = await this.productService.ExistsByIdAsync(productId);
@@ -81,7 +82,8 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> IncreaseQuantity(int productId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> IncreaseQuantity(int productId)
 		{
 			string userId = this.User.GetId()!;
             bool productExists = await this.productService.ExistsByIdAsync(productId);
@@ -111,7 +113,8 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> DecreaseQuantity(int productId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DecreaseQuantity(int productId)
 		{
 			string userId = this.User.GetId()!;
 			try
@@ -126,7 +129,8 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> RemoveFromCart(int productId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemoveFromCart(int productId)
 		{
 			string userId = this.User.GetId()!;
 			try

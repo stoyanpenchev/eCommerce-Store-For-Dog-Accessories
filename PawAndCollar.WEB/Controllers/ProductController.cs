@@ -57,7 +57,8 @@ namespace PawAndCollar.Web.Controllers
 
 		[AllowAnonymous]
 		[HttpPost]
-		public async Task<IActionResult> Search(SearchProductByNameViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Search(SearchProductByNameViewModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -145,7 +146,8 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Add(AddProductViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(AddProductViewModel model)
 		{
 			bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(this.User.GetId()!);
 			if (!isCreator)
@@ -217,7 +219,8 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(int id, AddProductViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, AddProductViewModel model)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -298,8 +301,10 @@ namespace PawAndCollar.Web.Controllers
 				return this.GeneralError();
 			}
 		}
+
 		[HttpPost]
-		public async Task<IActionResult> Delete(ProductPreDeleteViewModel model, int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(ProductPreDeleteViewModel model, int id)
 		{
 			bool productExists = await this.productService.ExistsByIdAsync(id);
 			if (!productExists)

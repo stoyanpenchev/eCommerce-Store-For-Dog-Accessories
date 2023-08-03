@@ -72,6 +72,7 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CommentCreateViewModel comment)
         {
             string? userId = this.User.GetId();
@@ -90,7 +91,7 @@ namespace PawAndCollar.Web.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
 
-            if (review.IsCustomerPurchasedProduct == false)
+            if (review.IsCustomerPurchasedProduct == false && !this.User.IsAdministrator())
             {
                 this.TempData[ErrorMessage] = "You must purchase the product to comment";
                 return this.RedirectToAction("Index", "Home");
@@ -116,41 +117,9 @@ namespace PawAndCollar.Web.Controllers
             }
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //	string userId = this.User.GetId();
-        //	if (userId == null)
-        //	{
-        //		this.TempData[ErrorMessage] = "You must be logged in to edit comment";
-        //		return this.RedirectToAction("Login", "Account");
-        //	}
-        //	bool isCommentExist = await this.commentService.IsCommentExistByIdAsync(id);
-        //	if (!isCommentExist)
-        //	{
-        //		this.TempData[ErrorMessage] = "Comment does not exist";
-        //		return this.RedirectToAction("Index", "Home");
-        //	}
-        //	bool isCommentBelongToUser = await this.commentService.IsCommentBelongToUser(userId, id);
-        //	if (!isCommentBelongToUser)
-        //	{
-        //		this.TempData[ErrorMessage] = "That Comment is not yours!";
-        //		return this.RedirectToAction("Index", "Home");
-        //	}
-        //	try
-        //	{
-        //              CommentViewModel comment = await this.commentService.GetCommentByIdAsync(id);
-        //		comment.RatingTypes = this.enumService.GetEnumSelectList<RatingTypes>();
-
-        //		return View("ReviewIndex", comment);
-        //	}
-        //	catch (Exception)
-        //	{
-        //		return this.GeneralError();
-        //	}
-        //}
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CommentViewModel comment)
         {
             ReviewViewModel review = await this.reviewService.GetReviewByCommentIdAsync(comment.Id);
@@ -172,7 +141,7 @@ namespace PawAndCollar.Web.Controllers
                 return this.RedirectToAction("Index", "Home");
             }
             bool isCommentBelongToUser = await this.commentService.IsCommentBelongToUser(userId, comment.Id);
-            if (!isCommentBelongToUser)
+            if (!isCommentBelongToUser && !this.User.IsAdministrator())
             {
                 this.TempData[ErrorMessage] = "That Comment is not yours!";
                 return this.RedirectToAction("Index", "Home");
@@ -198,6 +167,47 @@ namespace PawAndCollar.Web.Controllers
             }
 
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int commentId)
+        {
+            ReviewViewModel review = await this.reviewService.GetReviewByCommentIdAsync(commentId);
+            if (review == null)
+            {
+                this.TempData[ErrorMessage] = "Review does not exist";
+                return this.RedirectToAction("Index", "Home");
+            }
+            string userId = this.User.GetId();
+            if (userId == null)
+            {
+                this.TempData[ErrorMessage] = "You must be logged in to edit comment";
+                return this.RedirectToAction("Login", "Account");
+            }
+            bool isCommentExist = await this.commentService.IsCommentExistByIdAsync(commentId);
+            if (!isCommentExist)
+            {
+                this.TempData[ErrorMessage] = "Comment does not exist";
+                return this.RedirectToAction("Index", "Home");
+            }
+            bool isCommentBelongToUser = await this.commentService.IsCommentBelongToUser(userId, commentId);
+            if (!isCommentBelongToUser && !this.User.IsAdministrator())
+			{
+				this.TempData[ErrorMessage] = "That Comment is not yours!";
+				return this.RedirectToAction("Index", "Home");
+			}
+            CommentViewModel comment = await this.commentService.GetCommentByIdAsync(commentId);
+            try
+            {
+                await this.commentService.DeleteCommentAsync(comment);
+				this.TempData[SuccessMessage] = "Comment deleted successfully!";
+				return RedirectToAction("ReviewIndex", "Review", new { id = review.Product.Id });
+			}
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+		}
 
         private IActionResult GeneralError()
         {

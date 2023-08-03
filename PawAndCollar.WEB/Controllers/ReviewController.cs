@@ -2,6 +2,7 @@
 using PawAndCollar.Data.Models;
 using PawAndCollar.Web.Infrastructure.Extensions;
 using PawAndCollar.Web.ViewModels.Review;
+using PawAndCollar.Web.ViewModels.Review.Enums;
 using PawAndCollarServices.Interfaces;
 
 namespace PawAndCollar.Web.Controllers
@@ -18,7 +19,7 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> ReviewIndex(int id)
+		public async Task<IActionResult> ReviewIndex(int id, string sorting)
 		{
 			bool isProductExisting = await this.productService.ExistsByIdAsync(id);
 			if (!isProductExisting)
@@ -27,7 +28,7 @@ namespace PawAndCollar.Web.Controllers
 				return this.RedirectToAction("Index", "Home");
 			}
 			string? userId = this.User.GetId();
-			ReviewViewModel reviewModel = await this.reviewService.GetReviewByProductIdAsync(id, userId);
+			ReviewViewModel reviewModel = await this.reviewService.GetReviewByProductIdAsync(id, userId, sorting);
 			return this.View(reviewModel);
 		}
 

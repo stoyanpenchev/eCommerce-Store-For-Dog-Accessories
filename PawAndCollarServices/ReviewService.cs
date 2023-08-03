@@ -95,7 +95,7 @@ namespace PawAndCollarServices
 			return reviewModel;
 		}
 
-		public async Task<ReviewViewModel> GetReviewByProductIdAsync(int productId, string userId)
+		public async Task<ReviewViewModel> GetReviewByProductIdAsync(int productId, string userId, string sorting)
 		{
 			Product? product = await this.dbContext.Products
 				.Include(p => p.Review)
@@ -150,7 +150,7 @@ namespace PawAndCollarServices
 					ImageUrl = product.ImageUrl
 				},
 				IsCustomerPurchasedProduct = false,
-				AverageRating = productReview.AverageScore,
+				AverageRating = averageRating,
 				Comments = productReview.Comments.Select(c => new CommentViewModel()
 				{
 					Id = c.Id,
@@ -166,8 +166,26 @@ namespace PawAndCollarServices
 				bool isCustomerPurchasedProduct = await this.orderService.UserPurchasedProductAsync(userId, productId);
 				reviewViewModel.IsCustomerPurchasedProduct = isCustomerPurchasedProduct;
 			}
+            if (!string.IsNullOrEmpty(sorting))
+            {
+                switch (sorting)
+                {
+                    case "Newest":
+                        reviewViewModel.Comments = reviewViewModel.Comments.OrderByDescending(c => c.DatePosted).ToList();
+                        break;
+                    case "Oldest":
+                        reviewViewModel.Comments = reviewViewModel.Comments.OrderBy(c => c.DatePosted).ToList();
+                        break;
+                    case "HighestRating":
+                        reviewViewModel.Comments = reviewViewModel.Comments.OrderByDescending(c => c.RatingType).ToList();
+                        break;
+                    case "LowestRating":
+                        reviewViewModel.Comments = reviewViewModel.Comments.OrderBy(c => c.RatingType).ToList();
+                        break;
+                }
+            }
 
-			return reviewViewModel;
+            return reviewViewModel;
 		}
 
 

@@ -33,7 +33,8 @@ namespace PawAndCollar.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Become(BecomeCreatorFormModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Become(BecomeCreatorFormModel model)
 		{
 			string? userId = this.User.GetId();
 			bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(userId);

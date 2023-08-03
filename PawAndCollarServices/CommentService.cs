@@ -40,6 +40,16 @@ namespace PawAndCollarServices
 			}
 		}
 
+		public async Task DeleteCommentAsync(CommentViewModel comment)
+		{
+			Comment? commentToDelete = await this.dbContext.Comments.Where(x => x.Id == comment.Id).FirstOrDefaultAsync();
+			if (commentToDelete != null)
+			{
+				this.dbContext.Comments.Remove(commentToDelete);
+				await dbContext.SaveChangesAsync();
+			}
+		}
+
 		public async Task EditCommentAsync(CommentViewModel comment)
 		{
 			Comment? dbComment = await this.dbContext.Comments.Where(x => x.Id == comment.Id).FirstOrDefaultAsync();
@@ -51,6 +61,7 @@ namespace PawAndCollarServices
 				dbComment.DatePosted = DateTime.UtcNow;
 				await dbContext.SaveChangesAsync();
 			}
+
 		}
 
 		public async Task<CommentViewModel> GetCommentByIdAsync(int id)
