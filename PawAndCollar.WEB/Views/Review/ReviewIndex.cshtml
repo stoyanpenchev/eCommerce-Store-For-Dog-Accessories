@@ -8,18 +8,18 @@
 <h4 class="mt-4">With Price: @Model.Product.Price</h4>
 <img src="@Model.Product.ImageUrl" alt="@Model.Product.ProductName" class="img-fluid img-thumbnail" style="width: 120px; height: 120px;" />
 
-<div class="sort-controls col-md-2" style="max-width: 150px;">
-	<label for="sortSelect">Sort by:</label>
-	<select id="sortSelect" class="form-control">
-		<option value="Newest">Newest</option>
-		<option value="Oldest">Oldest</option>
-		<option value="HighestRating">Highest Rating</option>
-		<option value="LowestRating">Lowest Rating</option>
-	</select>
-</div>
-
-
-
+@if(Model.Comments != null && Model.Comments.Count > 0)
+{
+	<div class="sort-controls col-md-2" style="max-width: 150px;">
+		<label for="sortSelect">Sort by:</label>
+		<select id="sortSelect" class="form-control">
+			<option value="Newest">Newest</option>
+			<option value="Oldest">Oldest</option>
+			<option value="HighestRating">Highest Rating</option>
+			<option value="LowestRating">Lowest Rating</option>
+		</select>
+	</div>
+}
 
 
 @if (User.Identity.IsAuthenticated && Model.IsCustomerPurchasedProduct || User.IsInRole("Administrator"))

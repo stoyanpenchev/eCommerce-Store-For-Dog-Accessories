@@ -65,12 +65,24 @@ namespace PawAndCollar.Web.Controllers
 				var searchedItem = model.SearchedItem;
 				var products = await this.productService.SearchProductsByNameAsync(searchedItem);
 				model.SearchResults = products;
-			}
+                return RedirectToAction("DisplaySearchResults", new { searchedItem });
+            }
 
 			return View(model);
 		}
 
-		[HttpGet]
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> DisplaySearchResults(string searchedItem)
+        {
+            var model = new SearchProductByNameViewModel();
+			model.SearchResults = this.productService.SearchProductsByNameAsync(searchedItem).Result;
+            model.SearchedItem = searchedItem;
+
+            return View("Search", model);
+        }
+
+        [HttpGet]
 		public async Task<IActionResult> Mine()
 		{
 			bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(this.User.GetId()!);
