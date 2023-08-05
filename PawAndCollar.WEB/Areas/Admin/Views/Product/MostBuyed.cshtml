@@ -1,0 +1,34 @@
+﻿@model IEnumerable<MostBuyedProductsViewModel>
+
+@{
+	ViewBag.Title = "Most Buyed Products";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@if (!Model.Any())
+{
+	<h2 class="text-center">There are no products found!</h2>
+}
+
+<div class="row">
+	@foreach (var product in Model)
+	{
+		<div class="col-md-3">
+            <div class="product">
+                <img src="@product.ImageUrl" alt="@product.Name" width="300" height="300">
+                <h4>@product.Name</h4>
+                <p>By @product.CreatorName</p>
+                <p>Id: @product.Id</p>
+                <p>Size: @product.Size</p>
+                <p>Price: $@product.Price</p>
+                <p class="fw-bold">Buyed Counter: @product.BuyedCount</p>
+                <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id"
+                   class="btn btn-success">Details</a>
+                <a asp-area="" asp-controller="Review" asp-action="ReviewIndex" asp-route-id="@product.Id"
+                   class="btn btn-info">Reviews</a>
+            </div>
+		</div>
+	}
+</div>
