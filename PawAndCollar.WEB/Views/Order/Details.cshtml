@@ -1,4 +1,5 @@
-﻿@model OrderDetailsViewModel
+﻿@using PawAndCollar.Web.Infrastructure.Extensions;
+@model OrderDetailsViewModel
 
 <div class="row">
 	<div class="col-md-6">
@@ -51,15 +52,26 @@
 			<input asp-for="TotalPrice" class="form-control total-price" required disabled />
 			<span asp-validation-for="TotalPrice" class="text-danger"></span>
 		</div>
-		<form asp-controller="Order" asp-action="UpdateStatus" method="post">
-			<input type="hidden" asp-for="@Model.Id" />
-			<div class="form-group">
+		@if (this.User.IsAdministrator())
+		{
+			<form asp-controller="Order" asp-action="UpdateStatus" method="post">
+				<input type="hidden" asp-for="@Model.Id" />
+				<div class="form-group">
+					<label asp-for="Status">Order Status:</label>
+					<select asp-for="Status" asp-items="@Model.StatusOptions" class="form-control">
+					</select>
+				</div>
+				<button type="submit" class="btn btn-primary">Update Status</button>
+			</form>
+		}
+		else
+		{
+			<div>
 				<label asp-for="Status">Order Status:</label>
-				<select asp-for="Status" asp-items="@Model.StatusOptions" class="form-control">
-				</select>
+				<input asp-for="Status" class="form-control" required disabled />
+				<span asp-validation-for="Status" class="text-danger"></span>
 			</div>
-			<button type="submit" class="btn btn-primary">Update Status</button>
-		</form>
+		}
 	</div>
 
 	<div class="col-md-6">

@@ -8,6 +8,8 @@ using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollar.Services.Data.Models.Order;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
+using PawAndCollar.Data.Models.Models;
+using PawAndCollar.Web.ViewModels.User;
 
 namespace PawAndCollar.Web.Controllers
 {
@@ -20,14 +22,17 @@ namespace PawAndCollar.Web.Controllers
         private readonly IOrderService orderService;
         private readonly IEnumService enumService;
         private readonly IProductService productService;
+        private readonly IApplicationUserService applicationUserService;
 
         private readonly IMemoryCache memoryCache;
-        public OrderController(IOrderService orderService, IEnumService enumService, IProductService productService, IMemoryCache memoryCache)
+        public OrderController(IOrderService orderService, IEnumService enumService, IProductService productService, 
+            IMemoryCache memoryCache, IApplicationUserService applicationUserService)
         {
             this.orderService = orderService;
             this.enumService = enumService;
             this.productService = productService;
             this.memoryCache = memoryCache;
+            this.applicationUserService = applicationUserService;
         }
 
         [HttpGet]
@@ -124,9 +129,28 @@ namespace PawAndCollar.Web.Controllers
         }
 
         [HttpGet]
+        //[Authorize(Roles = "User")]
+        public async Task<IActionResult> MyOrders()
+        {
+            string userId = this.User.GetId()!;
+            try
+            {
+                List<OrderViewModel> models = await this.orderService.GetMyOrdersAsync(userId);
+                return this.View(models);
+            }
+            catch (Exception)
+            {
+                return this.GeneralError();
+            }
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Details(string id)
         {
-            if(!this.User.IsAdministrator())
+            string userId = this.User.GetId()!;
+			ApplicationUserViewModel user = await this.applicationUserService.GetUserByIdAsync(Guid.Parse(userId));
+            bool isUsersOrder = await this.orderService.IsUsersOrderAsync(id, userId);
+            if(!this.User.IsAdministrator() && !isUsersOrder)
             {
                 this.TempData[ErrorMessage] = "You are not authorized to view this page!";
 				return this.RedirectToAction("Index", "Home");

@@ -2,7 +2,6 @@
 using PawAndCollar.Web.ViewModels.Order;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollarServices.Interfaces;
-using static PawAndCollar.Common.EntittyValidationConstants;
 
 namespace PawAndCollarServices
 {
@@ -13,11 +12,13 @@ namespace PawAndCollarServices
     using PawAndCollar.Data.Models.Models;
     using PawAndCollar.Services.Data.Models.Order;
     using PawAndCollar.Web.ViewModels.Order.Enums;
+	using PawAndCollar.Web.ViewModels.User;
+	using System.Collections.Generic;
 
-    public class OrderService : IOrderService
+	public class OrderService : IOrderService
     {
         private readonly PawAndCollarDbContext dbContext;
-        public OrderService(PawAndCollarDbContext dbContext)
+		public OrderService(PawAndCollarDbContext dbContext, IApplicationUserService applicationUserService)
         {
             this.dbContext = dbContext;
         }
@@ -160,6 +161,25 @@ namespace PawAndCollarServices
             return orderStats;
         }
 
+		public async Task<List<OrderViewModel>> GetMyOrdersAsync(string userId)
+		{
+			List<OrderViewModel> orders = await this.dbContext.Orders
+                .Include(o => o.Customer)
+                .Where(o => o.Customer.Id.ToString() == userId)
+				.Select(o => new OrderViewModel
+				{
+					Id = o.Id.ToString(),
+					CustomerName = o.CustomerName,
+					OrderDate = o.OrderDate.ToString("yyyy-MM-dd HH:mm"),                  
+					PhoneNumber = o.Phone,
+					Email = o.Customer.Email,
+					Status = o.Status.ToString(),
+					TotalPrice = o.TotalAmount
+				}).ToListAsync();
+
+            return orders;
+		}
+
 		public async Task<OrderDetailsViewModel> GetOrderDetailsAsync(string id)
 		{
             OrderDetailsViewModel? model = await this.dbContext.Orders
@@ -233,7 +253,16 @@ namespace PawAndCollarServices
             }
         }
 
-        public async Task UpdateOrderStatusAsync(OrderDetailsViewModel viewModel)
+		public async Task<bool> IsUsersOrderAsync(string id, string userId)
+		{
+            ApplicationUser? user = await this.dbContext.Users
+                .Include(u => u.Orders)
+				.FirstOrDefaultAsync(u => u.Id == Guid.Parse(userId));
+
+            return user.Orders.Any(o => o.Id.ToString() == id.ToLower());
+		}
+
+		public async Task UpdateOrderStatusAsync(OrderDetailsViewModel viewModel)
         {
             Order? order = await this.dbContext.Orders
                 .FirstOrDefaultAsync(o => o.Id.ToString() == viewModel.Id);

@@ -1,0 +1,49 @@
+﻿@model List<OrderViewModel>
+
+<h2>Order List</h2>
+
+
+@if (!Model.Any())
+{
+	<h2 class="text-center">No orders found!</h2>
+}
+
+@if (Model.Any())
+{
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th scope="col">Order Id</th>
+				<th scope="col">Customer Name</th>
+				<th scope="col">Phone Number</th>
+				<th scope="col">Email</th>
+				<th scope="col">Total Price</th>
+				<th scope="col">Status</th>
+				<th scope="col">Created On</th>
+				<th scope="col">Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var order in Model)
+			{
+				<tr>
+					<td>@order.Id</td>
+					<td>@order.CustomerName</td>
+					<td>@order.PhoneNumber</td>
+					<td>@order.Email</td>
+					<td>@order.TotalPrice</td>
+					<td>@order.Status</td>
+					<td>@order.OrderDate</td>
+					<td>
+						<a class="btn btn-primary"
+				   asp-controller="Order"
+				   asp-action="Details"
+				   asp-route-id="@order.Id">Details</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+

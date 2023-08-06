@@ -16,5 +16,7 @@ namespace PawAndCollarServices.Interfaces
 		Task<ICollection<string>> GetAllOrderStatusesAsync();
 		Task<OrderDetailsViewModel> GetOrderDetailsAsync(string id);
         Task UpdateOrderStatusAsync(OrderDetailsViewModel viewModel);
-    }
+		Task<List<OrderViewModel>> GetMyOrdersAsync(string userId);
+		Task<bool> IsUsersOrderAsync(string id, string userId);
+	}
 }

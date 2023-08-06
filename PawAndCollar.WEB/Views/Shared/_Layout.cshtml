@@ -42,6 +42,9 @@
 						</li>
 						@if (this.User.Identity?.IsAuthenticated ?? false)
 						{
+							<li class="nav-item">
+								<a class="nav-link" asp-area="" asp-controller="Order" asp-action="MyOrders">My Orders</a>
+							</li>
 							if (this.User.IsAdministrator())
 							{
 								<a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="btn btn-danger btn-lg position-absolute top-50 start-50 translate-middle" style="background-color: #725B55; border-color: #725B55; color: #FDF7EE;">
