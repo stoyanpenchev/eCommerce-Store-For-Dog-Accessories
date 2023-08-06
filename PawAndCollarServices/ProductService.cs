@@ -54,7 +54,7 @@ namespace PawAndCollarServices
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task EditProductAsync(AddProductViewModel model, string creatorId)
+        public async Task EditProductAsync(AddProductViewModel model)
         {
             Product? product = await this.dbContext.Products.FirstOrDefaultAsync(p => p.Id == model.Id && p.IsActive);
             if (product != null)
@@ -65,7 +65,6 @@ namespace PawAndCollarServices
                 product.Quantity = model.Quantity;
                 product.ImageUrl = model.ImageUrl;
                 product.CategoryId = model.CategoryId;
-                product.CreatorId = Guid.Parse(creatorId);
                 product.Size = (SizeTypes)model.Size;
                 product.Color = model.Color;
                 product.Material = model.Material;

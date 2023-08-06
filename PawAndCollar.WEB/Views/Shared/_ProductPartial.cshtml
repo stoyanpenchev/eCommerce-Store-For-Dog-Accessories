@@ -1,4 +1,5 @@
 ﻿@model ProductHomeViewModel
+@using PawAndCollar.Web.Infrastructure.Extensions;
 
 <div class="product">
     <img src="@Model.ImageUrl" alt="@Model.Name" width="300" height="300">
@@ -10,4 +11,12 @@
        class="btn btn-success">Details</a>
     <a asp-controller="Review" asp-action="ReviewIndex" asp-route-id="@Model.Id"
        class="btn btn-info">Reviews</a>
+    @if (this.User.IsAdministrator())
+    {
+        <a asp-area="" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id"
+           class="btn btn-danger">Delete</a>
+
+        <a asp-area="" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id"
+                                              class="btn btn-primary">Edit</a>
+    }
 </div>

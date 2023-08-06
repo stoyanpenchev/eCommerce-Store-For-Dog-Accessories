@@ -20,7 +20,7 @@ namespace PawAndCollarServices.Interfaces
         Task<ProductDeatailsViewModel?> GetDetailsByIdAsync(int productId);
 
         Task<AddProductViewModel?> GetProductByIdAsync(int productId);
-		Task EditProductAsync(AddProductViewModel model, string creatorId);
+		Task EditProductAsync(AddProductViewModel model);
 
         Task DeleteProductByIdAsync(int id);
 

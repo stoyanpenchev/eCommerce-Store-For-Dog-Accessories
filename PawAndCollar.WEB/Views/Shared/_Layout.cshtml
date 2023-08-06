@@ -44,9 +44,9 @@
 						{
 							if (this.User.IsAdministrator())
 							{
-								<li class="nav-item">
-									<a class="nav-link" asp-area="" asp-controller="Order" asp-action="ManageOrders">Manage Orders</a>
-								</li>
+								<a href="@Url.Action("Index", "Home", new { area = "Admin" })" class="btn btn-danger btn-lg position-absolute top-50 start-50 translate-middle" style="background-color: #725B55; border-color: #725B55; color: #FDF7EE;">
+									Go To Admin Panel
+								</a>
 							}
 							@if (isUserCreator)
 							{
