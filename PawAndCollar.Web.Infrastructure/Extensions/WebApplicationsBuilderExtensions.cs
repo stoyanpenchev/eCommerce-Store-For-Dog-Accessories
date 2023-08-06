@@ -8,7 +8,9 @@
 
 	using Data.Models.Models;
 	using static Common.GeneralApplicationConstants;
-	public static class WebApplicationsBuilderExtensions
+    using PawAndCollar.Web.Infrastructure.Middlewares;
+
+    public static class WebApplicationsBuilderExtensions
 	{
 		/// <summary>
 		/// This method registers all services with their interfaces and implementations of given assembly.
@@ -78,6 +80,10 @@
 			return app;
 		}
 
+		public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
+		{
+            return app.UseMiddleware<OnlineUsersMiddleware>();
+        }
 
 	}
 }

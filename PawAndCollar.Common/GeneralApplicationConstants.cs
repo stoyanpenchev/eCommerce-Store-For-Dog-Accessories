@@ -18,5 +18,9 @@
 
 
 		public const string UserRoleName = "User";
+
+        public const string OnlineUsersCookieName = "IsOnline";
+
+        public const int LastActivityBeforeOfflineMinutes = 10;
 	}
 }
