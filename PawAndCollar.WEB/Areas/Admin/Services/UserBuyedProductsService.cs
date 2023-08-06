@@ -35,6 +35,7 @@
                     CreatorName = p.Creator.User.UserName,
                     Price = p.Price,
                     Quantity = p.Quantity,
+                    isItActive = p.IsActive,
                     Size = p.Size.ToString(),
                     BuyedCount = this.dbContext.UsersBuyedProducts
                         .Where(ubp => ubp.ProductId == p.Id)

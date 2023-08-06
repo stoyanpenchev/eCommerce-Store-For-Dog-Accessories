@@ -1,24 +1,38 @@
 ﻿namespace PawAndCollar.Web.Areas.Admin.Controllers
 {
 	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.Extensions.Caching.Memory;
 	using PawAndCollar.Web.ViewModels.User;
 	using PawAndCollarServices.Interfaces;
     using static Common.NotificationMessagesConstants;
+	using static Common.GeneralApplicationConstants;
 
     public class UserController : BaseAdminController
 	{
 		private readonly IApplicationUserService userService;
-		public UserController(IApplicationUserService userService)
+		private readonly IMemoryCache memoryCache;
+		public UserController(IApplicationUserService userService, IMemoryCache memoryCache)
 		{
+			this.memoryCache = memoryCache;
 			this.userService = userService;
 		}
 
 		[Route("User/All")]
+		[ResponseCache(Duration = 30, Location = ResponseCacheLocation.None, NoStore = true)]
 		public async Task<IActionResult> All()
 		{
-			IEnumerable<ApplicationUserViewModel> usersViewModel = await this.userService.AllAsync();
+			IEnumerable<ApplicationUserViewModel> users = this.memoryCache.Get<IEnumerable<ApplicationUserViewModel>>(UsersCacheKey);
+			if(users == null)
+			{
+				users = await this.userService.AllAsync();
 
-			return this.View(usersViewModel);
+				MemoryCacheEntryOptions cacheOptions = new MemoryCacheEntryOptions()
+					.SetAbsoluteExpiration(TimeSpan.FromSeconds(UsersCacheDurationsSec));
+
+				this.memoryCache.Set(UsersCacheKey, users, cacheOptions);
+			}
+
+			return this.View(users);
 		}
 
 		[HttpPost]

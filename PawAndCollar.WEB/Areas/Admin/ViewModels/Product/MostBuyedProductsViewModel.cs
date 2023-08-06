@@ -16,6 +16,8 @@ namespace PawAndCollar.Web.Areas.Admin.ViewModels.Product
 
         public string Size { get; set; } = null!;
 
+        public bool isItActive { get; set; }
+
         [Display(Name = "Buyed Counter")]
         public int BuyedCount { get; set; }
 

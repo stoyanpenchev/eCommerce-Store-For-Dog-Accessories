@@ -57,6 +57,11 @@ namespace PawAndCollarServices
             if (user != null)
             {
                 user.Email = "*****";
+                user.NormalizedEmail = "*****";
+                user.UserName = "*****";
+                user.NormalizedUserName = "*****";
+                user.PasswordHash = "*****";
+                user.CartId = null;
                 bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(id.ToString());
                 if (isCreator)
                 {

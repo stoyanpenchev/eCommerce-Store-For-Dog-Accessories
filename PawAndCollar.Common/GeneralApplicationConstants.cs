@@ -16,6 +16,11 @@
         public const string DevelopmentCreatorEmail = "creator@abv.bg";
 		public const string DevelopmentUserEmail = "doglover@abv.bg";
 
+        public const string UsersCacheKey = "UsersCacheKey";
+        public const string MostBuyedProductsCacheKey = "MostBuyedProductsCacheKey";
+
+        public const int UsersCacheDurationsSec = 10;
+        public const int MostBuyedProductsCacheDurationsMinutes = 10;
 
 		public const string UserRoleName = "User";
 

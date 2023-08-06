@@ -9,20 +9,24 @@
 
 	using static Common.NotificationMessagesConstants;
 	using Griesoft.AspNetCore.ReCaptcha;
+	using Microsoft.Extensions.Caching.Memory;
 
 	public class UserController : Controller
 	{
 		private readonly SignInManager<ApplicationUser> signInManager;
 		private readonly UserManager<ApplicationUser> userManager;
 		private readonly RoleManager<IdentityRole<Guid>> roleManager;
+		private readonly IMemoryCache memoryCache;
 
 		public UserController(SignInManager<ApplicationUser> signInManager,
 							  UserManager<ApplicationUser> userManager,
-							  RoleManager<IdentityRole<Guid>> roleManager)
+							  RoleManager<IdentityRole<Guid>> roleManager,
+							  IMemoryCache memoryCache)
 		{
 			this.signInManager = signInManager;
 			this.userManager = userManager;
 			this.roleManager = roleManager;
+			this.memoryCache = memoryCache;
 		}
 
 		[HttpGet]
@@ -82,6 +86,8 @@
 			}
 
 			await signInManager.SignInAsync(user, false);
+
+			this.memoryCache.Remove(UsersCacheKey);
 
 			return RedirectToAction("Index", "Home");
 		}

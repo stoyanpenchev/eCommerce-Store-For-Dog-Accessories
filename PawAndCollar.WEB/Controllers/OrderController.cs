@@ -7,10 +7,12 @@ using PawAndCollarServices.Interfaces;
 using PawAndCollar.Web.ViewModels.Product;
 using PawAndCollar.Services.Data.Models.Order;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace PawAndCollar.Web.Controllers
 {
     using static PawAndCollar.Common.NotificationMessagesConstants;
+    using static Common.GeneralApplicationConstants;
 
     [Authorize]
     public class OrderController : Controller
@@ -18,13 +20,14 @@ namespace PawAndCollar.Web.Controllers
         private readonly IOrderService orderService;
         private readonly IEnumService enumService;
         private readonly IProductService productService;
-        private readonly IApplicationUserService applicationUserService;
-        public OrderController(IOrderService orderService, IEnumService enumService, IProductService productService, IApplicationUserService applicationUserService)
+
+        private readonly IMemoryCache memoryCache;
+        public OrderController(IOrderService orderService, IEnumService enumService, IProductService productService, IMemoryCache memoryCache)
         {
             this.orderService = orderService;
             this.enumService = enumService;
             this.productService = productService;
-            this.applicationUserService = applicationUserService;
+            this.memoryCache = memoryCache;
         }
 
         [HttpGet]
@@ -77,6 +80,8 @@ namespace PawAndCollar.Web.Controllers
             {
                 await this.orderService.AddOrderSummaryAsync(summaryViewModel, userId);
                 this.TempData[SuccessMessage] = "Order created successfully!";
+
+                this.memoryCache.Remove(MostBuyedProductsCacheKey);
                 return this.RedirectToAction("Index", "Home");
             }
             catch (InvalidOperationException)

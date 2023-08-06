@@ -23,6 +23,8 @@
                 <p>Id: @product.Id</p>
                 <p>Size: @product.Size</p>
                 <p>Price: $@product.Price</p>
+                <p>Quantity: @product.Quantity</p>
+                <p>IsActive: @product.isItActive</p>
                 <p class="fw-bold">Buyed Counter: @product.BuyedCount</p>
                 <a asp-area="" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id"
                    class="btn btn-success">Details</a>
