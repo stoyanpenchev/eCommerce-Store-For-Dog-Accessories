@@ -56,17 +56,19 @@ namespace PawAndCollarServices
 
             if (user != null)
             {
-                user.Email = "*****";
-                user.NormalizedEmail = "*****";
-                user.UserName = "*****";
-                user.NormalizedUserName = "*****";
-                user.PasswordHash = "*****";
-                user.CartId = null;
+                string randomValue = GenerateRandomValue();
+                user.Email = randomValue;
+                user.NormalizedEmail = randomValue;
+
+				user.UserName = randomValue;
+                user.NormalizedUserName = randomValue;
+				user.PasswordHash = randomValue;
+				user.CartId = null;
                 bool isCreator = await this.creatorService.CreatorExistByUserIdAsync(id.ToString());
                 if (isCreator)
                 {
-                    user.PhoneNumber = "*****";
-                }
+                    user.PhoneNumber = randomValue;
+				}
                 await this.dbContext.SaveChangesAsync();
             }
             bool isItCreator = await this.creatorService.CreatorExistByUserIdAsync(id.ToString());
@@ -119,5 +121,24 @@ namespace PawAndCollarServices
             bool? openOrders = user.OpenOrders;
             return openOrders;
         }
-    }
+
+		private string GenerateRandomValue()
+		{
+			const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+			var random = new Random();
+			var randomValue = new string(Enumerable.Repeat(chars, 10)
+				.Select(s => s[random.Next(s.Length)]).ToArray());
+
+			// Check if the generated value is already used in the database
+			// If it is, generate a new one until a unique value is found
+			while (dbContext.Users.Any(u => u.Email == randomValue || u.UserName == randomValue))
+			{
+				randomValue = new string(Enumerable.Repeat(chars, 10)
+					.Select(s => s[random.Next(s.Length)]).ToArray());
+			}
+
+			return randomValue;
+		}
+
+	}
 }

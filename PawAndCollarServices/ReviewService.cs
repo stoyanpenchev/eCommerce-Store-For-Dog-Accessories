@@ -147,7 +147,8 @@ namespace PawAndCollarServices
 					Id = product.Id,
 					ProductName = product.Name,
 					Price = product.Price,
-					ImageUrl = product.ImageUrl
+					ImageUrl = product.ImageUrl,
+					AverageReviewScore = product.Review != null ? product.Review.AverageScore : 0
 				},
 				IsCustomerPurchasedProduct = false,
 				AverageRating = averageRating,

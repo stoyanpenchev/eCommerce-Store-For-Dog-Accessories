@@ -92,12 +92,6 @@ namespace PawAndCollarServices
                     Quantity = orderedItem.Quantity,
                     OrderId = existingOrder.Id
                 });
-                //existingOrder.UserBuyedProducts.Add(new UsersBuyedProducts
-                //{
-                //    ProductId = product.Id,
-                //    UserId = Guid.Parse(userId),
-                //    Quantity = orderedItem.Quantity
-                //});
                 
             }
             

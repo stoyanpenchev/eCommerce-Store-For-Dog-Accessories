@@ -100,6 +100,7 @@ namespace PawAndCollarServices
         public async Task<AllProductsFilteredAndPagedServiceModel> GetAllProductsAsync(AllProductsQueryModel queryModel)
         {
             IQueryable<Product> productsQuery = this.dbContext.Products
+                .Include(p => p.Review)
                 .Include(p => p.OrderedItems)
                 .ThenInclude(oi => oi.Order)
                 .ThenInclude(or => or.UserBuyedProducts)
@@ -152,6 +153,7 @@ namespace PawAndCollarServices
                     CreatorName = p.Creator.User.UserName,
                     Size = p.Size.ToString(),
                     Price = p.Price,
+					AverageReviewScore = p.Review != null ? p.Review.AverageScore : 0
                 }).ToListAsync();
 
             int totalProducts = await productsQuery.CountAsync();
@@ -165,6 +167,7 @@ namespace PawAndCollarServices
         public async Task<ICollection<ProductHomeViewModel>> GetAllProductsByCreatorIdAsync(string creatorId)
         {
             List<ProductHomeViewModel> products = await this.dbContext.Products
+                .Include(p => p.Review)
                 .Where(p => p.CreatorId == Guid.Parse(creatorId))
                 .Select(p => new ProductHomeViewModel()
                 {
@@ -174,8 +177,9 @@ namespace PawAndCollarServices
                     CreatorName = p.Creator.User.UserName,
                     Price = p.Price,
                     Size = p.Size.ToString(),
-                    Quantity = p.Quantity
-                }).ToListAsync();
+                    Quantity = p.Quantity,
+					AverageReviewScore = p.Review != null ? p.Review.AverageScore : 0
+				}).ToListAsync();
 
             return products;
         }
@@ -221,6 +225,7 @@ namespace PawAndCollarServices
         public async Task<ICollection<ProductHomeViewModel>> GetHomePageProductsAsync()
         {
             List<ProductHomeViewModel> models = await this.dbContext.Products
+                .Include(p => p.Review)
                 .Where(p => p.IsActive == true)
                 .Select(p => new ProductHomeViewModel()
                 {
@@ -229,8 +234,9 @@ namespace PawAndCollarServices
                     Name = p.Name,
                     CreatorName = p.Creator.User.UserName,
                     Price = p.Price,
-                    Size = p.Size.ToString()
-                }).ToListAsync();
+                    Size = p.Size.ToString(),
+					AverageReviewScore = p.Review != null ? p.Review.AverageScore : 0
+				}).ToListAsync();
             return models;
         }
 

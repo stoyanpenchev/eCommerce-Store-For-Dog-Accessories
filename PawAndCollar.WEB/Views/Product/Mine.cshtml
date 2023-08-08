@@ -19,17 +19,7 @@
 			@foreach (var product in Model)
 			{
 				<div class="col-md-3">
-					<div class="product">
-						<img src="@product.ImageUrl" alt="@product.Name" width="300" height="300">
-						<h4>@product.Name</h4>
-						<p>By @product.CreatorName</p>
-						<p>Size: @product.Size</p>
-                        <p>Quantity: @product.Quantity</p>
-						<p>Price: $@product.Price</p>
-						<a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-success">Details</a>
-						<a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id" class="btn btn-primary">Edit</a>
-						<a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
-					</div>
+					@Html.Partial("_ProductPartial", product)
 				</div>
 			}
 		</div>

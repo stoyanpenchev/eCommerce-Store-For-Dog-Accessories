@@ -1,0 +1,25 @@
+﻿/* Add these styles to your CSS file or style tag */
+.rating-summary {
+    display: flex;
+    align-items: center;
+}
+
+.fa-star {
+    font-size: 24px;
+    color: #ccc;
+}
+
+    .fa-star.checked {
+        color: yellow;
+        animation: fadeInStars 1s;
+    }
+
+@keyframes fadeInStars {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

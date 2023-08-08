@@ -1,22 +1,50 @@
 ﻿@model ProductHomeViewModel
 @using PawAndCollar.Web.Infrastructure.Extensions;
 
-<div class="product">
-    <img src="@Model.ImageUrl" alt="@Model.Name" width="300" height="300">
-    <h4>@Model.Name</h4>
-    <p>By @Model.CreatorName</p>
-    <p>Size: @Model.Size</p>
-    <p>Price: $@Model.Price</p>
-    <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id"
-       class="btn btn-success">Details</a>
-    <a asp-controller="Review" asp-action="ReviewIndex" asp-route-id="@Model.Id"
-       class="btn btn-info">Reviews</a>
-    @if (this.User.IsAdministrator())
-    {
-        <a asp-area="" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id"
-           class="btn btn-danger">Delete</a>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="~/css/review.css" />
 
-        <a asp-area="" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id"
-                                              class="btn btn-primary">Edit</a>
-    }
+<div class="product">
+	<img src="@Model.ImageUrl" alt="@Model.Name" width="300" height="300">
+	<div class="product-info">
+		<h4>@Model.Name</h4>
+		<p>By @Model.CreatorName</p>
+		<div class="rating-summary">
+			@for (int i = 1; i <= 5; i++)
+			{
+				<span class="fa fa-star @(i <= (int)Math.Round(Model.AverageReviewScore) ? "checked" : "")"></span>
+			}
+		</div>
+		<p>Size: @Model.Size</p>
+		<p>Price: $@Model.Price</p>
+	</div>
+	<div class="row">
+		<div class="product-buttons">
+			<a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-success">Details</a>
+			<a asp-controller="Review" asp-action="ReviewIndex" asp-route-id="@Model.Id" class="btn btn-info">Reviews</a>
+			@if (this.User.IsAdministrator())
+			{
+				<a asp-area="" asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+				<a asp-area="" asp-controller="Product" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+			}
+		</div>
+
+	</div>
 </div>
+
+<style>
+	.product-buttons {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.product-info h4 {
+		height: 40px; /* Set a fixed height */
+		overflow: visible; /* Hide overflow content if needed */
+	}
+
+</style>
+
+
+

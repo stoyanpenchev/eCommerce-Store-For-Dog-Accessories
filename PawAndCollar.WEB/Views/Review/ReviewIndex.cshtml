@@ -40,7 +40,7 @@ else
 		<span class="heading">User Rating</span>
 		@for (int i = 1; i <= 5; i++)
 		{
-			<span class="fa fa-star @(i <= Model.AverageRating ? "checked" : "")"></span>
+			<span class="fa fa-star @(i <= (int)Math.Round(Model.AverageRating) ? "checked" : "")"></span>
 		}
 		<p>@Model.AverageRating.ToString("0.0") average based on @Model.Comments.Count reviews.</p>
 		<hr style="border:3px solid #f1f1f1">

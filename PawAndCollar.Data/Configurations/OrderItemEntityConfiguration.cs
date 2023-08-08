@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Data.Models.Models;
 
 namespace PawAndCollar.Data.Configurations
@@ -21,6 +22,7 @@ namespace PawAndCollar.Data.Configurations
             .WithMany(p => p.OrderedItems)
             .HasForeignKey(oi => oi.ProductId)
             .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

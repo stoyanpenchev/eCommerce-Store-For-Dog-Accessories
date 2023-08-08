@@ -291,6 +291,56 @@ namespace PawAndCollar.Data.Migrations
                         .HasFilter("[UserBuyedProductsId] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "5cf8bc9d-428d-45d0-884b-8462b536789b",
+                            Email = "Admin@abv.bg",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ABV.BG",
+                            NormalizedUserName = "ADMIN@ABV.BG",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP3uN5DkULUlZE2tbZ+s3xejLD50vHYJnW/mEvC47D1hMJDaLoSkdMgcpc6D9PrlDQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "5285f9dc-b5b5-4331-83f2-3c2eabdbf7fe",
+                            TwoFactorEnabled = false,
+                            UserName = "Admin@abv.bg"
+                        },
+                        new
+                        {
+                            Id = new Guid("7f8a1988-0d6f-48cf-5993-08db77f1f68e"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7f986958-00d0-4b7b-ae8c-2ca7d959a3f8",
+                            Email = "creator@abv.bg",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CREATOR@ABV.BG",
+                            NormalizedUserName = "CREATOR@ABV.BG",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFqHgvPqr9S1ZuWupANOE6xyHCUfvs54JG/omsJH1mdgUUTUgyK9gL5p0XtyHj28hQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "37598ecc-fafc-4162-b888-caee63543ee3",
+                            TwoFactorEnabled = false,
+                            UserName = "creator@abv.bg"
+                        },
+                        new
+                        {
+                            Id = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a0c10f5a-0eb0-40fc-9382-6754a0c6b25d",
+                            Email = "doglover@abv.bg",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "DOGLOVER@ABV.BG",
+                            NormalizedUserName = "DOGLOVER@ABV.BG",
+                            PasswordHash = "AQAAAAEAACcQAAAAENbRGUPYwOZ9CHDyUA+TFSzKUIdM3fEjYVnZKkCQSZ9PQmCcRaoUgMgzHOVonZKuSg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "1095c1a5-a7f9-44f6-8705-bd2997319572",
+                            TwoFactorEnabled = false,
+                            UserName = "doglover@abv.bg"
+                        });
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Cart", b =>
@@ -311,6 +361,20 @@ namespace PawAndCollar.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Carts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("36f85cb2-39e3-4d82-bc1d-bfddb6b3f13f"),
+                            TotalPrice = 0m,
+                            UserId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e")
+                        },
+                        new
+                        {
+                            Id = new Guid("f91f214b-123d-47f1-9bdc-e97dfadc431b"),
+                            TotalPrice = 0m,
+                            UserId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27")
+                        });
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Comment", b =>
@@ -332,7 +396,7 @@ namespace PawAndCollar.Data.Migrations
                     b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RatingType")
+                    b.Property<int?>("RatingType")
                         .HasColumnType("int");
 
                     b.Property<int>("ReviewId")
@@ -345,6 +409,35 @@ namespace PawAndCollar.Data.Migrations
                     b.HasIndex("ReviewId");
 
                     b.ToTable("Comments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Content = "Very Nice Product! I am pleased with it:)",
+                            CustomerId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
+                            DatePosted = new DateTime(2023, 8, 8, 11, 1, 3, 349, DateTimeKind.Utc).AddTicks(7063),
+                            RatingType = 5,
+                            ReviewId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Content = "Test from Admin. The test is looking goood!",
+                            CustomerId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
+                            DatePosted = new DateTime(2023, 8, 8, 11, 1, 3, 349, DateTimeKind.Utc).AddTicks(7074),
+                            RatingType = 5,
+                            ReviewId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Content = "Test with one star! It seems okay!",
+                            CustomerId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
+                            DatePosted = new DateTime(2023, 8, 8, 11, 1, 3, 349, DateTimeKind.Utc).AddTicks(7077),
+                            RatingType = 1,
+                            ReviewId = 1
+                        });
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Creator", b =>
@@ -366,6 +459,20 @@ namespace PawAndCollar.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Creators");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            PhoneNumber = "+359884156182",
+                            UserId = new Guid("7f8a1988-0d6f-48cf-5993-08db77f1f68e")
+                        },
+                        new
+                        {
+                            Id = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
+                            PhoneNumber = "+359884562194",
+                            UserId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27")
+                        });
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.Order", b =>
@@ -410,6 +517,47 @@ namespace PawAndCollar.Data.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("07d0b51a-bf10-4bae-8e3f-268d08b4f715"),
+                            CustomerId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
+                            CustomerName = "Dogy Lover",
+                            OrderDate = new DateTime(2023, 8, 8, 11, 1, 3, 349, DateTimeKind.Utc).AddTicks(7652),
+                            OrderNumber = new Guid("32c557e6-7ec5-4f8c-8924-3f263c936ed5"),
+                            PaymentMethod = 1,
+                            Phone = "+359885179143",
+                            ShippingAddress = "Velcho Atanasov 56",
+                            Status = 2,
+                            TotalAmount = 62.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("4d9c7a77-9295-4a6e-907a-96fe2905de0e"),
+                            CustomerId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
+                            CustomerName = "Dogy Lover",
+                            OrderDate = new DateTime(2023, 8, 8, 11, 1, 3, 349, DateTimeKind.Utc).AddTicks(7675),
+                            OrderNumber = new Guid("2452c95c-8f69-4bb3-ae5c-203c95ea6d01"),
+                            PaymentMethod = 1,
+                            Phone = "+359885179143",
+                            ShippingAddress = "Velcho Atanasov 56",
+                            Status = 2,
+                            TotalAmount = 132.00m
+                        },
+                        new
+                        {
+                            Id = new Guid("ad8f6d52-9e4d-463a-b240-723c2e37ac2b"),
+                            CustomerId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
+                            CustomerName = "Admin Adminov",
+                            OrderDate = new DateTime(2023, 8, 8, 11, 1, 3, 349, DateTimeKind.Utc).AddTicks(7682),
+                            OrderNumber = new Guid("43cdad61-ecb3-488e-a378-f5674399eaa4"),
+                            PaymentMethod = 2,
+                            Phone = "+359884123154",
+                            ShippingAddress = "Sofia Bulgaria",
+                            Status = 3,
+                            TotalAmount = 104.00m
+                        });
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.OrderItem", b =>
@@ -455,6 +603,20 @@ namespace PawAndCollar.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Reviews");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AverageScore = 3.6666666666666701,
+                            ProductId = 11
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AverageScore = 0.0,
+                            ProductId = 8
+                        });
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Models.UsersBuyedProducts", b =>
@@ -482,6 +644,40 @@ namespace PawAndCollar.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("UsersBuyedProducts");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0d5ff8a7-c4e0-4db5-89df-2801a2cd945f"),
+                            OrderId = new Guid("ad8f6d52-9e4d-463a-b240-723c2e37ac2b"),
+                            ProductId = 1,
+                            Quantity = 2,
+                            UserId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27")
+                        },
+                        new
+                        {
+                            Id = new Guid("96a247b6-51a7-4f42-800f-3150b014358c"),
+                            OrderId = new Guid("07d0b51a-bf10-4bae-8e3f-268d08b4f715"),
+                            ProductId = 8,
+                            Quantity = 1,
+                            UserId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e")
+                        },
+                        new
+                        {
+                            Id = new Guid("d7c7a078-a1af-42f3-b271-403d7cd05444"),
+                            OrderId = new Guid("4d9c7a77-9295-4a6e-907a-96fe2905de0e"),
+                            ProductId = 11,
+                            Quantity = 2,
+                            UserId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e")
+                        },
+                        new
+                        {
+                            Id = new Guid("2a00f9ca-8b95-487f-9bcb-41588ab9c532"),
+                            OrderId = new Guid("4d9c7a77-9295-4a6e-907a-96fe2905de0e"),
+                            ProductId = 12,
+                            Quantity = 1,
+                            UserId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e")
+                        });
                 });
 
             modelBuilder.Entity("PawAndCollar.Data.Models.Product", b =>
@@ -557,6 +753,200 @@ namespace PawAndCollar.Data.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Color = "Pink",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3052),
+                            CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            Description = "Soft and sustainable fabric on the outside & inside, so even the most sensitive pups can stay comfortable all day long.\r\nCozy Fleece Vest: Machine wash cold on delicate cycle or hand wash. Air dry.",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/DSC03178-1-148760_720x.jpg?v=1679180307",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Checker Pink Collar",
+                            Price = 52.00m,
+                            Quantity = 10,
+                            Size = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Color = "Anemone",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3066),
+                            CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            Description = "In the meadows of Europe, North America, and Japan, where secrets whisper on gentle breezes, the anemone dances, an ethereal wildflower.\r\n\r\nSymbolizing understated allure, this fragile blossom enchants hearts, its subtle loveliness imbuing floral tapestries with a touch of quiet power.",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/DSC06736-1_d5aa7dd9-1769-47a1-affb-98d78ba9fb86-812247_720x.jpg?v=1687945201",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Anemone Collar",
+                            Price = 52.00m,
+                            Quantity = 2,
+                            Size = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            Color = "Brown",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3069),
+                            CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            Description = "A part of our boho collection including Suns, Stars, Rainbows, and lightnings. This collection is perfect for the boho, minimalist, and chic pups. Seamless Sun on lovely shade of terracotta-orange background.",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/cute-dog-collars-girl_c89dd21c-4f50-4bf3-9dd4-32198ee0737a-429779_720x.jpg?v=1669923706",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Suns Collar",
+                            Price = 52.00m,
+                            Quantity = 15,
+                            Size = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 5,
+                            Color = "Midnight",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3072),
+                            CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            Description = "Midnight Floral brings out a lovely serenity. Featuring an abundance of lively flowers on a bold black background, this print is sure to stand out on any color of fur. 100% cotton fabric with the perfect touch of rose gold metal hardware.",
+                            ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/DSC07134-1-181634_720x.jpg?v=1683713614",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Midnight Floral Collar",
+                            Price = 52.00m,
+                            Quantity = 3,
+                            Size = 5
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 3,
+                            Color = "Pink",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3074),
+                            CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            Description = "One of our bestselling designs of all time. Crafted with care and attention to detail, this stunning design features an abundance of lively flowers that will add a touch of  nature's beauty to your furry friend's wardrobe.",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Cute-dog-harness-for-large-dogs_652c3b45-bf4f-4d1f-9532-f34971c4eff9-714245_720x.jpg?v=1669533905",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Morning Floral Harness",
+                            Price = 81.00m,
+                            Quantity = 6,
+                            Size = 1
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 3,
+                            Color = "Darky",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3080),
+                            CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            Description = "Give your pup the gift of coziness with our Cozy Christmas design! This dark navy blue print is filled with adorable holiday elements that will have your furry friend feeling warm and snug, making it the perfect addition to their winter wardrobe.",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/cutest-harness-for-puppy-418532_720x.jpg?v=1669533830",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Cozy Christmas Harness",
+                            Price = 81.00m,
+                            Quantity = 6,
+                            Size = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 3,
+                            Color = "Peachy Pink",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3083),
+                            CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
+                            Description = "One of our most loved prints of all time. This delicious peach print will make your pup's cuteness irresistible. Featuring seamless Juicy peaches on a lovely peach-pink background.",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Best-dog-harnesses-490084_720x.jpg?v=1669620377",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Peach Harness",
+                            Price = 81.00m,
+                            Quantity = 8,
+                            Size = 7
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 6,
+                            Color = "English Green",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3087),
+                            CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
+                            Description = "This is a true showstopper. With its timeless tartan pattern, our Gentleman design is the epitome of sophisticated style for your pup. ",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Cute-dog-collars-girl-999347_720x.jpg?v=1669663616",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Gentleman Bow Tie Collar",
+                            Price = 62.00m,
+                            Quantity = 5,
+                            Size = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 6,
+                            Color = "English Green",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3094),
+                            CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
+                            Description = "Classic polka dot with bright striking red background. The Versatility is perfect for any occasion and will always make sure your pup stands out from the crowd. One of our most loved designs of all time.",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/bowtie-collars-for-large-dogs-509429_720x.jpg?v=1669836746",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Red Polka Dot Bow Tie Collar",
+                            Price = 62.00m,
+                            Quantity = 5,
+                            Size = 2
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 8,
+                            Color = "Purple",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3175),
+                            CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
+                            Description = "Made with premium waterproof shell on one side, and 360° reflective material on the other. You've got functionality and adorableness - all in one.",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/ZoomiesRainvest_1-512091_720x.jpg?v=1677154390",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Purple Daisy Reversible Zoomies Rain Vest",
+                            Price = 91.00m,
+                            Quantity = 15,
+                            Size = 3
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 7,
+                            Color = "Green",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3179),
+                            CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
+                            Description = "Beautifully illustrated by Vancouver local artist @hye.joy. This print brings out the liveliness of a spring playground with unique line illustrations, paired with a beautiful shade of olive background.",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/DSC00043-1-238909_720x.jpg?v=1687529058",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Playground Bandana",
+                            Price = 44.00m,
+                            Quantity = 15,
+                            Size = 3
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 7,
+                            Color = "Christmas",
+                            CreatedOn = new DateTime(2023, 8, 8, 11, 1, 3, 355, DateTimeKind.Utc).AddTicks(3182),
+                            CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
+                            Description = "Give your pup the gift of coziness with our Cozy Christmas design! This dark navy blue print is filled with adorable holiday elements that will have your furry friend feeling warm and snug, making it the perfect addition to their winter wardrobe.",
+                            ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Bandanas-for-dogs_7aad35d9-b940-49bd-8895-9f8bb74dc6dd-759894_720x.jpg?v=1668643303",
+                            IsActive = true,
+                            Material = "Cotton",
+                            Name = "Cozy Christmas Bandana",
+                            Price = 44.00m,
+                            Quantity = 15,
+                            Size = 5
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

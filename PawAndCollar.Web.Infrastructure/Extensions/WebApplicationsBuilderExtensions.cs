@@ -8,9 +8,9 @@
 
 	using Data.Models.Models;
 	using static Common.GeneralApplicationConstants;
-    using PawAndCollar.Web.Infrastructure.Middlewares;
+	using PawAndCollar.Web.Infrastructure.Middlewares;
 
-    public static class WebApplicationsBuilderExtensions
+	public static class WebApplicationsBuilderExtensions
 	{
 		/// <summary>
 		/// This method registers all services with their interfaces and implementations of given assembly.
@@ -82,8 +82,46 @@
 
 		public static IApplicationBuilder EnableOnlineUsersCheck(this IApplicationBuilder app)
 		{
-            return app.UseMiddleware<OnlineUsersMiddleware>();
-        }
+			return app.UseMiddleware<OnlineUsersMiddleware>();
+		}
+
+		public static IApplicationBuilder SeedUserRole(this IApplicationBuilder app, string email)
+		{
+			using IServiceScope scopedServices = app.ApplicationServices.CreateScope();
+			IServiceProvider serviceProvider = scopedServices.ServiceProvider;
+
+			UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+			RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+
+			Task.Run(async () =>
+			{
+				if (email != DevelopmentUserEmail1 && email != DevelopmentUserEmail2)
+				{
+					return;
+				}
+
+				IdentityRole<Guid> userRole;
+				ApplicationUser user;
+
+				if (!await roleManager.RoleExistsAsync(UserRoleName))
+				{
+					userRole = new IdentityRole<Guid>(UserRoleName);
+					await roleManager.CreateAsync(userRole);
+				}
+	
+				user = await userManager.FindByEmailAsync(email);
+
+				if (user != null)
+				{
+					await userManager.AddToRoleAsync(user, UserRoleName);
+				}
+
+			})
+				.GetAwaiter()
+				.GetResult();
+
+			return app;
+		}
 
 	}
 }

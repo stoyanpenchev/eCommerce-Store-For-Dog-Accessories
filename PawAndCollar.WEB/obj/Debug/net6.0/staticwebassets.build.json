@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kaCFHZoP0Msnv20m4v0+j/D4FZF6zJUmZw9nQ4Qj0Xo=",
+  "Hash": "PZiG2b/cq/tUFEZBRIh9bUxChTcNNNR0LMFqZvNQK8M=",
   "Source": "PawAndCollar.Web",
   "BasePath": "_content/PawAndCollar.Web",
   "Mode": "Default",
@@ -1086,6 +1086,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\7C - Copy (1).png"
+    },
+    {
+      "Identity": "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.WEB\\wwwroot\\css\\productPartial.css",
+      "SourceId": "PawAndCollar.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.WEB\\wwwroot\\",
+      "BasePath": "_content/PawAndCollar.Web",
+      "RelativePath": "css/productPartial.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\productPartial.css"
     },
     {
       "Identity": "C:\\Users\\User\\source\\repos\\PawAndCollar-DogOnlineShop\\PawAndCollar.WEB\\wwwroot\\css\\review.css",

@@ -20,5 +20,7 @@ namespace PawAndCollar.Web.ViewModels.Product
 
         [Required]
         public string Size { get; set; } = null!;
-    }
+
+		public double AverageReviewScore { get; set; }
+	}
 }

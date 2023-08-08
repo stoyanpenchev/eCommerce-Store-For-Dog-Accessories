@@ -92,6 +92,8 @@ namespace PawAndCollar.Web
 			if (app.Environment.IsDevelopment())
 			{
 				app.SeedAdministrator(DevelopmentAdminEmail);
+				app.SeedUserRole(DevelopmentUserEmail1);
+				app.SeedUserRole(DevelopmentUserEmail2);
 			}
 
 			app.UseEndpoints(config =>

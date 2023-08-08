@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using PawAndCollar.Data.Models;
 using PawAndCollar.Data.Models.Models;
 using System.Reflection;
-using System.Reflection.Emit;
 
 namespace PawAndCollar.Data
 {
