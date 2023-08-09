@@ -49,6 +49,7 @@ namespace PawAndCollarServices
             Product product = await this.dbContext.Products
                 .Where(p => p.IsActive)
                 .FirstAsync(p => p.Id == id);
+            
             product.IsActive = false;
             product.Quantity = 0;
             await this.dbContext.SaveChangesAsync();

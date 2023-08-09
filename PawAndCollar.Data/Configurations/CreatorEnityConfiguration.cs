@@ -22,14 +22,6 @@ namespace PawAndCollar.Data.Configurations
 			};
 			creators.Add(creator);
 
-			//creator = new Creator()
-			//{
-			//	Id = Guid.Parse("41D98026-111E-4647-82B7-AB0C88195CE5"),
-			//	UserId = Guid.Parse("72614ADA-8036-426A-8335-6F286043DF35"),
-			//	PhoneNumber = "+359884532194"
-			//};
-			//creators.Add(creator);
-
 			creator = new Creator()
 			{
 				Id = Guid.Parse("20B110EC-107C-4B88-9BD4-56F4D297B179"),

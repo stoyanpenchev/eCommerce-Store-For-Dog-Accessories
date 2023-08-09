@@ -1,17 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using PawAndCollar.Data.Configurations;
 using PawAndCollar.Data.Models;
 using PawAndCollar.Data.Models.Models;
+using PawAndCollar.Data.Seeds;
 using System.Reflection;
 
 namespace PawAndCollar.Data
 {
     public class PawAndCollarDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
-        public PawAndCollarDbContext(DbContextOptions<PawAndCollarDbContext> options)
+		private readonly bool seedDb;
+		public PawAndCollarDbContext(DbContextOptions<PawAndCollarDbContext> options, bool seedDb = true)
             : base(options)
         {
+            this.seedDb = seedDb;
         }
 
         public DbSet<Product> Products { get; set; } = null!;
@@ -27,9 +31,28 @@ namespace PawAndCollar.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(PawAndCollarDbContext)) ?? Assembly.GetExecutingAssembly());
+			//builder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(PawAndCollarDbContext)) ?? Assembly.GetExecutingAssembly());
 
-            base.OnModelCreating(builder);
+            builder.ApplyConfiguration(new ApplicationUserEntityConfiguration());
+            builder.ApplyConfiguration(new ProductEntityConfiguration());
+            builder.ApplyConfiguration(new OrderItemEntityConfiguration());
+            builder.ApplyConfiguration(new CartEntityConfiguration());
+            builder.ApplyConfiguration(new CommentEntityConfiguration());
+            builder.ApplyConfiguration(new ReviewEntityConfiguration());
+
+			if (this.seedDb)
+			{
+				builder.ApplyConfiguration(new CategoryEntityConfiguration());
+				builder.ApplyConfiguration(new SeedApplicationUserEntityConfiguration());
+                builder.ApplyConfiguration(new SeedProductsEntityConfiguration());
+                builder.ApplyConfiguration(new SeedCartEntityConfiguration());
+                builder.ApplyConfiguration(new SeedReviewEntityConfiguration());
+				builder.ApplyConfiguration(new CreatorEnityConfiguration());
+				builder.ApplyConfiguration(new OrderEntityConfiguration());
+				builder.ApplyConfiguration(new UserBuyedProductsEntityConfiguration());
+			}
+
+			base.OnModelCreating(builder);
         }
 
     }
