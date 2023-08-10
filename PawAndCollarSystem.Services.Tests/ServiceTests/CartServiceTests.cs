@@ -16,9 +16,7 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 		private DbContextOptions<PawAndCollarDbContext> dbOptions;
 		private PawAndCollarDbContext dbContext;
 
-		private ICreatorService creatorService;
 		private ICartService cartService;
-		private IProductService productService;
 
 		[SetUp]
 		public async Task OneTimeSetup()
@@ -31,10 +29,8 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 			await dbContext.Database.EnsureDeletedAsync();
 			await this.dbContext.Database.EnsureCreatedAsync();
 			SeedDatabase(dbContext);
-
-			this.creatorService = new CreatorService(this.dbContext);
+	
 			this.cartService = new CartService(this.dbContext);
-			this.productService = new ProductService(this.dbContext);
 		}
 
 		[Test]

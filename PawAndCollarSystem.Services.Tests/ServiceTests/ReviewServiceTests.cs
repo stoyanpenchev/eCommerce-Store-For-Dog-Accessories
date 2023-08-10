@@ -15,9 +15,6 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 		private DbContextOptions<PawAndCollarDbContext> dbOptions;
 		private PawAndCollarDbContext dbContext;
 
-		private ICreatorService creatorService;
-		private ICartService cartService;
-		private IProductService productService;
 		private IOrderService orderService;
 		private IReviewService reviewService;
 
@@ -33,10 +30,6 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 			await this.dbContext.Database.EnsureCreatedAsync();
 			SeedDatabase(dbContext);
 
-			this.orderService = new OrderService(this.dbContext);
-			this.creatorService = new CreatorService(this.dbContext);
-			this.cartService = new CartService(this.dbContext);
-			this.productService = new ProductService(this.dbContext);
 			this.reviewService = new ReviewService(this.dbContext, this.orderService);
 		}
 

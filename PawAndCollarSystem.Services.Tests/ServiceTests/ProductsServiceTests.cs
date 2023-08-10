@@ -6,14 +6,9 @@ using PawAndCollarSystem.Services.Tests.CreatorTests;
 using System.Threading.Tasks;
 using System;
 using PawAndCollar.Web.ViewModels.Product;
-using PawAndCollar.Data.Models.Enums;
-using System.Collections;
 using PawAndCollar.Web.ViewModels.Category;
 using System.Collections.Generic;
-using Moq;
 using System.Linq;
-using Castle.Components.DictionaryAdapter.Xml;
-using PawAndCollar.Web.ViewModels.Creator;
 
 namespace PawAndCollarSystem.Services.Tests.ServiceTests
 {
@@ -23,8 +18,6 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 		private DbContextOptions<PawAndCollarDbContext> dbOptions;
 		private PawAndCollarDbContext dbContext;
 
-		private ICreatorService creatorService;
-		private IApplicationUserService userService;
 		private IProductService productService;
 
 		[SetUp]
@@ -39,8 +32,6 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 			await this.dbContext.Database.EnsureCreatedAsync();
 			SeedDatabase(dbContext);
 
-			this.creatorService = new CreatorService(this.dbContext);
-			this.userService = new ApplicationUserService(this.dbContext, this.creatorService);
 			this.productService = new ProductService(this.dbContext);
 		}
 

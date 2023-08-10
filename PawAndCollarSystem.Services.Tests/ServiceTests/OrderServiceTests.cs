@@ -9,7 +9,6 @@ using PawAndCollar.Web.ViewModels.Order;
 using PawAndCollar.Web.ViewModels.Product;
 using System.Collections.Generic;
 using System.Linq;
-using PawAndCollar.Services.Data.Models.Order;
 using PawAndCollar.Web.ViewModels.Order.Enums;
 using PawAndCollar.Data.Models.Enums;
 
@@ -21,9 +20,7 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 		private DbContextOptions<PawAndCollarDbContext> dbOptions;
 		private PawAndCollarDbContext dbContext;
 
-		private ICreatorService creatorService;
 		private ICartService cartService;
-		private IProductService productService;
 		private IOrderService orderService;
 
 		[SetUp]
@@ -39,9 +36,7 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 			SeedDatabase(dbContext);
 
 			this.orderService = new OrderService(this.dbContext);
-			this.creatorService = new CreatorService(this.dbContext);
 			this.cartService = new CartService(this.dbContext);
-			this.productService = new ProductService(this.dbContext);
 		}
 
 		[Test]

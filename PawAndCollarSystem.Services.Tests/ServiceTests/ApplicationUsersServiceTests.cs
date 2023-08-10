@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 using System;
 using PawAndCollar.Data.Models.Enums;
 using PawAndCollar.Data.Models.Models;
-using System.Collections.Generic;
 using System.Linq;
-using PawAndCollar.Web.ViewModels.User;
 using PawAndCollar.Data.Models;
 
 namespace PawAndCollarSystem.Services.Tests.ServiceTests
@@ -23,7 +21,7 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 		private ICreatorService creatorService;
 		private IApplicationUserService userService;
 
-		[OneTimeSetUp]
+		[SetUp]
 		public async Task OneTimeSetup()
 		{
 			this.dbOptions = new DbContextOptionsBuilder<PawAndCollarDbContext>()
@@ -56,7 +54,7 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 
 			Product product = new Product()
 			{
-				Id = 1,
+				Id = 3,
 				Name = "Checker Pink Collar",
 				Description = "Soft and sustainable fabric on the outside & inside, so even the most sensitive pups can stay comfortable all day long.\r\nCozy Fleece Vest: Machine wash cold on delicate cycle or hand wash. Air dry.",
 				Price = 52.00M,

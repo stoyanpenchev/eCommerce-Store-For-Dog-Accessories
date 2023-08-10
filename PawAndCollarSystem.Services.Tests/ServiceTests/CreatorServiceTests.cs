@@ -17,7 +17,7 @@ namespace PawAndCollarSystem.Services.Tests.CreatorTests
 
 		private ICreatorService creatorService;
 
-		[OneTimeSetUp]
+		[SetUp]
 		public async Task OneTimeSetup()
 		{
 			this.dbOptions = new DbContextOptionsBuilder<PawAndCollarDbContext>()
