@@ -18,7 +18,7 @@ namespace PawAndCollarServices
 	public class OrderService : IOrderService
     {
         private readonly PawAndCollarDbContext dbContext;
-		public OrderService(PawAndCollarDbContext dbContext, IApplicationUserService applicationUserService)
+		public OrderService(PawAndCollarDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
@@ -32,6 +32,11 @@ namespace PawAndCollarServices
             ApplicationUser? user = await this.dbContext.Users
                 .Include(u => u.BuyedProducts)
                 .FirstOrDefaultAsync(u => u.Id.ToString() == userId);
+
+            if(user == null)
+            {
+				throw new InvalidOperationException("User not found");
+			}
 
             if (existingOrder == null)
             {
