@@ -21,6 +21,7 @@
     <ProjectReference Include="..\PawAndCollar.Data\PawAndCollar.Data.csproj" />
     <ProjectReference Include="..\PawAndCollar.Services.Data.Models\PawAndCollar.Services.Data.Models.csproj" />
     <ProjectReference Include="..\PawAndCollar.Web.ViewModels\PawAndCollar.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\PawAndCollar.WEB\PawAndCollar.Web.csproj" />
     <ProjectReference Include="..\PawAndCollarServices\PawAndCollarServices.csproj" />
   </ItemGroup>
 

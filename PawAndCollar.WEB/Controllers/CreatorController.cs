@@ -1,5 +1,4 @@
-﻿
-namespace PawAndCollar.Web.Controllers
+﻿namespace PawAndCollar.Web.Controllers
 {
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
