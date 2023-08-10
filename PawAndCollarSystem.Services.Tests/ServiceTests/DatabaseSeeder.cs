@@ -18,6 +18,8 @@ namespace PawAndCollarSystem.Services.Tests.CreatorTests
 		public static Product ProductHarness;
 		public static Category Collar;
 		public static Category Harness;
+		public static Review ReviewCollar;
+		public static Comment CommentCollar;
 
 		public static void SeedDatabase(PawAndCollarDbContext dbContext)
 		{
@@ -109,6 +111,21 @@ namespace PawAndCollarSystem.Services.Tests.CreatorTests
 				Name = "Collar"
 			};
 
+			ReviewCollar = new Review()
+			{
+				ProductId = 1,
+				AverageScore = 0
+			};
+			CommentCollar = new Comment()
+			{
+				DatePosted = DateTime.UtcNow,
+				Content = "This is a comment This is a comment This is a comment",
+				ReviewId = ReviewCollar.Id,
+				RatingType = RatingTypes.FiveStars,
+				CustomerId = User.Id
+			};
+			ReviewCollar.Comments.Add(CommentCollar);
+
 			dbContext.Orders.Add(OrderCreator);
 			dbContext.Orders.Add(OrderUser);
 			dbContext.Users.Add(CreatorUser);
@@ -118,7 +135,7 @@ namespace PawAndCollarSystem.Services.Tests.CreatorTests
 			dbContext.Products.Add(ProductHarness);
 			dbContext.Categories.Add(Harness);
 			dbContext.Categories.Add(Collar);
-
+			dbContext.Reviews.Add(ReviewCollar);
 			dbContext.SaveChanges();
 		}
 	}

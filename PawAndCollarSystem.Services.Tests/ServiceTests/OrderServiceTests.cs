@@ -24,7 +24,7 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 		private ICreatorService creatorService;
 		private ICartService cartService;
 		private IProductService productService;
-		private OrderService orderService;
+		private IOrderService orderService;
 
 		[SetUp]
 		public async Task OneTimeSetup()
