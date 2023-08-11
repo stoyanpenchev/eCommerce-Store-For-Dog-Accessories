@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawAndCollar.Data;
 
@@ -11,9 +12,10 @@ using PawAndCollar.Data;
 namespace PawAndCollar.Data.Migrations
 {
     [DbContext(typeof(PawAndCollarDbContext))]
-    partial class PawAndCollarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230811202648_AddIsActiveToApplicationUser")]
+    partial class AddIsActiveToApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

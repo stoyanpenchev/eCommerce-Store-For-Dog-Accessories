@@ -18,7 +18,7 @@
 		}
 
 		[Route("User/All")]
-		[ResponseCache(Duration = 30, Location = ResponseCacheLocation.None, NoStore = true)]
+		//[ResponseCache(Duration = 30, Location = ResponseCacheLocation.None, NoStore = true)]
 		public async Task<IActionResult> All()
 		{
 			IEnumerable<ApplicationUserViewModel> users = this.memoryCache.Get<IEnumerable<ApplicationUserViewModel>>(UsersCacheKey);
@@ -50,6 +50,7 @@
 			{
 				await this.userService.DeleteUserAsync(Guid.Parse(id));
 				this.TempData[SuccessMessage] = "User deleted!";
+				memoryCache.Remove(UsersCacheKey);
 				return this.RedirectToAction("All");
 			}
 			else

@@ -21,7 +21,7 @@ namespace PawAndCollarServices
 		public async Task<IEnumerable<ApplicationUserViewModel>> AllAsync()
 		{
 			List<ApplicationUserViewModel> allUsers = await this.dbContext.Users
-				.Where(c => c.Email != "*****")
+				.Where(c => (bool)c.IsActive)
 				.Select(c => new ApplicationUserViewModel()
 				{
 					Id = c.Id.ToString(),
@@ -69,6 +69,7 @@ namespace PawAndCollarServices
 				{
 					user.PhoneNumber = randomValue;
 				}
+				user.IsActive = false;
 				await this.dbContext.SaveChangesAsync();
 			}
 			bool isItCreator = await this.creatorService.CreatorExistByUserIdAsync(id.ToString());

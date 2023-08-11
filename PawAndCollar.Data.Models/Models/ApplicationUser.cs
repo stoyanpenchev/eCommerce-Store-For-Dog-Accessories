@@ -18,6 +18,8 @@
 		public Guid? CartId { get; set; }
 		public Cart? ActiveCart { get; set; }
 
+        public bool? IsActive { get; set; }
+
 
         [ForeignKey(nameof(UsersBuyedProducts))]
         public Guid? UserBuyedProductsId { get; set; }

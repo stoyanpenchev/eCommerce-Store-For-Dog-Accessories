@@ -9,6 +9,9 @@ namespace PawAndCollar.Data.Configurations
 	{
 		public void Configure(EntityTypeBuilder<ApplicationUser> builder)
 		{
+			builder.Property(p => p.IsActive)
+				   .HasDefaultValue(true);
+
 			builder
 			.HasOne(u => u.ActiveCart)
 			.WithOne()

@@ -15,7 +15,7 @@
             public const string PriceMinValue = "0";
             public const string PriceMaxValue = "1000";
             public const int QuantityMinValue = 0;
-            public const int QuantityMaxValue = int.MaxValue;
+            public const int QuantityMaxValue = 2500;
             public const int MaterialMaxLength = 25;
             public const int MaterialMinLength = 5;
         }

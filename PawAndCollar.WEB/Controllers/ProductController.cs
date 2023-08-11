@@ -191,7 +191,7 @@ namespace PawAndCollar.Web.Controllers
                 return this.View(model);
             }
             this.TempData[SuccessMessage] = "Product was added successfully!";
-            return this.RedirectToAction("Product", "Mine");
+            return this.RedirectToAction("Mine", "Product");
         }
 
         [HttpGet]

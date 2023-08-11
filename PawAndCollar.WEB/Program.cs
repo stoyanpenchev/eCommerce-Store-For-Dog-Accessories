@@ -3,14 +3,11 @@ namespace PawAndCollar.Web
 	using Microsoft.AspNetCore.Identity;
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.EntityFrameworkCore;
-
 	using Data;
 	using Data.Models.Models;
 	using Infrastructure.Extensions;
 	using Infrastructure.ModelBinders;
-	using PawAndCollarServices;
 	using PawAndCollarServices.Interfaces;
-
 	using static Common.GeneralApplicationConstants;
 	using PawAndCollar.Web.Areas.Admin.Services.Interfaces;
 	using PawAndCollar.Web.Areas.Admin.Services;
