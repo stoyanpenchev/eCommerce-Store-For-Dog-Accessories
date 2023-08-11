@@ -9,7 +9,6 @@ using PawAndCollarServices.Interfaces;
 namespace PawAndCollar.Web.Controllers
 {
     using static PawAndCollar.Common.NotificationMessagesConstants;
-    using System.Text.Encodings.Web;
 
     [Authorize]
     public class CommentController : Controller

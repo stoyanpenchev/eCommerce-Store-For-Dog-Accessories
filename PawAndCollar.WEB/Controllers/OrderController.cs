@@ -179,6 +179,7 @@ namespace PawAndCollar.Web.Controllers
 			if (!this.User.IsAdministrator())
             {
                 this.TempData[ErrorMessage] = "You are not authorized to view this page!";
+                return this.RedirectToAction("Index", "Home");
             }			
 			
             try

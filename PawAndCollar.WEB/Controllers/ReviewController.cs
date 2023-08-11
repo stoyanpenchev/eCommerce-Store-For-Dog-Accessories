@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PawAndCollar.Data.Models;
 using PawAndCollar.Web.Infrastructure.Extensions;
 using PawAndCollar.Web.ViewModels.Review;
-using PawAndCollar.Web.ViewModels.Review.Enums;
 using PawAndCollarServices.Interfaces;
 
 namespace PawAndCollar.Web.Controllers
