@@ -2,11 +2,9 @@
 {
 	using Microsoft.AspNetCore.Authorization;
 	using Microsoft.AspNetCore.Mvc;
-	using PawAndCollar.Data.Models.Enums;
 	using PawAndCollar.Web.Infrastructure.Extensions;
 	using PawAndCollar.Web.ViewModels.Creator;
 	using PawAndCollarServices.Interfaces;
-	using System.Security.Claims;
 	using static PawAndCollar.Common.NotificationMessagesConstants;
 
 	[Authorize]

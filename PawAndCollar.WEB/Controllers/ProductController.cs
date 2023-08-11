@@ -49,7 +49,7 @@ namespace PawAndCollar.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Search()
+        public async Task<IActionResult> Search()
         {
             var model = new SearchProductByNameViewModel();
             return View(model);
