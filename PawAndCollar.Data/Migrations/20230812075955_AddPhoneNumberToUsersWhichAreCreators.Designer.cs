@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PawAndCollar.Data;
 
@@ -11,9 +12,10 @@ using PawAndCollar.Data;
 namespace PawAndCollar.Data.Migrations
 {
     [DbContext(typeof(PawAndCollarDbContext))]
-    partial class PawAndCollarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230812075955_AddPhoneNumberToUsersWhichAreCreators")]
+    partial class AddPhoneNumberToUsersWhichAreCreators
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,17 +304,16 @@ namespace PawAndCollar.Data.Migrations
                         {
                             Id = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dc828acc-8d8c-4a9c-9b2c-a5fb952c38ae",
+                            ConcurrencyStamp = "e59a9be0-2ad3-48e5-b586-8825d1211ffb",
                             Email = "Admin@abv.bg",
                             EmailConfirmed = false,
-                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ABV.BG",
                             NormalizedUserName = "ADMIN@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGOjYoqXVXv0LBv0bKciobyQW1QNkPwBkwEznDnjKaDZf1EKRQRTHYzmySbGo/ZmbQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEODfrI6TnPkHMhroglNvMp5+BB3pibqgqdMg5LeZC1T82j39N3xxZtbE48rEy9GDTQ==",
                             PhoneNumber = "+359884562194",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c5017370-f7fe-48c1-8959-f6734fc6a443",
+                            SecurityStamp = "d86eb8a9-e5e6-44f6-9210-de9ac9cc615a",
                             TwoFactorEnabled = false,
                             UserName = "Admin@abv.bg"
                         },
@@ -320,17 +321,16 @@ namespace PawAndCollar.Data.Migrations
                         {
                             Id = new Guid("7f8a1988-0d6f-48cf-5993-08db77f1f68e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a476738-c473-46ad-9e23-4180b826d31a",
+                            ConcurrencyStamp = "437b6ef0-b8d0-488a-b8e9-d5fcc1506a49",
                             Email = "creator@abv.bg",
                             EmailConfirmed = false,
-                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "CREATOR@ABV.BG",
                             NormalizedUserName = "CREATOR@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAENF6BUwgnervsHeTlxCSRvzuwc8E0k4qn/dmayzHBcvZqQ4LLKbpI5hxmx4RQHBWdg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIbDv5X4GjHfZW+G1qtN5FrPLmUMs9gmt5xwEV5ZjRSWvzHBpxOzD1R+cUX6CPkU6w==",
                             PhoneNumber = "+359884156182",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8574cb06-0277-4829-a822-ff59b96a974c",
+                            SecurityStamp = "1afdd5dd-da44-4d6e-85a5-9c02834dd026",
                             TwoFactorEnabled = false,
                             UserName = "creator@abv.bg"
                         },
@@ -338,16 +338,15 @@ namespace PawAndCollar.Data.Migrations
                         {
                             Id = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "652fed0f-ec12-4148-9cb8-0c7cf0d6ccf3",
+                            ConcurrencyStamp = "5c290529-132b-42c9-b8a9-c80d94308ba6",
                             Email = "doglover@abv.bg",
                             EmailConfirmed = false,
-                            IsActive = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "DOGLOVER@ABV.BG",
                             NormalizedUserName = "DOGLOVER@ABV.BG",
-                            PasswordHash = "AQAAAAEAACcQAAAAEITgHm0O3alhQypaO4VgMI7mMpw88a9gnn1LLmzX65Jxwb1vy746YB9TZhMJkeIH4g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGxetxotX1lpwL9qACvzG2G4NDj2oG8mjDNfU6e1FQzRn2ym9rFg5GG1SllUSo0RPQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "25ee2c47-719d-4000-ad3b-d262944ef262",
+                            SecurityStamp = "bb298fe1-393f-49ab-9c23-50df848b4657",
                             TwoFactorEnabled = false,
                             UserName = "doglover@abv.bg"
                         });
@@ -426,7 +425,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 1,
                             Content = "Very Nice Product! I am pleased with it:)",
                             CustomerId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
-                            DatePosted = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(1767),
+                            DatePosted = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(4178),
                             RatingType = 5,
                             ReviewId = 1
                         },
@@ -435,7 +434,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 2,
                             Content = "Test from Admin. The test is looking goood!",
                             CustomerId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
-                            DatePosted = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(1773),
+                            DatePosted = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(4184),
                             RatingType = 5,
                             ReviewId = 1
                         },
@@ -444,7 +443,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 3,
                             Content = "Test with one star! It seems okay!",
                             CustomerId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
-                            DatePosted = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(1775),
+                            DatePosted = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(4186),
                             RatingType = 1,
                             ReviewId = 1
                         });
@@ -534,7 +533,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = new Guid("07d0b51a-bf10-4bae-8e3f-268d08b4f715"),
                             CustomerId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
                             CustomerName = "Dogy Lover",
-                            OrderDate = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(1514),
+                            OrderDate = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3904),
                             OrderNumber = new Guid("32c557e6-7ec5-4f8c-8924-3f263c936ed5"),
                             PaymentMethod = 1,
                             Phone = "+359885179143",
@@ -547,7 +546,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = new Guid("4d9c7a77-9295-4a6e-907a-96fe2905de0e"),
                             CustomerId = new Guid("7b724b4e-70ea-42bc-5992-08db77f1f68e"),
                             CustomerName = "Dogy Lover",
-                            OrderDate = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(1526),
+                            OrderDate = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3927),
                             OrderNumber = new Guid("2452c95c-8f69-4bb3-ae5c-203c95ea6d01"),
                             PaymentMethod = 1,
                             Phone = "+359885179143",
@@ -560,7 +559,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = new Guid("ad8f6d52-9e4d-463a-b240-723c2e37ac2b"),
                             CustomerId = new Guid("9caf16d5-298e-406a-a3da-69dcda2e5e27"),
                             CustomerName = "Admin Adminov",
-                            OrderDate = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(1532),
+                            OrderDate = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3934),
                             OrderNumber = new Guid("43cdad61-ecb3-488e-a378-f5674399eaa4"),
                             PaymentMethod = 2,
                             Phone = "+359884123154",
@@ -770,7 +769,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Color = "Pink",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(146),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(2983),
                             CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
                             Description = "Soft and sustainable fabric on the outside & inside, so even the most sensitive pups can stay comfortable all day long.\r\nCozy Fleece Vest: Machine wash cold on delicate cycle or hand wash. Air dry.",
                             ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/DSC03178-1-148760_720x.jpg?v=1679180307",
@@ -786,7 +785,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 2,
                             CategoryId = 1,
                             Color = "Anemone",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(306),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(2995),
                             CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
                             Description = "In the meadows of Europe, North America, and Japan, where secrets whisper on gentle breezes, the anemone dances, an ethereal wildflower.\r\n\r\nSymbolizing understated allure, this fragile blossom enchants hearts, its subtle loveliness imbuing floral tapestries with a touch of quiet power.",
                             ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/DSC06736-1_d5aa7dd9-1769-47a1-affb-98d78ba9fb86-812247_720x.jpg?v=1687945201",
@@ -802,7 +801,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 3,
                             CategoryId = 1,
                             Color = "Brown",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(309),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(2997),
                             CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
                             Description = "A part of our boho collection including Suns, Stars, Rainbows, and lightnings. This collection is perfect for the boho, minimalist, and chic pups. Seamless Sun on lovely shade of terracotta-orange background.",
                             ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/cute-dog-collars-girl_c89dd21c-4f50-4bf3-9dd4-32198ee0737a-429779_720x.jpg?v=1669923706",
@@ -818,7 +817,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 4,
                             CategoryId = 5,
                             Color = "Midnight",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(313),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3000),
                             CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
                             Description = "Midnight Floral brings out a lovely serenity. Featuring an abundance of lively flowers on a bold black background, this print is sure to stand out on any color of fur. 100% cotton fabric with the perfect touch of rose gold metal hardware.",
                             ImageUrl = "https://cdn.shopify.com/s/files/1/0102/1437/5505/products/DSC07134-1-181634_720x.jpg?v=1683713614",
@@ -834,7 +833,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 5,
                             CategoryId = 3,
                             Color = "Pink",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(316),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3003),
                             CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
                             Description = "One of our bestselling designs of all time. Crafted with care and attention to detail, this stunning design features an abundance of lively flowers that will add a touch of  nature's beauty to your furry friend's wardrobe.",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Cute-dog-harness-for-large-dogs_652c3b45-bf4f-4d1f-9532-f34971c4eff9-714245_720x.jpg?v=1669533905",
@@ -850,7 +849,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 6,
                             CategoryId = 3,
                             Color = "Darky",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(322),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3009),
                             CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
                             Description = "Give your pup the gift of coziness with our Cozy Christmas design! This dark navy blue print is filled with adorable holiday elements that will have your furry friend feeling warm and snug, making it the perfect addition to their winter wardrobe.",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/cutest-harness-for-puppy-418532_720x.jpg?v=1669533830",
@@ -866,7 +865,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 7,
                             CategoryId = 3,
                             Color = "Peachy Pink",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(325),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3012),
                             CreatorId = new Guid("3cb1a657-3d82-483c-8932-f53cd637bd11"),
                             Description = "One of our most loved prints of all time. This delicious peach print will make your pup's cuteness irresistible. Featuring seamless Juicy peaches on a lovely peach-pink background.",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Best-dog-harnesses-490084_720x.jpg?v=1669620377",
@@ -882,7 +881,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 8,
                             CategoryId = 6,
                             Color = "English Green",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(330),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3019),
                             CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
                             Description = "This is a true showstopper. With its timeless tartan pattern, our Gentleman design is the epitome of sophisticated style for your pup. ",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Cute-dog-collars-girl-999347_720x.jpg?v=1669663616",
@@ -898,7 +897,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 9,
                             CategoryId = 6,
                             Color = "English Green",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(332),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3168),
                             CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
                             Description = "Classic polka dot with bright striking red background. The Versatility is perfect for any occasion and will always make sure your pup stands out from the crowd. One of our most loved designs of all time.",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/bowtie-collars-for-large-dogs-509429_720x.jpg?v=1669836746",
@@ -914,7 +913,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 10,
                             CategoryId = 8,
                             Color = "Purple",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(337),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3172),
                             CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
                             Description = "Made with premium waterproof shell on one side, and 360° reflective material on the other. You've got functionality and adorableness - all in one.",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/ZoomiesRainvest_1-512091_720x.jpg?v=1677154390",
@@ -930,7 +929,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 11,
                             CategoryId = 7,
                             Color = "Green",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(339),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3176),
                             CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
                             Description = "Beautifully illustrated by Vancouver local artist @hye.joy. This print brings out the liveliness of a spring playground with unique line illustrations, paired with a beautiful shade of olive background.",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/DSC00043-1-238909_720x.jpg?v=1687529058",
@@ -946,7 +945,7 @@ namespace PawAndCollar.Data.Migrations
                             Id = 12,
                             CategoryId = 7,
                             Color = "Christmas",
-                            CreatedOn = new DateTime(2023, 8, 12, 8, 14, 44, 230, DateTimeKind.Utc).AddTicks(342),
+                            CreatedOn = new DateTime(2023, 8, 12, 7, 59, 53, 793, DateTimeKind.Utc).AddTicks(3179),
                             CreatorId = new Guid("20b110ec-107c-4b88-9bd4-56f4d297b179"),
                             Description = "Give your pup the gift of coziness with our Cozy Christmas design! This dark navy blue print is filled with adorable holiday elements that will have your furry friend feeling warm and snug, making it the perfect addition to their winter wardrobe.",
                             ImageUrl = "https://sniffandbark.com.co/cdn/shop/products/Bandanas-for-dogs_7aad35d9-b940-49bd-8895-9f8bb74dc6dd-759894_720x.jpg?v=1668643303",

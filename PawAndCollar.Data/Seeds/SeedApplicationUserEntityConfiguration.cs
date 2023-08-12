@@ -24,6 +24,8 @@ namespace PawAndCollar.Data.Seeds
 				UserName = "Admin@abv.bg",
 				NormalizedUserName = "ADMIN@ABV.BG",
 				Email = "Admin@abv.bg",
+				PhoneNumber = "+359884562194",
+				IsActive = true,
 				NormalizedEmail = "ADMIN@ABV.BG",
 				SecurityStamp = Guid.NewGuid().ToString()
 			};
@@ -39,6 +41,8 @@ namespace PawAndCollar.Data.Seeds
 				UserName = "creator@abv.bg",
 				NormalizedUserName = "CREATOR@ABV.BG",
 				Email = "creator@abv.bg",
+				PhoneNumber = "+359884156182",
+				IsActive = true,
 				NormalizedEmail = "CREATOR@ABV.BG",
 				SecurityStamp = Guid.NewGuid().ToString()
 			};
@@ -55,6 +59,7 @@ namespace PawAndCollar.Data.Seeds
 				UserName = "doglover@abv.bg",
 				NormalizedUserName = "DOGLOVER@ABV.BG",
 				Email = "doglover@abv.bg",
+				IsActive = true,
 				NormalizedEmail = "DOGLOVER@ABV.BG",
 				SecurityStamp = Guid.NewGuid().ToString()
 			};

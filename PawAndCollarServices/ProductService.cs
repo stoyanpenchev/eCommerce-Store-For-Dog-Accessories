@@ -78,9 +78,13 @@ namespace PawAndCollarServices
 				if (product.Quantity <= 0)
 				{
 					product.IsActive = false;
+					await this.dbContext.SaveChangesAsync();
 				}
-				product.IsActive = true;
-				await this.dbContext.SaveChangesAsync();
+				else
+				{
+					product.IsActive = true;
+					await this.dbContext.SaveChangesAsync();
+				}
 			}
 		}
 

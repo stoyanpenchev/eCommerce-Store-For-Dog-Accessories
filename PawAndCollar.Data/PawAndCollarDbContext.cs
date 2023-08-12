@@ -50,6 +50,7 @@ namespace PawAndCollar.Data
 				builder.ApplyConfiguration(new CreatorEnityConfiguration());
 				builder.ApplyConfiguration(new OrderEntityConfiguration());
 				builder.ApplyConfiguration(new UserBuyedProductsEntityConfiguration());
+                builder.ApplyConfiguration(new SeedCommentEntityConfiguration());
 			}
 
 			base.OnModelCreating(builder);

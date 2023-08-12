@@ -333,8 +333,8 @@ namespace PawAndCollarSystem.Services.Tests.ControllerTests
 
 			Assert.IsInstanceOf<RedirectToActionResult>(result);
 			var redirectResult = result as RedirectToActionResult;
-			Assert.AreEqual("Mine", redirectResult.ControllerName); 
-			Assert.AreEqual("Product", redirectResult.ActionName);
+			Assert.AreEqual("Product", redirectResult.ControllerName); 
+			Assert.AreEqual("Mine", redirectResult.ActionName);
 		}
 
 		[Test]

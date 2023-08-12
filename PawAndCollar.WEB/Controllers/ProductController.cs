@@ -282,7 +282,7 @@ namespace PawAndCollar.Web.Controllers
                 return this.View(model);
             }
             this.TempData[SuccessMessage] = "Product was edited successfully!";
-            return this.RedirectToAction("Details", "Product", new { id = id });
+            return this.RedirectToAction("All", "Product");
         }
 
 

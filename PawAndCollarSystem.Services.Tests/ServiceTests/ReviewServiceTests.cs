@@ -30,6 +30,7 @@ namespace PawAndCollarSystem.Services.Tests.ServiceTests
 			await this.dbContext.Database.EnsureCreatedAsync();
 			SeedDatabase(dbContext);
 
+			this.orderService = new OrderService(this.dbContext);
 			this.reviewService = new ReviewService(this.dbContext, this.orderService);
 		}
 

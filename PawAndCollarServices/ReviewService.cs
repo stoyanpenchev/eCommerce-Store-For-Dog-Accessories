@@ -137,8 +137,8 @@ namespace PawAndCollarServices
 			}
 			Review? productReview = await this.dbContext.Reviews
 				.Include(r => r.Comments)
-				.FirstOrDefaultAsync(r => r.Id == product.ReviewId);
-
+				.FirstOrDefaultAsync(r => r.Id == product.Review.Id);
+			
 			ReviewViewModel reviewViewModel = new ReviewViewModel()
 			{
 				Id = productReview.Id,

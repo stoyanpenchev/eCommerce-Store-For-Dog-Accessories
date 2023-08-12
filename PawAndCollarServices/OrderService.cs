@@ -165,6 +165,7 @@ namespace PawAndCollarServices
 			List<OrderViewModel> orders = await this.dbContext.Orders
                 .Include(o => o.Customer)
                 .Where(o => o.Customer.Id.ToString() == userId)
+                .OrderByDescending(o => o.OrderDate)
 				.Select(o => new OrderViewModel
 				{
 					Id = o.Id.ToString(),
@@ -174,7 +175,8 @@ namespace PawAndCollarServices
 					Email = o.Customer.Email,
 					Status = o.Status.ToString(),
 					TotalPrice = o.TotalAmount
-				}).ToListAsync();
+				})
+                .ToListAsync();
 
             return orders;
 		}

@@ -30,7 +30,8 @@ namespace PawAndCollarSystem.Services.Tests.CreatorTests
 				NormalizedUserName = "CREATOR@ABV.BG",
 				Email = "creator@abv.bg",
 				NormalizedEmail = "CREATOR@ABV.BG",
-				SecurityStamp = Guid.NewGuid().ToString()
+				SecurityStamp = Guid.NewGuid().ToString(),
+				IsActive = true
 			};
 
 			User = new ApplicationUser()
@@ -39,7 +40,8 @@ namespace PawAndCollarSystem.Services.Tests.CreatorTests
 				NormalizedUserName = "DOGLOVER@ABV.BG",
 				Email = "doglover@abv.bg",
 				NormalizedEmail = "DOGLOVER@ABV.BG",
-				SecurityStamp = Guid.NewGuid().ToString()
+				SecurityStamp = Guid.NewGuid().ToString(),
+				IsActive = true
 			};
 
 			Creator = new Creator()
@@ -114,6 +116,7 @@ namespace PawAndCollarSystem.Services.Tests.CreatorTests
 			ReviewCollar = new Review()
 			{
 				ProductId = 1,
+				Product = ProductCollar,
 				AverageScore = 0
 			};
 			CommentCollar = new Comment()
