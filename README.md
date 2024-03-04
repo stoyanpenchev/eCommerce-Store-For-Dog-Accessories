@@ -28,7 +28,7 @@
 
 ## Database Diagram
 
-![Database Diagram](/img/database-diagram.png)
+![Screenshot (132)](https://github.com/stoyanpenchev/eCommerce-Store-For-Dog-Accessories/assets/106178814/085fef01-880f-4b26-a0b5-dcb31865eca8)
 
 *Other Images*
 
