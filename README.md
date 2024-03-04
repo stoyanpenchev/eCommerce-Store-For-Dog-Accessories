@@ -1,58 +1,107 @@
 # eCommerce-Store-For-Dog-Accessories
-PawAndCollar is an e-commerce website for pet products, specializing in dog accessories and supplies.
 
+**PawAndCollar** is an e-commerce website for pet products, specializing in dog accessories and supplies.
 
-Test Users and Passwords:
-Administrator:
-Email = Admin@abv.bg
-Password = admin123
+## Technologies Used
 
-Creator:
-Email = creator@abv.bg
-Password = creator123
+- .NET Core 6.0
+- ASP.NET Core
+- Entity Framework Core
+- HTML, CSS, Bootstrap
+- MS SQL Server
+- NUnit
+- JS
 
-User:
-Email = doglover@abv.bg
-Password = doglover123
+## Test Credentials
 
+**Administrator:**
+- Email: Admin@abv.bg
+- Password: admin123
 
+**Creator:**
+- Email: creator@abv.bg
+- Password: creator123
 
-Key Features:
+**User:**
+- Email: doglover@abv.bg
+- Password: doglover123
 
-Product Catalog: Explore an extensive range of pet products, expertly categorized and sized to meet your pet's unique needs.
+## Database Diagram
 
-Sorting and Filtering: Seamlessly sort and filter products by price, category, popularity, and more, ensuring you find the perfect fit for your pet.
+![Database Diagram](/img/database-diagram.png)
 
-Average Review Scores: Informed purchasing decisions are made easy with average review scores prominently displayed, helping you select products that match your expectations.
+*Other Images*
 
-User-Friendly Interface: Our user-centric interface guarantees a smooth and enjoyable shopping journey for both customers and administrators.
+## Key Features
 
-Administrator Panel: Administrators enjoy exclusive access to a robust panel, enabling them to oversee products, categories, user reviews, and more.
+### Product Catalog
 
-Review System: Customers can share their experiences by leaving reviews and ratings, assisting fellow shoppers in making well-informed choices.
+Explore an extensive range of pet products, expertly categorized and sized to meet your pet's unique needs.
 
-Responsive Design: The app's responsive design ensures a consistent and visually appealing experience across various devices.
+### Sorting and Filtering
 
-User Roles and Functionalities:
+Seamlessly sort and filter products by price, category, popularity, and more, ensuring you find the perfect fit for your pet.
 
-Guest Users: Unlogged users have the ability to explore the product catalog, utilize the search bar, and access product details and reviews.
+### Average Review Scores
 
-Registered Users: Registered users gain full access to shopping capabilities, including browsing, searching, purchasing products, and managing their orders.
+Informed purchasing decisions are made easy with average review scores prominently displayed, helping you select products that match your expectations.
 
-Shopping Cart: Users can review and modify their shopping cart contents prior to finalizing their purchases.
+### User-Friendly Interface
 
-Sort, Filter and Pagination: Users have the flexibility to sort products based on category, size, price, date, and popularity, tailoring their shopping experience.
+Our user-centric interface guarantees a smooth and enjoyable shopping journey for both customers and administrators.
 
-Product Details: Each product's detailed page includes average review scores and the option to read and leave comments.
+### Administrator Panel
 
-Order History: Registered users can conveniently track their order history, ensuring transparency and easy reference.
+Administrators enjoy exclusive access to a robust panel, enabling them to oversee products, categories, user reviews, and more.
 
-Become a Creator: Users can elevate their role to become creators, empowering them to craft and sell their own pet products.
+### Review System
 
-Creator Functionalities: Creators enjoy a dedicated platform to manage their product listings, including creation, editing, and deletion, fostering a thriving marketplace.
+Customers can share their experiences by leaving reviews and ratings, assisting fellow shoppers in making well-informed choices.
 
-User Roles:
+### Responsive Design
 
-Administrator: Administrators have exclusive access to an admin area, granting them the authority to manage users, orders, and products, as well as view user information and insights.
+The app's responsive design ensures a consistent and visually appealing experience across various devices.
 
-User: Users can focus on browsing, shopping, and interacting with the pet-loving community, while also enjoying the opportunity to become creators.
+## User Roles and Functionalities
+
+### Guest Users
+
+Unlogged users have the ability to explore the product catalog, utilize the search bar, and access product details and reviews.
+
+### Registered Users
+
+Registered users gain full access to shopping capabilities, including browsing, searching, purchasing products, and managing their orders.
+
+### Shopping Cart
+
+Users can review and modify their shopping cart contents prior to finalizing their purchases.
+
+### Sort, Filter, and Pagination
+
+Users have the flexibility to sort products based on category, size, price, date, and popularity, tailoring their shopping experience.
+
+### Product Details
+
+Each product's detailed page includes average review scores and the option to read and leave comments.
+
+### Order History
+
+Registered users can conveniently track their order history, ensuring transparency and easy reference.
+
+### Become a Creator
+
+Users can elevate their role to become creators, empowering them to craft and sell their own pet products.
+
+## Creator Functionalities
+
+Creators enjoy a dedicated platform to manage their product listings, including creation, editing, and deletion, fostering a thriving marketplace.
+
+## User Roles
+
+### Administrator
+
+Administrators have exclusive access to an admin area, granting them the authority to manage users, orders, and products, as well as view user information and insights.
+
+### User
+
+Users can focus on browsing, shopping, and interacting with the pet-loving community, while also enjoying the opportunity to become creators.
