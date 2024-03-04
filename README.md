@@ -98,6 +98,10 @@ Registered users gain full access to shopping capabilities, including browsing, 
 
 ![Screenshot (117)](https://github.com/stoyanpenchev/eCommerce-Store-For-Dog-Accessories/assets/106178814/9d177d9f-f14f-49b3-b842-abf364f3c502)
 
+### Search
+
+![Screenshot (110)](https://github.com/stoyanpenchev/eCommerce-Store-For-Dog-Accessories/assets/106178814/e858abd1-c83e-4e35-8d09-d8a86de6f562)
+
 ### Shopping Cart
 
 Users can review and modify their shopping cart contents prior to finalizing their purchases.
